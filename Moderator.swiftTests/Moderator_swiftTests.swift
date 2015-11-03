@@ -33,8 +33,8 @@ class Moderator_Tests: XCTestCase {
 	func testParsingBoolShortName () {
 		let parser = ArgumentParser()
 		let arguments = ["--verbose", "-a", "-lkj", "string"]
-		let parsed = parser.add(BoolArgument(shortname: "a", longname: ""))
-		let unparsed = parser.add(BoolArgument(shortname: "b", longname: ""))
+		let parsed = parser.add(BoolArgument(short: "a", long: "alpha"))
+		let unparsed = parser.add(BoolArgument(short: "b", long: "bravo"))
 
 		do {
 			try parser.parse(arguments)
@@ -48,8 +48,8 @@ class Moderator_Tests: XCTestCase {
 	func testParsingBoolLongName () {
 		let parser = ArgumentParser()
 		let arguments = ["--verbose", "--alpha", "-lkj", "string"]
-		let parsed = parser.add(BoolArgument(shortname: "a", longname: "alpha"))
-		let unparsed = parser.add(BoolArgument(shortname: "b", longname: "bravo"))
+		let parsed = parser.add(BoolArgument(short: "a", long: "alpha"))
+		let unparsed = parser.add(BoolArgument(short: "b", long: "bravo"))
 
 		do {
 			try parser.parse(arguments)
@@ -63,8 +63,8 @@ class Moderator_Tests: XCTestCase {
 	func testParsingStringArgumentShortName () {
 		let parser = ArgumentParser()
 		let arguments = ["--verbose", "-a", "alphasvalue", "string"]
-		let parsed = parser.add(StringArgument(shortname: "a", longname: "alpha"))
-		let unparsed = parser.add(StringArgument(shortname: "b", longname: "bravo"))
+		let parsed = parser.add(StringArgument(short: "a", long: "alpha"))
+		let unparsed = parser.add(StringArgument(short: "b", long: "bravo"))
 
 		do {
 			try parser.parse(arguments)
@@ -78,8 +78,8 @@ class Moderator_Tests: XCTestCase {
 	func testParsingStringArgumentLongName () {
 		let parser = ArgumentParser()
 		let arguments = ["--verbose", "--alpha", "alphasvalue", "string"]
-		let parsed = parser.add(StringArgument(shortname: "a", longname: "alpha"))
-		let unparsed = parser.add(StringArgument(shortname: "b", longname: "bravo"))
+		let parsed = parser.add(StringArgument(short: "a", long: "alpha"))
+		let unparsed = parser.add(StringArgument(short: "b", long: "bravo"))
 
 		do {
 			try parser.parse(arguments)
@@ -93,7 +93,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingStringArgumentWithEqualSign () {
 		let parser = ArgumentParser()
 		let arguments = ["--verbose", "--alpha=alphasvalue", "string"]
-		let parsed = parser.add(StringArgument(shortname: "a", longname: "alpha"))
+		let parsed = parser.add(StringArgument(short: "a", long: "alpha"))
 
 		do {
 			try parser.parse(arguments)
@@ -106,7 +106,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingStringArgumentWithMissingValueThrows () {
 		let parser = ArgumentParser()
 		let arguments = ["--verbose", "--alpha"]
-		let parsed = parser.add(StringArgument(shortname: "a", longname: "alpha"))
+		let parsed = parser.add(StringArgument(short: "a", long: "alpha"))
 
 		do {
 			try parser.parse(arguments)
@@ -120,7 +120,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingStringArgumentWithFlagValueThrows () {
 		let parser = ArgumentParser()
 		let arguments = ["--verbose", "-a", "-b"]
-		let parsed = parser.add(StringArgument(shortname: "a", longname: "alpha"))
+		let parsed = parser.add(StringArgument(short: "a", long: "alpha"))
 
 		do {
 			try parser.parse(arguments)

@@ -9,6 +9,7 @@
 
 public protocol ArgumentType: class {
 	func parse (arguments: [String.CharacterView]) throws -> [String.CharacterView]
+	 var helptext: String {get}
 }
 
 public final class ArgumentParser {
@@ -49,11 +50,13 @@ public struct ArgumentError: ErrorType {
 public final class BoolArgument: ArgumentType {
 	let shortname: Character
 	let longname: String
+	public let helptext: String
 	public private(set) var value = false
 
-	init (shortname: Character, longname: String) {
-		self.longname = longname
-		self.shortname = shortname
+	init (short: Character, long: String, helptext: String = "") {
+		self.longname = long
+		self.shortname = short
+		self.helptext = helptext
 	}
 
 	public func parse(var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
@@ -71,11 +74,13 @@ public final class BoolArgument: ArgumentType {
 public final class StringArgument: ArgumentType {
 	let shortname: Character
 	let longname: String
+	public let helptext: String
 	public private(set) var value: String?
 
-	init (shortname: Character, longname: String) {
-		self.longname = longname
-		self.shortname = shortname
+	init (short: Character, long: String, helptext: String = "") {
+		self.longname = long
+		self.shortname = short
+		self.helptext = helptext
 	}
 
 	public func parse(var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
