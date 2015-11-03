@@ -7,20 +7,23 @@
 //
 
 
-protocol ArgumentType {
-
+public protocol ArgumentType {
 	mutating func parse (arguments: [String.CharacterView]) throws -> [String.CharacterView]
-
 }
 
 public final class ArgumentParser {
-	var argumenttypes: [ArgumentType] = []
+	private var argumenttypes: [ArgumentType] = []
 
-	func parse () throws {
-		try parse (Array(Process.arguments.dropFirst()))
+	public func add <T:ArgumentType> (a: T) -> T {
+		argumenttypes.append(a)
+		return a
 	}
 
-	func parse (arguments: [String]) throws {
+	func parse () throws {
+		try parse(Array(Process.arguments.dropFirst()))
+	}
+
+	public func parse (arguments: [String]) throws {
 		var remainingarguments = preprocess(arguments)
 		argumenttypes = try argumenttypes.map {
 			var at = $0
@@ -42,7 +45,7 @@ public final class ArgumentParser {
 }
 
 
-public final class BoolOption: ArgumentType {
+public final class BoolArgument: ArgumentType {
 	let shortname: Character
 	let longname: String
 	var value = false
@@ -52,7 +55,7 @@ public final class BoolOption: ArgumentType {
 		self.shortname = shortname
 	}
 
-	func parse(var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+	public func parse(var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
 		if let index = arguments.indexOf({String ($0) == "-\(shortname)"}) {
 			value = true
 			arguments.removeAtIndex(index)

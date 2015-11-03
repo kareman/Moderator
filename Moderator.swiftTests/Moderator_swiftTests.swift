@@ -31,14 +31,17 @@ class Moderator_Tests: XCTestCase {
 	}
 
 	func testParsingBool () {
-		_ = ArgumentParser()
-		/*
-		let arguments = ["lskdfj", "--verbose", "--this=that", "-b", "-lkj"]
+		let parser = ArgumentParser()
+		let arguments = ["--verbose", "-a", "-lkj", "string"]
+		let parsed = parser.add(BoolArgument(shortname: "a", longname: ""))
+		let unparsed = parser.add(BoolArgument(shortname: "b", longname: ""))
 
-		let a = BoolOption (shortname: "b", longname: "brilliant")
-		parser.argumenttypes.append( a)
-		try parser.parse(arguments)
-		a.value
-		*/
+		do {
+			try parser.parse(arguments)
+			XCTAssertEqual(parsed.value, true)
+			XCTAssertEqual(unparsed.value, false)
+		} catch {
+			XCTFail(String(error))
+		}
 	}
 }
