@@ -30,7 +30,7 @@ class Moderator_Tests: XCTestCase {
 		XCTAssertEqual(result.toStrings, ["lskdfj", "--verbose", "--this", "that", "-b", "-lkj"])
 	}
 
-	func testParsingBool () {
+	func testParsingBoolShortName () {
 		let parser = ArgumentParser()
 		let arguments = ["--verbose", "-a", "-lkj", "string"]
 		let parsed = parser.add(BoolArgument(shortname: "a", longname: ""))
@@ -44,4 +44,20 @@ class Moderator_Tests: XCTestCase {
 			XCTFail(String(error))
 		}
 	}
+
+	func testParsingBoolLongName () {
+		let parser = ArgumentParser()
+		let arguments = ["--verbose", "--alpha", "-lkj", "string"]
+		let parsed = parser.add(BoolArgument(shortname: "a", longname: "alpha"))
+		let unparsed = parser.add(BoolArgument(shortname: "b", longname: "bravo"))
+
+		do {
+			try parser.parse(arguments)
+			XCTAssertEqual(parsed.value, true)
+			XCTAssertEqual(unparsed.value, false)
+		} catch {
+			XCTFail(String(error))
+		}
+	}
+
 }

@@ -46,7 +46,7 @@ public final class ArgumentParser {
 public final class BoolArgument: ArgumentType {
 	let shortname: Character
 	let longname: String
-	var value = false
+	public private(set) var value = false
 
 	init (shortname: Character, longname: String) {
 		self.longname = longname
@@ -54,11 +54,13 @@ public final class BoolArgument: ArgumentType {
 	}
 
 	public func parse(var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
-		if let index = arguments.indexOf({String ($0) == "-\(shortname)"}) {
+		if let index = arguments.indexOf({
+			let s = String($0)
+			return s == "-\(shortname)" || s == "--\(longname)"
+		}) {
 			value = true
 			arguments.removeAtIndex(index)
 		}
 		return arguments
 	}
 }
-
