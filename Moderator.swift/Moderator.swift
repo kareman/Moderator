@@ -42,6 +42,9 @@ public final class ArgumentParser {
 	}
 }
 
+public struct ArgumentError: ErrorType {
+	let errormessage: String
+}
 
 public final class BoolArgument: ArgumentType {
 	let shortname: Character
@@ -64,3 +67,33 @@ public final class BoolArgument: ArgumentType {
 		return arguments
 	}
 }
+
+public final class StringArgument: ArgumentType {
+	let shortname: Character
+	let longname: String
+	public private(set) var value: String?
+
+	init (shortname: Character, longname: String) {
+		self.longname = longname
+		self.shortname = shortname
+	}
+
+	public func parse(var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+		if let index = arguments.indexOf({
+			let s = String($0)
+			return s == "-\(shortname)" || s == "--\(longname)"
+		}) {
+			let usedflag = arguments.removeAtIndex(index)
+			guard index < arguments.endIndex else {
+				throw ArgumentError(errormessage: "Missing value for argument '\(usedflag)'")
+			}
+			let newvalue = String(arguments.removeAtIndex(index))
+			guard !newvalue.hasPrefix("-") else {
+				throw ArgumentError(errormessage: "Illegal value '\(newvalue)' for argument '\(usedflag)")
+			}
+			value = newvalue
+		}
+		return arguments
+	}
+}
+
