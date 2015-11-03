@@ -7,8 +7,8 @@
 //
 
 
-public protocol ArgumentType {
-	mutating func parse (arguments: [String.CharacterView]) throws -> [String.CharacterView]
+public protocol ArgumentType: class {
+	func parse (arguments: [String.CharacterView]) throws -> [String.CharacterView]
 }
 
 public final class ArgumentParser {
@@ -25,10 +25,8 @@ public final class ArgumentParser {
 
 	public func parse (arguments: [String]) throws {
 		var remainingarguments = preprocess(arguments)
-		argumenttypes = try argumenttypes.map {
-			var at = $0
-			remainingarguments = try at.parse(remainingarguments)
-			return at
+		try argumenttypes.forEach {
+			remainingarguments = try $0.parse(remainingarguments)
 		}
 	}
 
