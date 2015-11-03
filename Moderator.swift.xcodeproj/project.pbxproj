@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		BAE0B9F41BE857EB00571EB0 /* Moderator.swift.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE0B9F31BE857EB00571EB0 /* Moderator.swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BAE0B9FB1BE857EB00571EB0 /* Moderator.swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE0B9F01BE857EB00571EB0 /* Moderator.swift.framework */; };
+		BAE0B9FB1BE857EB00571EB0 /* Moderator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE0B9F01BE857EB00571EB0 /* Moderator.framework */; };
 		BAE0BA001BE857EB00571EB0 /* Moderator_swiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0B9FF1BE857EB00571EB0 /* Moderator_swiftTests.swift */; };
+		BAE0BA0B1BE8583700571EB0 /* Moderator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0BA0A1BE8583700571EB0 /* Moderator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,12 +24,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BAE0B9F01BE857EB00571EB0 /* Moderator.swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Moderator.swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAE0B9F01BE857EB00571EB0 /* Moderator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Moderator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE0B9F31BE857EB00571EB0 /* Moderator.swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Moderator.swift.h; sourceTree = "<group>"; };
 		BAE0B9F51BE857EB00571EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BAE0B9FA1BE857EB00571EB0 /* Moderator.swiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Moderator.swiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE0B9FF1BE857EB00571EB0 /* Moderator_swiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Moderator_swiftTests.swift; sourceTree = "<group>"; };
 		BAE0BA011BE857EB00571EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BAE0BA0A1BE8583700571EB0 /* Moderator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Moderator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BAE0B9FB1BE857EB00571EB0 /* Moderator.swift.framework in Frameworks */,
+				BAE0B9FB1BE857EB00571EB0 /* Moderator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +64,7 @@
 		BAE0B9F11BE857EB00571EB0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BAE0B9F01BE857EB00571EB0 /* Moderator.swift.framework */,
+				BAE0B9F01BE857EB00571EB0 /* Moderator.framework */,
 				BAE0B9FA1BE857EB00571EB0 /* Moderator.swiftTests.xctest */,
 			);
 			name = Products;
@@ -73,6 +75,7 @@
 			children = (
 				BAE0B9F31BE857EB00571EB0 /* Moderator.swift.h */,
 				BAE0B9F51BE857EB00571EB0 /* Info.plist */,
+				BAE0BA0A1BE8583700571EB0 /* Moderator.swift */,
 			);
 			path = Moderator.swift;
 			sourceTree = "<group>";
@@ -115,7 +118,7 @@
 			);
 			name = Moderator.swift;
 			productName = Moderator.swift;
-			productReference = BAE0B9F01BE857EB00571EB0 /* Moderator.swift.framework */;
+			productReference = BAE0B9F01BE857EB00571EB0 /* Moderator.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		BAE0B9F91BE857EB00571EB0 /* Moderator.swiftTests */ = {
@@ -194,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAE0BA0B1BE8583700571EB0 /* Moderator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +309,7 @@
 		BAE0BA051BE857EB00571EB0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -315,14 +320,16 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nottoobadsoftware.Moderator-swift";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Moderator;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		BAE0BA061BE857EB00571EB0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -333,7 +340,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nottoobadsoftware.Moderator-swift";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Moderator;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

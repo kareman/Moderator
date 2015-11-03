@@ -1,36 +1,44 @@
 //
-//  Moderator_swiftTests.swift
-//  Moderator.swiftTests
+// Moderator_swiftTests.swift
+// Moderator.swiftTests
 //
-//  Created by Kåre Morstøl on 03.11.15.
-//  Copyright © 2015 NotTooBad Software. All rights reserved.
+// Created by Kåre Morstøl on 03.11.15.
+// Copyright © 2015 NotTooBad Software. All rights reserved.
 //
 
 import XCTest
-@testable import Moderator_swift
+@testable import Moderator
 
-class Moderator_swiftTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+extension Array {
+	var toStrings: [String] {
+		return map {String($0)}
+	}
+}
+
+extension String.CharacterView: CustomDebugStringConvertible {
+	public var debugDescription: String {
+		return String(self)
+	}
+}
+
+class Moderator_Tests: XCTestCase {
+
+	func testPreprocessor () {
+		let arguments = ["lskdfj", "--verbose", "--this=that", "-b", "-lkj"]
+
+		let result = ArgumentParser().preprocess(arguments)
+		XCTAssertEqual(result.toStrings, ["lskdfj", "--verbose", "--this", "that", "-b", "-lkj"])
+	}
+
+	func testParsingBool () {
+		_ = ArgumentParser()
+		/*
+		let arguments = ["lskdfj", "--verbose", "--this=that", "-b", "-lkj"]
+
+		let a = BoolOption (shortname: "b", longname: "brilliant")
+		parser.argumenttypes.append( a)
+		try parser.parse(arguments)
+		a.value
+		*/
+	}
 }
