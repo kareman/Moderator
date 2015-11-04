@@ -130,4 +130,31 @@ class Moderator_Tests: XCTestCase {
 			XCTAssertTrue(String(error).containsString("Illegal value"))
 		}
 	}
+
+	func testStrictParsingThrowsErrorOnUnknownArguments () {
+		let parser = ArgumentParser()
+		let arguments = ["--alpha", "-c"]
+		parser.add(BoolArgument(short: "a", long: "alpha"))
+		parser.add(BoolArgument(short: "b", long: "bravo"))
+
+		do {
+			try parser.parse(arguments, strict: true)
+			XCTFail("Should have thrown error about incorrect value")
+		} catch {
+			XCTAssertTrue(String(error).containsString("Unknown arguments"))
+		}
+	}
+
+	func testStrictParsing () {
+		let parser = ArgumentParser()
+		let arguments = ["--alpha", "-b"]
+		parser.add(BoolArgument(short: "a", long: "alpha"))
+		parser.add(BoolArgument(short: "b", long: "bravo"))
+
+		do {
+			try parser.parse(arguments, strict: true)
+		} catch {
+			XCTFail("Should not throw error " + String(error))
+		}
+	}
 }

@@ -9,25 +9,30 @@
 
 public protocol ArgumentType: class {
 	func parse (arguments: [String.CharacterView]) throws -> [String.CharacterView]
-	 var helptext: String {get}
+	var helptext: String {get}
 }
 
 public final class ArgumentParser {
 	private var argumenttypes: [ArgumentType] = []
+	public private(set) var remaining: [String] = []
 
 	public func add <T:ArgumentType> (a: T) -> T {
 		argumenttypes.append(a)
 		return a
 	}
 
-	func parse () throws {
-		try parse(Array(Process.arguments.dropFirst()))
+	func parse (strict strict: Bool = false) throws {
+		try parse(Array(Process.arguments.dropFirst()), strict: strict)
 	}
 
-	public func parse (arguments: [String]) throws {
+	public func parse (arguments: [String], strict: Bool = false) throws {
 		var remainingarguments = preprocess(arguments)
 		try argumenttypes.forEach {
 			remainingarguments = try $0.parse(remainingarguments)
+		}
+		self.remaining = remainingarguments.map {String($0)}
+		if strict && !remaining.isEmpty {
+			throw ArgumentError(errormessage: "Unknown arguments: " + remaining.joinWithSeparator(" "))
 		}
 	}
 
