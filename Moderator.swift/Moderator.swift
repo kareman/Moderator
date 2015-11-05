@@ -48,8 +48,10 @@ public final class ArgumentParser {
 	}
 }
 
-public struct ArgumentError: ErrorType {
+public struct ArgumentError: ErrorType, CustomStringConvertible {
 	let errormessage: String
+
+	public var description: String { return errormessage }
 }
 
 public final class BoolArgument: ArgumentType {
