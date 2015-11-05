@@ -9,7 +9,11 @@
 
 public protocol ArgumentType: class {
 	func parse (arguments: [String.CharacterView]) throws -> [String.CharacterView]
-	var helptext: String {get}
+	var helptext: String? {get}
+}
+
+extension ArgumentType {
+	var helptext: String? {return nil}
 }
 
 public final class ArgumentParser {
@@ -57,10 +61,10 @@ public struct ArgumentError: ErrorType, CustomStringConvertible {
 public final class BoolArgument: ArgumentType {
 	let shortname: Character
 	let longname: String
-	public let helptext: String
+	public let helptext: String?
 	public private(set) var value = false
 
-	init (short: Character, long: String, helptext: String = "") {
+	init (short: Character, long: String, helptext: String? = nil) {
 		self.longname = long
 		self.shortname = short
 		self.helptext = helptext
@@ -81,10 +85,10 @@ public final class BoolArgument: ArgumentType {
 public final class StringArgument: ArgumentType {
 	let shortname: Character
 	let longname: String
-	public let helptext: String
+	public let helptext: String?
 	public private(set) var value: String?
 
-	init (short: Character, long: String, helptext: String = "") {
+	init (short: Character, long: String, helptext: String? = nil) {
 		self.longname = long
 		self.shortname = short
 		self.helptext = helptext
