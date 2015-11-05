@@ -9,11 +9,11 @@
 
 public protocol ArgumentType: class {
 	func parse (arguments: [String.CharacterView]) throws -> [String.CharacterView]
-	var helptext: String? {get}
+	var usagetext: (title: String, description: String)? {get}
 }
 
 extension ArgumentType {
-	var helptext: String? {return nil}
+	public var usagetext: (title: String, description: String)? {return nil}
 }
 
 public final class ArgumentParser {
@@ -25,7 +25,7 @@ public final class ArgumentParser {
 		return a
 	}
 
-	func parse (strict strict: Bool = false) throws {
+	public func parse (strict strict: Bool = false) throws {
 		try parse(Array(Process.arguments.dropFirst()), strict: strict)
 	}
 
@@ -50,11 +50,18 @@ public final class ArgumentParser {
 			}
 		}
 	}
+
+	public var usagetext: String {
+		let usagetexts = argumenttypes.flatMap { $0.usagetext }
+		return usagetexts.reduce("Usage: \(Process.arguments.first ?? "")\n") { acc, usagetext in
+			return acc + "  " + usagetext.title + "\n      " + usagetext.description + "\n"
+		}
+	}
 }
+
 
 public struct ArgumentError: ErrorType, CustomStringConvertible {
 	let errormessage: String
-
 	public var description: String { return errormessage }
 }
 
@@ -67,6 +74,11 @@ public class TagArgument: ArgumentType {
 		self.longname = long
 		self.shortname = short
 		self.helptext = helptext
+	}
+
+	public var usagetext: (title: String, description: String)? {
+		// alternatively ("[(-\(shortname)|--\(longname)) value]", $0)
+		return helptext.map { ("-\(shortname), --\(longname):", $0) }
 	}
 
 	public func parse(var arguments: [String.CharacterView]) throws -> [String.CharacterView] {

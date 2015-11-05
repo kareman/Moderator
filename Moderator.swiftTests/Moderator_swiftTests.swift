@@ -157,4 +157,19 @@ class Moderator_Tests: XCTestCase {
 			XCTFail("Should not throw error " + String(error))
 		}
 	}
+
+	func testUsageText () {
+		let parser = ArgumentParser()
+		parser.add(BoolArgument(short: "a", long: "alpha", helptext: "The leader."))
+		parser.add(StringArgument(short: "b", long: "bravo", helptext: "Well done!"))
+		parser.add(BoolArgument(short: "x", long: "hasnohelptext"))
+
+		let usagetext = parser.usagetext
+		XCTAssert(usagetext.containsString("alpha"))
+		XCTAssert(usagetext.containsString("The leader"))
+		XCTAssert(usagetext.containsString("bravo"))
+		XCTAssert(usagetext.containsString("Well done"))
+		
+		XCTAssertFalse(parser.usagetext.containsString("hasnohelptext"))
+	}
 }
