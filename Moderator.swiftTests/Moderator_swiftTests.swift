@@ -134,14 +134,16 @@ class Moderator_Tests: XCTestCase {
 	func testStrictParsingThrowsErrorOnUnknownArguments () {
 		let parser = ArgumentParser()
 		let arguments = ["--alpha", "-c"]
-		parser.add(BoolArgument(short: "a", long: "alpha"))
-		parser.add(BoolArgument(short: "b", long: "bravo"))
+		parser.add(BoolArgument(short: "a", long: "alpha", helptext: "The leader."))
+		parser.add(BoolArgument(short: "b", long: "bravo", helptext: "Well done!"))
 
 		do {
 			try parser.parse(arguments, strict: true)
 			XCTFail("Should have thrown error about incorrect value")
 		} catch {
 			XCTAssertTrue(String(error).containsString("Unknown arguments"))
+			XCTAssertTrue(String(error).containsString("The leader."), "Error should have contained usage text.")
+			XCTAssertTrue(String(error).containsString("Well done!"), "Error should have contained usage text.")
 		}
 	}
 
@@ -169,7 +171,7 @@ class Moderator_Tests: XCTestCase {
 		XCTAssert(usagetext.containsString("The leader"))
 		XCTAssert(usagetext.containsString("bravo"))
 		XCTAssert(usagetext.containsString("Well done"))
-		
+
 		XCTAssertFalse(parser.usagetext.containsString("hasnohelptext"))
 	}
 }

@@ -30,13 +30,18 @@ public final class ArgumentParser {
 	}
 
 	public func parse (arguments: [String], strict: Bool = false) throws {
-		var remainingarguments = preprocess(arguments)
-		try argumenttypes.forEach {
-			remainingarguments = try $0.parse(remainingarguments)
-		}
-		self.remaining = remainingarguments.map {String($0)}
-		if strict && !remaining.isEmpty {
-			throw ArgumentError(errormessage: "Unknown arguments: " + remaining.joinWithSeparator(" "))
+		do {
+			var remainingarguments = preprocess(arguments)
+			try argumenttypes.forEach {
+				remainingarguments = try $0.parse(remainingarguments)
+			}
+			self.remaining = remainingarguments.map {String($0)}
+			if strict && !remaining.isEmpty {
+				throw ArgumentError(errormessage: "Unknown arguments: " + remaining.joinWithSeparator(" "))
+			}
+		} catch var error as ArgumentError {
+			error.usagetext = self.usagetext
+			throw error
 		}
 	}
 
@@ -61,8 +66,15 @@ public final class ArgumentParser {
 
 
 public struct ArgumentError: ErrorType, CustomStringConvertible {
-	let errormessage: String
-	public var description: String { return errormessage }
+	public let errormessage: String
+	public private(set) var usagetext: String? = nil
+
+	public init (errormessage: String, usagetext: String? = nil) {
+		self.errormessage = errormessage
+		self.usagetext = usagetext
+	}
+
+	public var description: String { return errormessage + (usagetext.map { "\n" + $0 } ?? "") }
 }
 
 public class TagArgument: ArgumentType {
