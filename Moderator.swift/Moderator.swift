@@ -58,58 +58,55 @@ public struct ArgumentError: ErrorType, CustomStringConvertible {
 	public var description: String { return errormessage }
 }
 
-public final class BoolArgument: ArgumentType {
+public class TagArgument: ArgumentType {
 	let shortname: Character
 	let longname: String
 	public let helptext: String?
+
+	init (short: Character, long: String, helptext: String? = nil) {
+		self.longname = long
+		self.shortname = short
+		self.helptext = helptext
+	}
+
+	public func parse(var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+		if let index = arguments.indexOf({
+			let s = String($0)
+			return s == "-\(shortname)" || s == "--\(longname)"
+		}) {
+			arguments = try matchHandler(index, arguments: arguments)
+		}
+		return arguments
+	}
+
+	public func matchHandler(index: Array<String>.Index, arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+		return arguments
+	}
+}
+
+public final class BoolArgument: TagArgument {
 	public private(set) var value = false
 
-	init (short: Character, long: String, helptext: String? = nil) {
-		self.longname = long
-		self.shortname = short
-		self.helptext = helptext
-	}
-
-	public func parse(var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
-		if let index = arguments.indexOf({
-			let s = String($0)
-			return s == "-\(shortname)" || s == "--\(longname)"
-		}) {
-			value = true
-			arguments.removeAtIndex(index)
-		}
+	override public func matchHandler(index: Array<String>.Index, var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+		value = true
+		arguments.removeAtIndex(index)
 		return arguments
 	}
 }
 
-public final class StringArgument: ArgumentType {
-	let shortname: Character
-	let longname: String
-	public let helptext: String?
+public final class StringArgument: TagArgument {
 	public private(set) var value: String?
 
-	init (short: Character, long: String, helptext: String? = nil) {
-		self.longname = long
-		self.shortname = short
-		self.helptext = helptext
-	}
-
-	public func parse(var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
-		if let index = arguments.indexOf({
-			let s = String($0)
-			return s == "-\(shortname)" || s == "--\(longname)"
-		}) {
-			let usedflag = arguments.removeAtIndex(index)
-			guard index < arguments.endIndex else {
-				throw ArgumentError(errormessage: "Missing value for argument '\(usedflag)'")
-			}
-			let newvalue = String(arguments.removeAtIndex(index))
-			guard !newvalue.hasPrefix("-") else {
-				throw ArgumentError(errormessage: "Illegal value '\(newvalue)' for argument '\(usedflag)")
-			}
-			value = newvalue
+	override public func matchHandler(index: Array<String>.Index, var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+		let usedflag = arguments.removeAtIndex(index)
+		guard index < arguments.endIndex else {
+			throw ArgumentError(errormessage: "Missing value for argument '\(usedflag)'")
 		}
+		let newvalue = String(arguments.removeAtIndex(index))
+		guard !newvalue.hasPrefix("-") else {
+			throw ArgumentError(errormessage: "Illegal value '\(newvalue)' for argument '\(usedflag)")
+		}
+		value = newvalue
 		return arguments
 	}
 }
-
