@@ -89,8 +89,9 @@ public class TagArgument: ArgumentType {
 	}
 
 	public var usagetext: (title: String, description: String)? {
-		// alternatively ("[(-\(shortname)|--\(longname)) value]", $0)
-		return helptext.map { ("-\(shortname), --\(longname):", $0) }
+		// must use temporary variable to avoid compiler crash in release builds (Xcode 7.1).
+		let result = helptext.map { ("-\(shortname), --\(longname):", $0) }
+		return result
 	}
 
 	public func parse(var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
