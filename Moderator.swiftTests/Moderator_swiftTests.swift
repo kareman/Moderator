@@ -24,10 +24,10 @@ extension String.CharacterView: CustomDebugStringConvertible {
 class Moderator_Tests: XCTestCase {
 
 	func testPreprocessorHandlesEqualSign () {
-		let arguments = ["lskdfj", "--verbose", "--this=that", "-b"]
+		let arguments = ["lskdfj", "--verbose", "--this=that=", "-b"]
 
 		let result = ArgumentParser().preprocess(arguments)
-		XCTAssertEqual(result.toStrings, ["lskdfj", "--verbose", "--this", "that", "-b"])
+		XCTAssertEqual(result.toStrings, ["lskdfj", "--verbose", "--this", "that=", "-b"])
 	}
 
 	func testPreprocessorHandlesJoinedFlags () {

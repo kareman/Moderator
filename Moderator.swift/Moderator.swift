@@ -48,7 +48,7 @@ public final class ArgumentParser {
 		return arguments.flatMap { s -> [String.CharacterView] in
 			let c = s.characters
 			if c.startsWith("--".characters) {
-				return c.split("=" as Character, maxSplit: 2, allowEmptySlices: true)
+				return c.split("=" as Character, maxSplit: 1, allowEmptySlices: true)
 			} else if c.startsWith("-".characters) && c.count > 2 {
 				return c.dropFirst().map { "-\($0)".characters }
 			} else {
