@@ -23,12 +23,20 @@ extension String.CharacterView: CustomDebugStringConvertible {
 
 class Moderator_Tests: XCTestCase {
 
-	func testPreprocessor () {
-		let arguments = ["lskdfj", "--verbose", "--this=that", "-b", "-lkj"]
+	func testPreprocessorHandlesEqualSign () {
+		let arguments = ["lskdfj", "--verbose", "--this=that", "-b"]
 
 		let result = ArgumentParser().preprocess(arguments)
-		XCTAssertEqual(result.toStrings, ["lskdfj", "--verbose", "--this", "that", "-b", "-lkj"])
+		XCTAssertEqual(result.toStrings, ["lskdfj", "--verbose", "--this", "that", "-b"])
 	}
+
+	func testPreprocessorHandlesJoinedFlags () {
+		let arguments = ["-abc", "delta", "--echo", "-f"]
+
+		let result = ArgumentParser().preprocess(arguments)
+		XCTAssertEqual(result.toStrings, ["-a", "-b", "-c", "delta", "--echo", "-f"])
+	}
+
 
 	func testParsingBoolShortName () {
 		let parser = ArgumentParser()

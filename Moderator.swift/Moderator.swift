@@ -1,5 +1,4 @@
 //
-// File.swift
 // Moderator.swift
 //
 // Created by Kåre Morstøl on 03.11.15.
@@ -50,6 +49,8 @@ public final class ArgumentParser {
 			let c = s.characters
 			if c.startsWith("--".characters) {
 				return c.split("=" as Character, maxSplit: 2, allowEmptySlices: true)
+			} else if c.startsWith("-".characters) && c.count > 2 {
+				return c.dropFirst().map { "-\($0)".characters }
 			} else {
 				return [c]
 			}
