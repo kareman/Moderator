@@ -95,14 +95,15 @@ public class TagArgument: ArgumentType {
 		return result
 	}
 
-	public func parse(var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+	public func parse(arguments: [String.CharacterView]) throws -> [String.CharacterView] {
 		if let index = arguments.indexOf({
 			let s = String($0)
 			return s == "-\(shortname)" || s == "--\(longname)"
 		}) {
-			arguments = try matchHandler(index, arguments: arguments)
+			return try matchHandler(index, arguments: arguments)
+		} else {
+			return arguments
 		}
-		return arguments
 	}
 
 	public func matchHandler(index: Array<String>.Index, arguments: [String.CharacterView]) throws -> [String.CharacterView] {
