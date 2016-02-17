@@ -5,10 +5,11 @@
 // Copyright © 2015 NotTooBad Software. All rights reserved.
 //
 
+public typealias UsageText = (title: String, description: String)?
 
 public protocol ArgumentType: class {
 	func parse (arguments: [String.CharacterView]) throws -> [String.CharacterView]
-	var usagetext: (title: String, description: String)? {get}
+	var usagetext: UsageText {get}
 }
 
 extension ArgumentType {
@@ -22,6 +23,10 @@ public final class ArgumentParser {
 	public func add <T:ArgumentType> (a: T) -> T {
 		argumenttypes.append(a)
 		return a
+	}
+
+	public func add <Value> (parse: ([String.CharacterView]) throws -> (value: Value?, remainder: [String.CharacterView])) -> AnyArgument<Value> {
+		return self.add(AnyArgument(parse: parse))
 	}
 
 	public func parse (strict strict: Bool = false) throws {
@@ -62,6 +67,23 @@ public final class ArgumentParser {
 		return usagetexts.reduce("Usage: \(Process.arguments.first ?? "")\n") { acc, usagetext in
 			return acc + "  " + usagetext.title + "\n      " + usagetext.description + "\n"
 		}
+	}
+}
+
+public class AnyArgument <Value> : ArgumentType {
+	public private(set) var value: Value?
+	public let usagetext: UsageText
+	private let _parse: ([String.CharacterView]) throws -> (value: Value?, remainder: [String.CharacterView])
+
+	public init (usage: UsageText = nil, parse: [String.CharacterView] throws -> (value: Value?, remainder: [String.CharacterView])) {
+		self.usagetext = usage
+		self._parse = parse
+	}
+
+	public func parse(arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+		let result = try _parse(arguments)
+		value = result.value
+		return result.remainder
 	}
 }
 

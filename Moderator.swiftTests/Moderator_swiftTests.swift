@@ -183,3 +183,38 @@ class Moderator_Tests: XCTestCase {
 		XCTAssertFalse(parser.usagetext.containsString("hasnohelptext"))
 	}
 }
+
+class AnyArgument_Tests: XCTestCase {
+
+	func testLastArgumentParser () {
+		let parser = ArgumentParser()
+		let lastOption = parser.add { (var args) -> (String, [String.CharacterView]) in
+			guard let last = args.popLast() else { throw ArgumentError(errormessage: "No argument was found") }
+			return (String(last), args)
+		}
+
+		do {
+			try parser.parse(["first","last"])
+			XCTAssertEqual(lastOption.value, "last")
+			XCTAssertEqual(parser.remaining, ["first"])
+		} catch {
+			XCTFail("Should not throw error " + String(error))
+		}
+	}
+
+	func testLastArgumentParserThrows () {
+		let parser = ArgumentParser()
+		let lastOption = parser.add { (var args) -> (String, [String.CharacterView]) in
+			guard let last = args.popLast() else { throw ArgumentError(errormessage: "No argument was found") }
+			return (String(last), args)
+		}
+
+		do {
+			try parser.parse([])
+			XCTFail("Should have thrown error about no argument")
+		} catch {
+			XCTAssertNil(lastOption.value)
+			XCTAssertTrue(parser.remaining.isEmpty)
+		}
+	}
+}
