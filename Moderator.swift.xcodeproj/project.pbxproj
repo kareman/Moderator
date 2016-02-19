@@ -24,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA42FB8D1C7535B200662CB0 /* ModeratorPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = ModeratorPlayground.playground; sourceTree = SOURCE_ROOT; };
 		BAE0B9F01BE857EB00571EB0 /* Moderator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Moderator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE0B9F31BE857EB00571EB0 /* Moderator.swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Moderator.swift.h; sourceTree = "<group>"; };
 		BAE0B9F51BE857EB00571EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,6 +56,7 @@
 		BAE0B9E61BE857EB00571EB0 = {
 			isa = PBXGroup;
 			children = (
+				BA42FB8D1C7535B200662CB0 /* ModeratorPlayground.playground */,
 				BAE0B9F21BE857EB00571EB0 /* Moderator.swift */,
 				BAE0B9FE1BE857EB00571EB0 /* Moderator.swiftTests */,
 				BAE0B9F11BE857EB00571EB0 /* Products */,
@@ -386,6 +388,7 @@
 				BAE0BA061BE857EB00571EB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BAE0BA071BE857EB00571EB0 /* Build configuration list for PBXNativeTarget "Moderator.swiftTests" */ = {
 			isa = XCConfigurationList;
@@ -394,6 +397,7 @@
 				BAE0BA091BE857EB00571EB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
