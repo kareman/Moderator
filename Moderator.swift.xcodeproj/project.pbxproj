@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BABD645A1C779DF400ADA7CD /* Parsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABD64591C779DF400ADA7CD /* Parsers.swift */; };
+		BABD645D1C77A5CC00ADA7CD /* Moderator_swiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0B9FF1BE857EB00571EB0 /* Moderator_swiftTests.swift */; };
 		BAE0B9F41BE857EB00571EB0 /* Moderator.swift.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE0B9F31BE857EB00571EB0 /* Moderator.swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BAE0B9FB1BE857EB00571EB0 /* Moderator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE0B9F01BE857EB00571EB0 /* Moderator.framework */; };
-		BAE0BA001BE857EB00571EB0 /* Moderator_swiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0B9FF1BE857EB00571EB0 /* Moderator_swiftTests.swift */; };
 		BAE0BA0B1BE8583700571EB0 /* Moderator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0BA0A1BE8583700571EB0 /* Moderator.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		BA42FB8D1C7535B200662CB0 /* ModeratorPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = ModeratorPlayground.playground; sourceTree = SOURCE_ROOT; };
+		BABD64591C779DF400ADA7CD /* Parsers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parsers.swift; sourceTree = "<group>"; };
 		BAE0B9F01BE857EB00571EB0 /* Moderator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Moderator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE0B9F31BE857EB00571EB0 /* Moderator.swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Moderator.swift.h; sourceTree = "<group>"; };
 		BAE0B9F51BE857EB00571EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				BAE0B9F31BE857EB00571EB0 /* Moderator.swift.h */,
 				BAE0B9F51BE857EB00571EB0 /* Info.plist */,
 				BAE0BA0A1BE8583700571EB0 /* Moderator.swift */,
+				BABD64591C779DF400ADA7CD /* Parsers.swift */,
 			);
 			path = Moderator.swift;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BABD645A1C779DF400ADA7CD /* Parsers.swift in Sources */,
 				BAE0BA0B1BE8583700571EB0 /* Moderator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,7 +211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BAE0BA001BE857EB00571EB0 /* Moderator_swiftTests.swift in Sources */,
+				BABD645D1C77A5CC00ADA7CD /* Moderator_swiftTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

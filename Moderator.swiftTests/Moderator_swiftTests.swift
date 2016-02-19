@@ -15,14 +15,8 @@ extension Array {
 	}
 }
 
-extension String.CharacterView: CustomDebugStringConvertible {
-	public var debugDescription: String {
-		return String(self)
-	}
-}
-
 class Moderator_Tests: XCTestCase {
-
+/*
 	func testPreprocessorHandlesEqualSign () {
 		let arguments = ["lskdfj", "--verbose", "--this=that=", "-b"]
 
@@ -36,37 +30,45 @@ class Moderator_Tests: XCTestCase {
 		let result = ArgumentParser().preprocess(arguments)
 		XCTAssertEqual(result.toStrings, ["-a", "-b", "-c", "delta", "--echo", "-f"])
 	}
+*/
 
-
-	func testParsingBoolShortName () {
-		let parser = ArgumentParser()
-		let arguments = ["--verbose", "-a", "-lkj", "string"]
-		let parsed = parser.add(BoolArgument(short: "a", long: "alpha"))
-		let unparsed = parser.add(BoolArgument(short: "b", long: "bravo"))
+	func testParsingFlag () {
+		let m = Moderator()
+		let arguments = ["--verbose", "-a", "b", "bravo", "--charlie"]
+		let parsedlong = m.add(ArgumentParser<Bool>.flag(short: "c", long: "charlie"))
+		let parsedshort = m.add(ArgumentParser<Bool>.flag(short: "a", long: "alpha"))
+		let unparsed = m.add(ArgumentParser<Bool>.flag(short: "b", long: "bravo"))
 
 		do {
-			try parser.parse(arguments)
-			XCTAssertEqual(parsed.value, true)
+			try m.parse(arguments)
+		 	XCTAssertEqual(parsedshort.value, true)
 			XCTAssertEqual(unparsed.value, false)
+			XCTAssertEqual(parsedlong.value, true)
+			XCTAssertEqual(m.remaining, ["--verbose", "b", "bravo"])
 		} catch {
 			XCTFail(String(error))
 		}
 	}
 
-	func testParsingBoolLongName () {
-		let parser = ArgumentParser()
-		let arguments = ["--verbose", "--alpha", "-lkj", "string"]
-		let parsed = parser.add(BoolArgument(short: "a", long: "alpha"))
-		let unparsed = parser.add(BoolArgument(short: "b", long: "bravo"))
+
+	func testParsingFlagWithValue () {
+		let m = Moderator()
+		let arguments = ["--verbose", "-a", "alphasvalue", "string"]
+		let parsedshort = m.add(ArgumentParser<String>.flagWithValue("a", long: "alpha"))
+		let unparsed = m.add(ArgumentParser<Bool>.flag(short: "b", long: "bravo"))
 
 		do {
-			try parser.parse(arguments)
-			XCTAssertEqual(parsed.value, true)
+			try m.parse(arguments)
+			XCTAssertEqual(parsedshort.value, "alphasvalue")
 			XCTAssertEqual(unparsed.value, false)
+			XCTAssertEqual(m.remaining, ["--verbose", "string"])
 		} catch {
 			XCTFail(String(error))
 		}
 	}
+	
+
+/*
 
 	func testParsingStringArgumentShortName () {
 		let parser = ArgumentParser()
@@ -217,4 +219,5 @@ class AnyArgument_Tests: XCTestCase {
 			XCTAssertTrue(parser.remaining.isEmpty)
 		}
 	}
+*/
 }
