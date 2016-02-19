@@ -5,11 +5,8 @@ extension ArgumentParser {
 	public static func flag(short short: Character, long: String, description: String? = nil) -> ArgumentParser<Bool> {
 		let usage: UsageText = description.map { ("-\(short), --\(long):", $0) }
 		return ArgumentParser<Bool>(usage: usage) { (var args) in
-			guard let index = args.indexOf({
-				return $0 == "-\(short)" || $0 == "--\(long)"
-			}) else {
-				return (false, args)
-			}
+			let flags = Set(["-\(short)","--\(long)"])
+			guard let index = args.indexOf(flags.contains) else { return (false, args) }
 			args.removeAtIndex(index)
 			return (true, args)
 		}
