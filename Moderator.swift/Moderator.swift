@@ -65,6 +65,7 @@ public final class Moderator {
 
 	public var usagetext: String {
 		let usagetexts = parsers.flatMap { $0.usage }
+		guard !usagetexts.isEmpty else {return ""}
 		return usagetexts.reduce("Usage: \(Process.arguments.first ?? "")\n") { acc, usagetext in
 			return acc + "  " + usagetext.title + "\n      " + usagetext.description + "\n"
 		}

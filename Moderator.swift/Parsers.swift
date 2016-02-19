@@ -40,7 +40,7 @@ extension ArgumentParser {
 	 public static func flagWithValue (short: Character, long: String, description: String? = nil) -> ArgumentParser<String> {
 		return ArgumentParser.flag(short: short, long: long, description: description)
 			.next { (flagfound, firstchange, var args) in
-				guard flagfound, let firstchange = firstchange else { throw ArgumentError(errormessage: "missing value") }
+				guard flagfound, let firstchange = firstchange else { throw ArgumentError(errormessage: "Missing value after argument '-\(short)|--\(long)'.") }
 				let result = args.removeAtIndex(firstchange)
 				return (result, args)
 		}

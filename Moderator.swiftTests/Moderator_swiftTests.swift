@@ -34,7 +34,7 @@ class Moderator_Tests: XCTestCase {
 
 	func testParsingFlag () {
 		let m = Moderator()
-		let arguments = ["--verbose", "-a", "b", "bravo", "--charlie"]
+		let arguments = ["--ignored", "-a", "b", "bravo", "--charlie"]
 		let parsedlong = m.add(ArgumentParser<Bool>.flag(short: "c", long: "charlie"))
 		let parsedshort = m.add(ArgumentParser<Bool>.flag(short: "a", long: "alpha"))
 		let unparsed = m.add(ArgumentParser<Bool>.flag(short: "b", long: "bravo"))
@@ -44,62 +44,45 @@ class Moderator_Tests: XCTestCase {
 		 	XCTAssertEqual(parsedshort.value, true)
 			XCTAssertEqual(unparsed.value, false)
 			XCTAssertEqual(parsedlong.value, true)
-			XCTAssertEqual(m.remaining, ["--verbose", "b", "bravo"])
+			XCTAssertEqual(m.remaining, ["--ignored", "b", "bravo"])
 		} catch {
 			XCTFail(String(error))
 		}
 	}
 
-
 	func testParsingFlagWithValue () {
 		let m = Moderator()
-		let arguments = ["--verbose", "-a", "alphasvalue", "string"]
+		let arguments = ["--charlie", "sheen", "ignored", "-a", "alphasvalue"]
 		let parsedshort = m.add(ArgumentParser<String>.flagWithValue("a", long: "alpha"))
 		let unparsed = m.add(ArgumentParser<Bool>.flag(short: "b", long: "bravo"))
+		let parsedlong = m.add(ArgumentParser<String>.flagWithValue("c", long: "charlie"))
 
 		do {
 			try m.parse(arguments)
 			XCTAssertEqual(parsedshort.value, "alphasvalue")
+			XCTAssertEqual(parsedlong.value, "sheen")
 			XCTAssertEqual(unparsed.value, false)
-			XCTAssertEqual(m.remaining, ["--verbose", "string"])
+			XCTAssertEqual(m.remaining, ["ignored"])
 		} catch {
 			XCTFail(String(error))
 		}
 	}
-	
+
+	func testParsingFlagWithMissingValueThrows () {
+		let m = Moderator()
+		let arguments = ["--verbose", "--alpha"]
+		let parsed = m.add(ArgumentParser<String>.flagWithValue("a", long: "alpha"))
+
+		do {
+			try m.parse(arguments)
+			XCTFail("Should have thrown error about missing value")
+		} catch {
+			XCTAssertNil(parsed.value)
+			XCTAssertTrue(String(error).containsString("Missing value"))
+		}
+	}
 
 /*
-
-	func testParsingStringArgumentShortName () {
-		let parser = ArgumentParser()
-		let arguments = ["--verbose", "-a", "alphasvalue", "string"]
-		let parsed = parser.add(StringArgument(short: "a", long: "alpha"))
-		let unparsed = parser.add(StringArgument(short: "b", long: "bravo"))
-
-		do {
-			try parser.parse(arguments)
-			XCTAssertEqual(parsed.value, "alphasvalue")
-			XCTAssertNil(unparsed.value)
-		} catch {
-			XCTFail(String(error))
-		}
-	}
-
-	func testParsingStringArgumentLongName () {
-		let parser = ArgumentParser()
-		let arguments = ["--verbose", "--alpha", "alphasvalue", "string"]
-		let parsed = parser.add(StringArgument(short: "a", long: "alpha"))
-		let unparsed = parser.add(StringArgument(short: "b", long: "bravo"))
-
-		do {
-			try parser.parse(arguments)
-			XCTAssertEqual(parsed.value, "alphasvalue")
-			XCTAssertNil(unparsed.value)
-		} catch {
-			XCTFail(String(error))
-		}
-	}
-
 	func testParsingStringArgumentWithEqualSign () {
 		let parser = ArgumentParser()
 		let arguments = ["--verbose", "--alpha=alphasvalue", "string"]
@@ -110,20 +93,6 @@ class Moderator_Tests: XCTestCase {
 			XCTAssertEqual(parsed.value, "alphasvalue")
 		} catch {
 			XCTFail(String(error))
-		}
-	}
-
-	func testParsingStringArgumentWithMissingValueThrows () {
-		let parser = ArgumentParser()
-		let arguments = ["--verbose", "--alpha"]
-		let parsed = parser.add(StringArgument(short: "a", long: "alpha"))
-
-		do {
-			try parser.parse(arguments)
-			XCTFail("Should have thrown error about missing value")
-		} catch {
-			XCTAssertNil(parsed.value)
-			XCTAssertTrue(String(error).containsString("Missing value"))
 		}
 	}
 
