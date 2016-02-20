@@ -1,39 +1,4 @@
-
-
-public typealias UsageText = (title: String, description: String)?
-
-public struct ArgumentParser <Value> {
-	public let usage: UsageText
-	public let parse: ([String]) throws -> (value: Value, remainder: [String])
-
-	public init (usage: UsageText = nil, p: ([String]) throws -> (value: Value, remainder: [String])) {
-		self.parse = p
-		self.usage = usage
-	}
-}
-
-extension ArgumentParser {
-	public func map <Outvalue> (f: Value throws -> Outvalue) -> ArgumentParser<Outvalue> {
-		return ArgumentParser<Outvalue>(usage: self.usage) { args in
-			let result = try self.parse(args)
-			return (value: try f(result.value), remainder: result.remainder)
-		}
-	}
-}
-
-
-public struct ArgumentError: ErrorType, CustomStringConvertible {
-	public let errormessage: String
-	public private(set) var usagetext: String? = nil
-
-	public init (errormessage: String, usagetext: String? = nil) {
-		self.errormessage = errormessage
-		self.usagetext = usagetext
-	}
-
-	public var description: String { return errormessage + (usagetext.map { "\n" + $0 } ?? "") }
-}
-
+//: Playground - noun: a place where people can play
 
 public final class Moderator {
 	private var parsers: [ArgumentParser<Void>] = []
@@ -67,7 +32,7 @@ public final class Moderator {
 		let usagetexts = parsers.flatMap { $0.usage }
 		guard !usagetexts.isEmpty else {return ""}
 		return usagetexts.reduce("Usage: \(Process.arguments.first ?? "")\n") { acc, usagetext in
-			return acc + "  " + usagetext.title + "\n      " + usagetext.description + "\n"
+			return acc + "  " + usagetext.title + ":\n      " + usagetext.description + "\n"
 		}
 	}
 }

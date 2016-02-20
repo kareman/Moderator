@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Moderator
+import Moderator
 
 extension Array {
 	var toStrings: [String] {
@@ -35,9 +35,9 @@ class Moderator_Tests: XCTestCase {
 	func testParsingFlag () {
 		let m = Moderator()
 		let arguments = ["--ignored", "-a", "b", "bravo", "--charlie"]
-		let parsedlong = m.add(ArgumentParser<Bool>.flag(short: "c", long: "charlie"))
-		let parsedshort = m.add(ArgumentParser<Bool>.flag(short: "a", long: "alpha"))
-		let unparsed = m.add(ArgumentParser<Bool>.flag(short: "b", long: "bravo"))
+		let parsedlong = m.add(ArgumentParser<Bool>.option(short: "c", long: "charlie"))
+		let parsedshort = m.add(ArgumentParser<Bool>.option(short: "a", long: "alpha"))
+		let unparsed = m.add(ArgumentParser<Bool>.option(short: "b", long: "bravo"))
 
 		do {
 			try m.parse(arguments)
@@ -53,9 +53,9 @@ class Moderator_Tests: XCTestCase {
 	func testParsingFlagWithValue () {
 		let m = Moderator()
 		let arguments = ["--charlie", "sheen", "ignored", "-a", "alphasvalue"]
-		let parsedshort = m.add(ArgumentParser<String>.flagWithValue("a", long: "alpha"))
-		let unparsed = m.add(ArgumentParser<Bool>.flag(short: "b", long: "bravo"))
-		let parsedlong = m.add(ArgumentParser<String>.flagWithValue("c", long: "charlie"))
+		let parsedshort = m.add(ArgumentParser<String>.optionWithValue(short: "a", long: "alpha"))
+		let unparsed = m.add(ArgumentParser<Bool>.option(short: "b", long: "bravo"))
+		let parsedlong = m.add(ArgumentParser<String>.optionWithValue(short: "c", long: "charlie"))
 
 		do {
 			try m.parse(arguments)
@@ -71,7 +71,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingFlagWithMissingValueThrows () {
 		let m = Moderator()
 		let arguments = ["--verbose", "--alpha"]
-		let parsed = m.add(ArgumentParser<String>.flagWithValue("a", long: "alpha"))
+		let parsed = m.add(ArgumentParser<String>.optionWithValue(short: "a", long: "alpha"))
 
 		do {
 			try m.parse(arguments)
