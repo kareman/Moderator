@@ -42,7 +42,8 @@ public struct ArgumentError: ErrorType, CustomStringConvertible {
 extension ArgumentParser {
 	public static func option(short short: Character, long: String, description: String? = nil) -> ArgumentParser<Bool> {
 		let usage = description.map { ("-\(short), --\(long)", $0) }
-		return ArgumentParser<Bool>(usage: usage) { (var args) in
+		return ArgumentParser<Bool>(usage: usage) { args in
+			var args = args
 			let options = Set(["-\(short)","--\(long)"])
 			guard let index = args.indexOf(options.contains) else { return (false, args) }
 			args.removeAtIndex(index)
@@ -74,7 +75,8 @@ extension Array where Element: Equatable {
 extension ArgumentParser {
 	public static func optionWithValue (short short: Character, long: String, description: String? = nil) -> ArgumentParser<String> {
 		return ArgumentParser.option(short: short, long: long, description: description)
-			.next { (optionfound, firstchange, var args) in
+			.next { (optionfound, firstchange, args) in
+				var args = args
 				guard optionfound, let firstchange = firstchange else { throw ArgumentError(errormessage: "Missing value after argument '-\(short)|--\(long)'.") }
 				let result = args.removeAtIndex(firstchange)
 				return (result, args)
