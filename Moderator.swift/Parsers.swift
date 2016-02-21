@@ -1,3 +1,4 @@
+// Should ideally and eventually be compatible with http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html , with the addition of "--longname".
 
 public typealias UsageText = (title: String, description: String)?
 
@@ -53,6 +54,15 @@ extension ArgumentParser {
 }
 
 
+extension Array where Element: Equatable {
+	public func indexOfFirstDifference (other: Array<Element>) -> Index? {
+		for i in self.indices {
+			if i >= other.endIndex || self[i] != other[i] { return i }
+		}
+		return nil
+	}
+}
+
 extension ArgumentParser {
 	public func next <Outvalue> (f: (Value, Array<String>.Index?, [String]) throws -> (value: Outvalue, remainder: [String]) ) -> ArgumentParser<Outvalue> {
 		return ArgumentParser<Outvalue>(usage: self.usage) { args in
@@ -60,15 +70,6 @@ extension ArgumentParser {
 			let firstchange = result.remainder.indexOfFirstDifference(args)
 			return try f(result.value, firstchange, result.remainder)
 		}
-	}
-}
-
-extension Array where Element: Equatable {
-	public func indexOfFirstDifference (other: Array<Element>) -> Index? {
-		for i in self.indices {
-			if i >= other.endIndex || self[i] != other[i] { return i }
-		}
-		return nil
 	}
 }
 
