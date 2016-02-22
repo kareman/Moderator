@@ -32,7 +32,7 @@ class Moderator_Tests: XCTestCase {
 	}
 */
 
-	func testParsingFlag () {
+	func testParsingOption () {
 		let m = Moderator()
 		let arguments = ["--ignored", "-a", "b", "bravo", "--charlie"]
 		let parsedlong = m.add(ArgumentParser<Bool>.option(short: "c", long: "charlie"))
@@ -50,7 +50,7 @@ class Moderator_Tests: XCTestCase {
 		}
 	}
 
-	func testParsingFlagWithValue () {
+	func testParsingOptionWithValue () {
 		let m = Moderator()
 		let arguments = ["--charlie", "sheen", "ignored", "-a", "alphasvalue"]
 		let parsedshort = m.add(ArgumentParser<String>.optionWithValue(short: "a", long: "alpha"))
@@ -68,7 +68,7 @@ class Moderator_Tests: XCTestCase {
 		}
 	}
 
-	func testParsingFlagWithMissingValueThrows () {
+	func testParsingOptionWithMissingValueThrows () {
 		let m = Moderator()
 		let arguments = ["--verbose", "--alpha"]
 		let parsed = m.add(ArgumentParser<String>.optionWithValue(short: "a", long: "alpha"))
