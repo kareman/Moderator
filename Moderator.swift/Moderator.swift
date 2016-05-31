@@ -112,7 +112,8 @@ public class TagArgument: ArgumentType {
 public final class BoolArgument: TagArgument {
 	public private(set) var value = false
 
-	override public func matchHandler(index: Array<String>.Index, var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+	override public func matchHandler(index: Array<String>.Index, arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+		var arguments = arguments
 		value = true
 		arguments.removeAtIndex(index)
 		return arguments
@@ -122,7 +123,8 @@ public final class BoolArgument: TagArgument {
 public final class StringArgument: TagArgument {
 	public private(set) var value: String?
 
-	override public func matchHandler(index: Array<String>.Index, var arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+	override public func matchHandler(index: Array<String>.Index, arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+		var arguments = arguments
 		let usedflag = arguments.removeAtIndex(index)
 		guard index < arguments.endIndex else {
 			throw ArgumentError(errormessage: "Missing value for argument '\(usedflag)'")
