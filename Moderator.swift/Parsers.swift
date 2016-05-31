@@ -41,16 +41,21 @@ public struct ArgumentError: ErrorType, CustomStringConvertible {
 }
 
 extension ArgumentParser {
-	public static func option(short short: Character, long: String, description: String? = nil) -> ArgumentParser<Bool> {
-		let usage = description.map { ("-\(short), --\(long)", $0) }
+	public static func option(names: String..., description: String? = nil) -> ArgumentParser<Bool> {
+		let names = names.map { $0.characters.count==1 ? "-" + $0 : "--" + $0 }
+		let usage = description.map { (names.joinWithSeparator(","), $0) }
 		return ArgumentParser<Bool>(usage: usage) { args in
 			var args = args
-			let options = Set(["-\(short)","--\(long)"])
-			guard let index = args.indexOf(options.contains) else { return (false, args) }
+			guard let index = args.indexOf(names.contains) else { return (false, args) }
 			args.removeAtIndex(index)
 			return (true, args)
 		}
 	}
+/*
+	public static func option(names: String..., description: String? = nil) -> ArgumentParser<Bool> {
+		 return option(names, description: description)
+	}
+*/
 }
 
 
@@ -74,11 +79,13 @@ extension ArgumentParser {
 }
 
 extension ArgumentParser {
-	public static func optionWithValue (short short: Character, long: String, description: String? = nil) -> ArgumentParser<String> {
-		return ArgumentParser.option(short: short, long: long, description: description)
+	public static func optionWithValue (names: String..., description: String? = nil) -> ArgumentParser<String> {
+		return ArgumentParser.option(names[0], description: description)
 			.next { (optionfound, firstchange, args) in
 				var args = args
-				guard optionfound, let firstchange = firstchange else { throw ArgumentError(errormessage: "Missing value after argument '-\(short)|--\(long)'.") }
+				guard optionfound, let firstchange = firstchange else {
+					throw ArgumentError(errormessage: "Missing value after argument '\(names.joinWithSeparator("|"))'.")
+				}
 				let result = args.removeAtIndex(firstchange)
 				return (result, args)
 		}

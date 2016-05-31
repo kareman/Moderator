@@ -35,9 +35,9 @@ class Moderator_Tests: XCTestCase {
 	func testParsingOption () {
 		let m = Moderator()
 		let arguments = ["--ignored", "-a", "b", "bravo", "--charlie"]
-		let parsedlong = m.add(ArgumentParser<Bool>.option(short: "c", long: "charlie"))
-		let parsedshort = m.add(ArgumentParser<Bool>.option(short: "a", long: "alpha"))
-		let unparsed = m.add(ArgumentParser<Bool>.option(short: "b", long: "bravo"))
+		let parsedlong = m.add(ArgumentParser<Bool>.option("c", "charlie", description: "dgsf"))
+		let parsedshort = m.add(ArgumentParser<Bool>.option("a", "alpha"))
+		let unparsed = m.add(ArgumentParser<Bool>.option("b", "bravo"))
 
 		do {
 			try m.parse(arguments)
@@ -53,9 +53,9 @@ class Moderator_Tests: XCTestCase {
 	func testParsingOptionWithValue () {
 		let m = Moderator()
 		let arguments = ["--charlie", "sheen", "ignored", "-a", "alphasvalue"]
-		let parsedshort = m.add(ArgumentParser<String>.optionWithValue(short: "a", long: "alpha"))
-		let unparsed = m.add(ArgumentParser<Bool>.option(short: "b", long: "bravo"))
-		let parsedlong = m.add(ArgumentParser<String>.optionWithValue(short: "c", long: "charlie"))
+		let parsedshort = m.add(ArgumentParser<String>.optionWithValue("a", "alpha"))
+		let unparsed = m.add(ArgumentParser<Bool>.option("b", "bravo"))
+		let parsedlong = m.add(ArgumentParser<String>.optionWithValue("c", "charlie"))
 
 		do {
 			try m.parse(arguments)
@@ -71,7 +71,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingOptionWithMissingValueThrows () {
 		let m = Moderator()
 		let arguments = ["--verbose", "--alpha"]
-		let parsed = m.add(ArgumentParser<String>.optionWithValue(short: "a", long: "alpha"))
+		let parsed = m.add(ArgumentParser<String>.optionWithValue("a", "alpha"))
 
 		do {
 			try m.parse(arguments)
@@ -86,7 +86,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingStringArgumentWithEqualSign () {
 		let parser = ArgumentParser()
 		let arguments = ["--verbose", "--alpha=alphasvalue", "string"]
-		let parsed = parser.add(StringArgument(short: "a", long: "alpha"))
+		let parsed = parser.add(StringArgument("a", "alpha"))
 
 		do {
 			try parser.parse(arguments)
@@ -99,7 +99,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingStringArgumentWithFlagValueThrows () {
 		let parser = ArgumentParser()
 		let arguments = ["--verbose", "-a", "-b"]
-		let parsed = parser.add(StringArgument(short: "a", long: "alpha"))
+		let parsed = parser.add(StringArgument("a", "alpha"))
 
 		do {
 			try parser.parse(arguments)
@@ -113,8 +113,8 @@ class Moderator_Tests: XCTestCase {
 	func testStrictParsingThrowsErrorOnUnknownArguments () {
 		let parser = ArgumentParser()
 		let arguments = ["--alpha", "-c"]
-		parser.add(BoolArgument(short: "a", long: "alpha", helptext: "The leader."))
-		parser.add(BoolArgument(short: "b", long: "bravo", helptext: "Well done!"))
+		parser.add(BoolArgument("a", "alpha", helptext: "The leader."))
+		parser.add(BoolArgument("b", "bravo", helptext: "Well done!"))
 
 		do {
 			try parser.parse(arguments, strict: true)
@@ -129,8 +129,8 @@ class Moderator_Tests: XCTestCase {
 	func testStrictParsing () {
 		let parser = ArgumentParser()
 		let arguments = ["--alpha", "-b"]
-		parser.add(BoolArgument(short: "a", long: "alpha"))
-		parser.add(BoolArgument(short: "b", long: "bravo"))
+		parser.add(BoolArgument("a", "alpha"))
+		parser.add(BoolArgument("b", "bravo"))
 
 		do {
 			try parser.parse(arguments, strict: true)
@@ -141,9 +141,9 @@ class Moderator_Tests: XCTestCase {
 
 	func testUsageText () {
 		let parser = ArgumentParser()
-		parser.add(BoolArgument(short: "a", long: "alpha", helptext: "The leader."))
-		parser.add(StringArgument(short: "b", long: "bravo", helptext: "Well done!"))
-		parser.add(BoolArgument(short: "x", long: "hasnohelptext"))
+		parser.add(BoolArgument("a", "alpha", helptext: "The leader."))
+		parser.add(StringArgument("b", "bravo", helptext: "Well done!"))
+		parser.add(BoolArgument("x", "hasnohelptext"))
 
 		let usagetext = parser.usagetext
 		XCTAssert(usagetext.containsString("alpha"))
