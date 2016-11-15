@@ -11,7 +11,7 @@ import Moderator
 
 extension Array {
 	var toStrings: [String] {
-		return map {String($0)}
+		return map {String(describing: $0)}
 	}
 }
 
@@ -46,7 +46,7 @@ class Moderator_Tests: XCTestCase {
 			XCTAssertEqual(parsedlong.value, true)
 			XCTAssertEqual(m.remaining, ["--ignored", "b", "bravo"])
 		} catch {
-			XCTFail(String(error))
+			XCTFail(String(describing: error))
 		}
 	}
 
@@ -64,7 +64,7 @@ class Moderator_Tests: XCTestCase {
 			XCTAssertEqual(unparsed.value, false)
 			XCTAssertEqual(m.remaining, ["ignored"])
 		} catch {
-			XCTFail(String(error))
+			XCTFail(String(describing: error))
 		}
 	}
 
@@ -78,7 +78,7 @@ class Moderator_Tests: XCTestCase {
 			XCTFail("Should have thrown error about missing value")
 		} catch {
 			XCTAssertNil(parsed.value)
-			XCTAssertTrue(String(error).containsString("Missing value"))
+			XCTAssertTrue(String(describing: error).contains("Missing value"))
 		}
 	}
 
