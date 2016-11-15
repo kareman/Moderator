@@ -1,4 +1,4 @@
- succeeded//
+//
 // Moderator.swift
 //
 // Created by Kåre Morstøl on 03.11.15.
