@@ -142,8 +142,8 @@ class Moderator_Tests: XCTestCase {
 	func testStrictParsingThrowsErrorOnUnknownArguments () {
 		let parser = ArgumentParser()
 		let arguments = ["--alpha", "-c"]
-		parser.add(BoolArgument(short: "a", long: "alpha", helptext: "The leader."))
-		parser.add(BoolArgument(short: "b", long: "bravo", helptext: "Well done!"))
+		_ = parser.add(BoolArgument(short: "a", long: "alpha", helptext: "The leader."))
+		_ = parser.add(BoolArgument(short: "b", long: "bravo", helptext: "Well done!"))
 
 		do {
 			try parser.parse(arguments, strict: true)
@@ -158,8 +158,8 @@ class Moderator_Tests: XCTestCase {
 	func testStrictParsing () {
 		let parser = ArgumentParser()
 		let arguments = ["--alpha", "-b"]
-		parser.add(BoolArgument(short: "a", long: "alpha"))
-		parser.add(BoolArgument(short: "b", long: "bravo"))
+		_ = parser.add(BoolArgument(short: "a", long: "alpha"))
+		_ = parser.add(BoolArgument(short: "b", long: "bravo"))
 
 		do {
 			try parser.parse(arguments, strict: true)
@@ -170,9 +170,9 @@ class Moderator_Tests: XCTestCase {
 
 	func testUsageText () {
 		let parser = ArgumentParser()
-		parser.add(BoolArgument(short: "a", long: "alpha", helptext: "The leader."))
-		parser.add(StringArgument(short: "b", long: "bravo", helptext: "Well done!"))
-		parser.add(BoolArgument(short: "x", long: "hasnohelptext"))
+		_ = parser.add(BoolArgument(short: "a", long: "alpha", helptext: "The leader."))
+		_ = parser.add(StringArgument(short: "b", long: "bravo", helptext: "Well done!"))
+		_ = parser.add(BoolArgument(short: "x", long: "hasnohelptext"))
 
 		let usagetext = parser.usagetext
 		XCTAssert(usagetext.contains("alpha"))
