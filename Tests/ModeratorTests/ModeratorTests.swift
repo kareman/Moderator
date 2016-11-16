@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import Moderator
+import Foundation
 
 extension Array {
 	var toStrings: [String] {
@@ -21,7 +22,7 @@ extension String.CharacterView: CustomDebugStringConvertible {
 	}
 }
 
-class Moderator_Tests: XCTestCase {
+public class Moderator_Tests: XCTestCase {
 
 	func testPreprocessorHandlesEqualSign () {
 		let arguments = ["lskdfj", "--verbose", "--this=that=", "-b"]
@@ -182,4 +183,21 @@ class Moderator_Tests: XCTestCase {
 
 		XCTAssertFalse(parser.usagetext.contains("hasnohelptext"))
 	}
+}
+
+extension Moderator_Tests {
+	public static var allTests = [
+		("testPreprocessorHandlesEqualSign", testPreprocessorHandlesEqualSign),
+		("testPreprocessorHandlesJoinedFlags", testPreprocessorHandlesJoinedFlags),
+		("testParsingBoolShortName", testParsingBoolShortName),
+		("testParsingBoolLongName", testParsingBoolLongName),
+		("testParsingStringArgumentShortName", testParsingStringArgumentShortName),
+		("testParsingStringArgumentLongName", testParsingStringArgumentLongName),
+		("testParsingStringArgumentWithEqualSign", testParsingStringArgumentWithEqualSign),
+		("testParsingStringArgumentWithMissingValueThrows", testParsingStringArgumentWithMissingValueThrows),
+		("testParsingStringArgumentWithFlagValueThrows", testParsingStringArgumentWithFlagValueThrows),
+		("testStrictParsingThrowsErrorOnUnknownArguments", testStrictParsingThrowsErrorOnUnknownArguments),
+		("testStrictParsing", testStrictParsing),
+		("testUsageText", testUsageText),
+		]
 }
