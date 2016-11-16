@@ -122,6 +122,14 @@ public final class BoolArgument: TagArgument {
 	}
 }
 
+#if !os(macOS)
+extension String {
+	func hasPrefix(_ prefix: String) -> Bool {
+		return self.characters.starts(with: prefix.characters)
+	}
+}
+#endif
+
 public final class StringArgument: TagArgument {
 	public fileprivate(set) var value: String?
 
