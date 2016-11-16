@@ -5,6 +5,7 @@
 // Copyright © 2015 NotTooBad Software. All rights reserved.
 //
 
+import Foundation
 
 public protocol ArgumentType: class {
 	func parse (_ arguments: [String.CharacterView]) throws -> [String.CharacterView]
@@ -121,14 +122,6 @@ public final class BoolArgument: TagArgument {
 		return arguments
 	}
 }
-
-#if !os(macOS)
-extension String {
-	func hasPrefix(_ prefix: String) -> Bool {
-		return self.characters.starts(with: prefix.characters)
-	}
-}
-#endif
 
 public final class StringArgument: TagArgument {
 	public fileprivate(set) var value: String?
