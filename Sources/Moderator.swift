@@ -5,30 +5,33 @@
 // Copyright © 2015 NotTooBad Software. All rights reserved.
 //
 
+import Foundation
 
 public protocol ArgumentType: class {
-	func parse (arguments: [String.CharacterView]) throws -> [String.CharacterView]
+	func parse (_ arguments: [String.CharacterView]) throws -> [String.CharacterView]
 	var usagetext: (title: String, description: String)? {get}
 }
 
+public typealias UsageText = (title: String, description: String)?
+
 extension ArgumentType {
-	public var usagetext: (title: String, description: String)? {return nil}
+	public var usagetext: UsageText {return nil}
 }
 
 public final class ArgumentParser {
-	private var argumenttypes: [ArgumentType] = []
-	public private(set) var remaining: [String] = []
+	fileprivate var argumenttypes: [ArgumentType] = []
+	public fileprivate(set) var remaining: [String] = []
 
-	public func add <T:ArgumentType> (a: T) -> T {
+	public func add <T:ArgumentType> (_ a: T) -> T {
 		argumenttypes.append(a)
 		return a
 	}
 
-	public func parse (strict strict: Bool = false) throws {
-		try parse(Array(Process.arguments.dropFirst()), strict: strict)
+	public func parse (strict: Bool = false) throws {
+		try parse(Array(CommandLine.arguments.dropFirst()), strict: strict)
 	}
 
-	public func parse (arguments: [String], strict: Bool = false) throws {
+	public func parse (_ arguments: [String], strict: Bool = false) throws {
 		do {
 			var remainingarguments = preprocess(arguments)
 			try argumenttypes.forEach {
@@ -36,7 +39,7 @@ public final class ArgumentParser {
 			}
 			self.remaining = remainingarguments.map {String($0)}
 			if strict && !remaining.isEmpty {
-				throw ArgumentError(errormessage: "Unknown arguments: " + remaining.joinWithSeparator(" "))
+				throw ArgumentError(errormessage: "Unknown arguments: " + remaining.joined(separator: " "))
 			}
 		} catch var error as ArgumentError {
 			error.usagetext = self.usagetext
@@ -44,12 +47,12 @@ public final class ArgumentParser {
 		}
 	}
 
-	func preprocess (arguments: [String]) -> [String.CharacterView] {
+	func preprocess (_ arguments: [String]) -> [String.CharacterView] {
 		return arguments.flatMap { s -> [String.CharacterView] in
 			let c = s.characters
-			if c.startsWith("--".characters) {
-				return c.split("=" as Character, maxSplit: 1, allowEmptySlices: true)
-			} else if c.startsWith("-".characters) && c.count > 2 {
+			if c.starts(with: "--".characters) {
+				return c.split(separator: "=" as Character, maxSplits: 1, omittingEmptySubsequences: false)
+			} else if c.starts(with: "-".characters) && c.count > 2 {
 				return c.dropFirst().map { "-\($0)".characters }
 			} else {
 				return [c]
@@ -59,16 +62,16 @@ public final class ArgumentParser {
 
 	public var usagetext: String {
 		let usagetexts = argumenttypes.flatMap { $0.usagetext }
-		return usagetexts.reduce("Usage: \(Process.arguments.first ?? "")\n") { acc, usagetext in
-			return acc + "  " + usagetext.title + "\n      " + usagetext.description + "\n"
+		return usagetexts.reduce("Usage: \(CommandLine.arguments.first ?? "")\n") { (acc:String, usagetext: UsageText) -> String in
+			return acc + "  " + usagetext!.title + "\n      " + usagetext!.description + "\n"
 		}
 	}
 }
 
 
-public struct ArgumentError: ErrorType, CustomStringConvertible {
+public struct ArgumentError: Error, CustomStringConvertible {
 	public let errormessage: String
-	public private(set) var usagetext: String? = nil
+	public fileprivate(set) var usagetext: String? = nil
 
 	public init (errormessage: String, usagetext: String? = nil) {
 		self.errormessage = errormessage
@@ -78,10 +81,10 @@ public struct ArgumentError: ErrorType, CustomStringConvertible {
 	public var description: String { return errormessage + (usagetext.map { "\n" + $0 } ?? "") }
 }
 
-public class TagArgument: ArgumentType {
+open class TagArgument: ArgumentType {
 	let shortname: Character
 	let longname: String
-	public let helptext: String?
+	open let helptext: String?
 
 	init (short: Character, long: String, helptext: String? = nil) {
 		self.longname = long
@@ -89,12 +92,12 @@ public class TagArgument: ArgumentType {
 		self.helptext = helptext
 	}
 
-	public var usagetext: (title: String, description: String)? {
+	open var usagetext: (title: String, description: String)? {
 		return helptext.map { ("-\(shortname), --\(longname):", $0) }
 	}
 
-	public func parse(arguments: [String.CharacterView]) throws -> [String.CharacterView] {
-		if let index = arguments.indexOf({
+	open func parse(_ arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+		if let index = arguments.index(where: {
 			let s = String($0)
 			return s == "-\(shortname)" || s == "--\(longname)"
 		}) {
@@ -104,32 +107,32 @@ public class TagArgument: ArgumentType {
 		}
 	}
 
-	public func matchHandler(index: Array<String>.Index, arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+	open func matchHandler(_ index: Array<String>.Index, arguments: [String.CharacterView]) throws -> [String.CharacterView] {
 		return arguments
 	}
 }
 
 public final class BoolArgument: TagArgument {
-	public private(set) var value = false
+	public fileprivate(set) var value = false
 
-	override public func matchHandler(index: Array<String>.Index, arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+	override public func matchHandler(_ index: Array<String>.Index, arguments: [String.CharacterView]) throws -> [String.CharacterView] {
 		var arguments = arguments
 		value = true
-		arguments.removeAtIndex(index)
+		arguments.remove(at: index)
 		return arguments
 	}
 }
 
 public final class StringArgument: TagArgument {
-	public private(set) var value: String?
+	public fileprivate(set) var value: String?
 
-	override public func matchHandler(index: Array<String>.Index, arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+	override public func matchHandler(_ index: Array<String>.Index, arguments: [String.CharacterView]) throws -> [String.CharacterView] {
 		var arguments = arguments
-		let usedflag = arguments.removeAtIndex(index)
+		let usedflag = arguments.remove(at: index)
 		guard index < arguments.endIndex else {
 			throw ArgumentError(errormessage: "Missing value for argument '\(usedflag)'")
 		}
-		let newvalue = String(arguments.removeAtIndex(index))
+		let newvalue = String(arguments.remove(at: index))
 		guard !newvalue.hasPrefix("-") else {
 			throw ArgumentError(errormessage: "Illegal value '\(newvalue)' for argument '\(usedflag)")
 		}
