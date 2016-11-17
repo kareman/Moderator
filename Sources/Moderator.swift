@@ -140,3 +140,23 @@ public final class StringArgument: TagArgument {
 		return arguments
 	}
 }
+
+public final class SingleArgument: ArgumentType {
+	public fileprivate(set) var value: String?
+	let name: String
+	let helptext: String?
+
+	init (name: String, helptext: String? = nil, default defaultvalue: String? = nil) {
+		self.name = name
+		self.helptext = helptext
+		self.value = defaultvalue
+	}
+
+	public func parse(_ arguments: [String.CharacterView]) throws -> [String.CharacterView] {
+		value = arguments.first.map(String.init) ?? value
+		guard value != nil else {
+			throw ArgumentError(errormessage: "Missing value for \(name).")
+		}
+		return Array(arguments.dropFirst())
+	}
+}

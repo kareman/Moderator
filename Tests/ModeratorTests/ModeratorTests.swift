@@ -140,6 +140,23 @@ public class Moderator_Tests: XCTestCase {
 		}
 	}
 
+	func testParsingSingleArgument () {
+		let parser = ArgumentParser()
+		let arguments = ["-a", "argument1", "-b"]
+		_ = parser.add(BoolArgument(short: "a", long: "alpha"))
+		_ = parser.add(BoolArgument(short: "b", long: "beta"))
+		let argwithoutdefault = parser.add(SingleArgument(name: "Without default"))
+		let argwithdefault = parser.add(SingleArgument(name: "With default", default: "default"))
+
+		do {
+			try parser.parse(arguments, strict: true)
+			XCTAssertEqual(argwithoutdefault.value, "argument1")
+			XCTAssertEqual(argwithdefault.value, "default")
+		} catch {
+			XCTFail("Should not have thrown error '\(error)'")
+		}
+	}
+
 	func testStrictParsingThrowsErrorOnUnknownArguments () {
 		let parser = ArgumentParser()
 		let arguments = ["--alpha", "-c"]
