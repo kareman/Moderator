@@ -41,7 +41,7 @@ public struct ArgumentError: Error, CustomStringConvertible {
 }
 
 extension ArgumentParser {
-	public static func option(_ names: String..., description: String? = nil) -> ArgumentParser<Bool> {
+	static func option(names: [String], description: String? = nil) -> ArgumentParser<Bool> {
 		let names = names.map { $0.characters.count==1 ? "-" + $0 : "--" + $0 }
 		let usage = description.map { (names.joined(separator: ","), $0) }
 		return ArgumentParser<Bool>(usage: usage) { args in
@@ -51,11 +51,10 @@ extension ArgumentParser {
 			return (true, args)
 		}
 	}
-/*
-	public static func option(names: String..., description: String? = nil) -> ArgumentParser<Bool> {
-		 return option(names, description: description)
+
+	public static func option(_ names: String..., description: String? = nil) -> ArgumentParser<Bool> {
+		return option(names: names, description: description)
 	}
-*/
 }
 
 
@@ -80,7 +79,7 @@ extension ArgumentParser {
 
 extension ArgumentParser {
 	public static func optionWithValue (_ names: String..., description: String? = nil) -> ArgumentParser<String> {
-		return ArgumentParser.option(names[0], description: description)
+		return ArgumentParser.option(names: names, description: description)
 			.next { (optionfound, firstchange, args) in
 				var args = args
 				guard optionfound, let firstchange = firstchange else {
