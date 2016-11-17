@@ -1,0 +1,6 @@
+version: "Apple Swift version 3.0.1 (swiftlang-800.0.58.6 clang-800.0.42.1)"
+options: "dadce456dd6d3d0c80b2e8ccd97f7104"
+build_time: [532716282, 719137000]
+inputs:
+  "/Users/karemorstol/Programming/Moderator/Moderator.swift/Sources/Moderator.swift": [532716058, 0]
+  "/Users/karemorstol/Programming/Moderator/Moderator.swift/Sources/Parsers.swift": [532716058, 0]

@@ -1,0 +1,476 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "Moderator_Tests"
+provides-nominal:
+- "C14ModeratorTests15Moderator_Tests"
+provides-member:
+- ["Sa", ""]
+- ["C14ModeratorTests15Moderator_Tests", ""]
+- ["Sa", "toStrings"]
+provides-dynamic-lookup:
+- "testParsingOptionWithMissingValueThrows"
+- "testParsingOption"
+- "testParsingOptionWithValue"
+depends-top-level:
+- !private "UnicodeScalarType"
+- !private "BooleanLiteralType"
+- "XCTestCase"
+- !private "StringLiteralType"
+- "String"
+- !private "XCTAssertTrue"
+- !private "XCTFail"
+- !private "XCTAssertEqual"
+- !private "Moderator"
+- !private "XCTAssertNil"
+- "Array"
+- "Moderator_Tests"
+- !private "ArgumentParser"
+- !private "Bool"
+depends-member:
+- !private ["Ps9AnyObject", "ArgumentParser"]
+- !private ["Ps9AnyObject", "Moderator"]
+- !private ["Ps9AnyObject", "String"]
+- !private ["Ps9AnyObject", "XCTAssertEqual"]
+- !private ["Ps9AnyObject", "XCTAssertNil"]
+- !private ["Ps9AnyObject", "XCTAssertTrue"]
+- !private ["Ps9AnyObject", "XCTFail"]
+- !private ["Ps9AnyObject", "add"]
+- !private ["Ps9AnyObject", "contains"]
+- !private ["Ps9AnyObject", "init"]
+- !private ["Ps9AnyObject", "parse"]
+- !private ["Ps9AnyObject", "remaining"]
+- ["Ps9AnyObject", "testParsingOption"]
+- ["Ps9AnyObject", "testParsingOptionWithMissingValueThrows"]
+- ["Ps9AnyObject", "testParsingOptionWithValue"]
+- !private ["Ps9AnyObject", "value"]
+- ["Ps9AnyObject", ""]
+- ["V9Moderator14ArgumentParser", "deinit"]
+- !private ["V9Moderator14ArgumentParser", "option"]
+- !private ["V9Moderator14ArgumentParser", "optionWithValue"]
+- !private ["Sa", "Element"]
+- !private ["Sa", "Iterator"]
+- ["Sa", "String"]
+- !private ["Sa", "_Element"]
+- ["Sa", "deinit"]
+- !private ["Sa", "map"]
+- ["Sa", "toStrings"]
+- !private ["Ps23BidirectionalCollection", "Element"]
+- !private ["Ps23BidirectionalCollection", "Iterator"]
+- !private ["Ps23BidirectionalCollection", "String"]
+- !private ["Ps23BidirectionalCollection", "_Element"]
+- !private ["Ps23BidirectionalCollection", "map"]
+- !private ["Ps22BidirectionalIndexable", "Element"]
+- !private ["Ps22BidirectionalIndexable", "Iterator"]
+- !private ["Ps22BidirectionalIndexable", "String"]
+- !private ["Ps22BidirectionalIndexable", "_Element"]
+- !private ["Ps22BidirectionalIndexable", "map"]
+- ["Sb", "deinit"]
+- !private ["Ps7CVarArg", "ArgumentParser"]
+- !private ["Ps7CVarArg", "Element"]
+- !private ["Ps7CVarArg", "Iterator"]
+- !private ["Ps7CVarArg", "Moderator"]
+- !private ["Ps7CVarArg", "String"]
+- !private ["Ps7CVarArg", "XCTAssertEqual"]
+- !private ["Ps7CVarArg", "XCTAssertNil"]
+- !private ["Ps7CVarArg", "XCTAssertTrue"]
+- !private ["Ps7CVarArg", "XCTFail"]
+- !private ["Ps7CVarArg", "_Element"]
+- !private ["Ps7CVarArg", "contains"]
+- !private ["Ps7CVarArg", "init"]
+- !private ["Ps7CVarArg", "map"]
+- ["Ps7CVarArg", "testParsingOption"]
+- ["Ps7CVarArg", "testParsingOptionWithMissingValueThrows"]
+- ["Ps7CVarArg", "testParsingOptionWithValue"]
+- ["Ps7CVarArg", ""]
+- !private ["Ps10Collection", "Element"]
+- !private ["Ps10Collection", "Iterator"]
+- !private ["Ps10Collection", "String"]
+- !private ["Ps10Collection", "_Element"]
+- !private ["Ps10Collection", "map"]
+- !private ["Ps10Comparable", "contains"]
+- !private ["Ps10Comparable", "init"]
+- !private ["Ps28CustomDebugStringConvertible", "ArgumentParser"]
+- !private ["Ps28CustomDebugStringConvertible", "Element"]
+- !private ["Ps28CustomDebugStringConvertible", "Iterator"]
+- !private ["Ps28CustomDebugStringConvertible", "Moderator"]
+- !private ["Ps28CustomDebugStringConvertible", "String"]
+- !private ["Ps28CustomDebugStringConvertible", "XCTAssertEqual"]
+- !private ["Ps28CustomDebugStringConvertible", "XCTAssertNil"]
+- !private ["Ps28CustomDebugStringConvertible", "XCTAssertTrue"]
+- !private ["Ps28CustomDebugStringConvertible", "XCTFail"]
+- !private ["Ps28CustomDebugStringConvertible", "_Element"]
+- !private ["Ps28CustomDebugStringConvertible", "contains"]
+- !private ["Ps28CustomDebugStringConvertible", "init"]
+- !private ["Ps28CustomDebugStringConvertible", "map"]
+- ["Ps28CustomDebugStringConvertible", "testParsingOption"]
+- ["Ps28CustomDebugStringConvertible", "testParsingOptionWithMissingValueThrows"]
+- ["Ps28CustomDebugStringConvertible", "testParsingOptionWithValue"]
+- ["Ps28CustomDebugStringConvertible", ""]
+- !private ["Ps29CustomPlaygroundQuickLookable", "contains"]
+- !private ["Ps29CustomPlaygroundQuickLookable", "init"]
+- !private ["Ps17CustomReflectable", "Element"]
+- !private ["Ps17CustomReflectable", "Iterator"]
+- !private ["Ps17CustomReflectable", "String"]
+- !private ["Ps17CustomReflectable", "_Element"]
+- !private ["Ps17CustomReflectable", "contains"]
+- !private ["Ps17CustomReflectable", "init"]
+- !private ["Ps17CustomReflectable", "map"]
+- !private ["Ps23CustomStringConvertible", "ArgumentParser"]
+- !private ["Ps23CustomStringConvertible", "Element"]
+- !private ["Ps23CustomStringConvertible", "Iterator"]
+- !private ["Ps23CustomStringConvertible", "Moderator"]
+- !private ["Ps23CustomStringConvertible", "String"]
+- !private ["Ps23CustomStringConvertible", "XCTAssertEqual"]
+- !private ["Ps23CustomStringConvertible", "XCTAssertNil"]
+- !private ["Ps23CustomStringConvertible", "XCTAssertTrue"]
+- !private ["Ps23CustomStringConvertible", "XCTFail"]
+- !private ["Ps23CustomStringConvertible", "_Element"]
+- !private ["Ps23CustomStringConvertible", "contains"]
+- !private ["Ps23CustomStringConvertible", "init"]
+- !private ["Ps23CustomStringConvertible", "map"]
+- ["Ps23CustomStringConvertible", "testParsingOption"]
+- ["Ps23CustomStringConvertible", "testParsingOptionWithMissingValueThrows"]
+- ["Ps23CustomStringConvertible", "testParsingOptionWithValue"]
+- !private ["Ps23CustomStringConvertible", "value"]
+- ["Ps23CustomStringConvertible", ""]
+- !private ["Ps9Equatable", "ArgumentParser"]
+- !private ["Ps9Equatable", "Moderator"]
+- !private ["Ps9Equatable", "String"]
+- !private ["Ps9Equatable", "XCTAssertEqual"]
+- !private ["Ps9Equatable", "XCTAssertNil"]
+- !private ["Ps9Equatable", "XCTAssertTrue"]
+- !private ["Ps9Equatable", "XCTFail"]
+- !private ["Ps9Equatable", "contains"]
+- !private ["Ps9Equatable", "init"]
+- ["Ps9Equatable", "testParsingOption"]
+- ["Ps9Equatable", "testParsingOptionWithMissingValueThrows"]
+- ["Ps9Equatable", "testParsingOptionWithValue"]
+- ["Ps9Equatable", ""]
+- ["Ps5Error", "deinit"]
+- !private ["Ps25ExpressibleByArrayLiteral", "Element"]
+- !private ["Ps25ExpressibleByArrayLiteral", "Iterator"]
+- !private ["Ps25ExpressibleByArrayLiteral", "String"]
+- !private ["Ps25ExpressibleByArrayLiteral", "_Element"]
+- !private ["Ps25ExpressibleByArrayLiteral", "map"]
+- !private ["Ps43ExpressibleByExtendedGraphemeClusterLiteral", "contains"]
+- !private ["Ps43ExpressibleByExtendedGraphemeClusterLiteral", "init"]
+- !private ["Ps32ExpressibleByStringInterpolation", "contains"]
+- !private ["Ps32ExpressibleByStringInterpolation", "init"]
+- !private ["Ps26ExpressibleByStringLiteral", "contains"]
+- !private ["Ps26ExpressibleByStringLiteral", "init"]
+- !private ["Ps33ExpressibleByUnicodeScalarLiteral", "contains"]
+- !private ["Ps33ExpressibleByUnicodeScalarLiteral", "init"]
+- !private ["Ps8Hashable", "ArgumentParser"]
+- !private ["Ps8Hashable", "Moderator"]
+- !private ["Ps8Hashable", "String"]
+- !private ["Ps8Hashable", "XCTAssertEqual"]
+- !private ["Ps8Hashable", "XCTAssertNil"]
+- !private ["Ps8Hashable", "XCTAssertTrue"]
+- !private ["Ps8Hashable", "XCTFail"]
+- !private ["Ps8Hashable", "contains"]
+- !private ["Ps8Hashable", "init"]
+- ["Ps8Hashable", "testParsingOption"]
+- ["Ps8Hashable", "testParsingOptionWithMissingValueThrows"]
+- ["Ps8Hashable", "testParsingOptionWithValue"]
+- ["Ps8Hashable", ""]
+- !private ["Ps9Indexable", "Element"]
+- !private ["Ps9Indexable", "Iterator"]
+- !private ["Ps9Indexable", "String"]
+- !private ["Ps9Indexable", "_Element"]
+- !private ["Ps9Indexable", "map"]
+- !private ["Ps13IndexableBase", "Element"]
+- !private ["Ps13IndexableBase", "Iterator"]
+- !private ["Ps13IndexableBase", "String"]
+- !private ["Ps13IndexableBase", "_Element"]
+- !private ["Ps13IndexableBase", "map"]
+- !private ["Vs16IndexingIterator", "Element"]
+- !private ["Ps16IteratorProtocol", "Element"]
+- !private ["Ps25LosslessStringConvertible", "contains"]
+- !private ["Ps25LosslessStringConvertible", "init"]
+- !private ["Ps10MirrorPath", "contains"]
+- !private ["Ps10MirrorPath", "init"]
+- !private ["C9Moderator9Moderator", "add"]
+- ["C9Moderator9Moderator", "deinit"]
+- !private ["C9Moderator9Moderator", "init"]
+- !private ["C9Moderator9Moderator", "parse"]
+- !private ["C9Moderator9Moderator", "remaining"]
+- !private ["C14ModeratorTests15Moderator_Tests", "ArgumentParser"]
+- !private ["C14ModeratorTests15Moderator_Tests", "Bool"]
+- !private ["C14ModeratorTests15Moderator_Tests", "Moderator"]
+- !private ["C14ModeratorTests15Moderator_Tests", "String"]
+- !private ["C14ModeratorTests15Moderator_Tests", "XCTAssertEqual"]
+- !private ["C14ModeratorTests15Moderator_Tests", "XCTAssertNil"]
+- !private ["C14ModeratorTests15Moderator_Tests", "XCTAssertTrue"]
+- !private ["C14ModeratorTests15Moderator_Tests", "XCTFail"]
+- ["C14ModeratorTests15Moderator_Tests", "deinit"]
+- ["C14ModeratorTests15Moderator_Tests", "init"]
+- ["C14ModeratorTests15Moderator_Tests", "testParsingOption"]
+- ["C14ModeratorTests15Moderator_Tests", "testParsingOptionWithMissingValueThrows"]
+- ["C14ModeratorTests15Moderator_Tests", "testParsingOptionWithValue"]
+- ["C9Moderator10MutableBox", "deinit"]
+- !private ["C9Moderator10MutableBox", "value"]
+- !private ["Ps17MutableCollection", "Element"]
+- !private ["Ps17MutableCollection", "Iterator"]
+- !private ["Ps17MutableCollection", "String"]
+- !private ["Ps17MutableCollection", "_Element"]
+- !private ["Ps17MutableCollection", "map"]
+- !private ["Ps16MutableIndexable", "Element"]
+- !private ["Ps16MutableIndexable", "Iterator"]
+- !private ["Ps16MutableIndexable", "String"]
+- !private ["Ps16MutableIndexable", "_Element"]
+- !private ["Ps16MutableIndexable", "map"]
+- !private ["PSo8NSCoding", "contains"]
+- !private ["PSo8NSCoding", "init"]
+- !private ["PSo9NSCopying", "contains"]
+- !private ["PSo9NSCopying", "init"]
+- !private ["PSo16NSMutableCopying", "contains"]
+- !private ["PSo16NSMutableCopying", "init"]
+- !private ["CSo8NSObject", "ArgumentParser"]
+- !private ["CSo8NSObject", "Bool"]
+- !private ["CSo8NSObject", "Moderator"]
+- !private ["CSo8NSObject", "String"]
+- !private ["CSo8NSObject", "XCTAssertEqual"]
+- !private ["CSo8NSObject", "XCTAssertNil"]
+- !private ["CSo8NSObject", "XCTAssertTrue"]
+- !private ["CSo8NSObject", "XCTFail"]
+- !private ["CSo8NSObject", "contains"]
+- ["CSo8NSObject", "init"]
+- ["CSo8NSObject", "testParsingOption"]
+- ["CSo8NSObject", "testParsingOptionWithMissingValueThrows"]
+- ["CSo8NSObject", "testParsingOptionWithValue"]
+- !private ["PSo16NSObjectProtocol", "ArgumentParser"]
+- !private ["PSo16NSObjectProtocol", "Moderator"]
+- !private ["PSo16NSObjectProtocol", "String"]
+- !private ["PSo16NSObjectProtocol", "XCTAssertEqual"]
+- !private ["PSo16NSObjectProtocol", "XCTAssertNil"]
+- !private ["PSo16NSObjectProtocol", "XCTAssertTrue"]
+- !private ["PSo16NSObjectProtocol", "XCTFail"]
+- !private ["PSo16NSObjectProtocol", "contains"]
+- !private ["PSo16NSObjectProtocol", "init"]
+- ["PSo16NSObjectProtocol", "testParsingOption"]
+- ["PSo16NSObjectProtocol", "testParsingOptionWithMissingValueThrows"]
+- ["PSo16NSObjectProtocol", "testParsingOptionWithValue"]
+- ["PSo16NSObjectProtocol", ""]
+- !private ["PSo19NSPasteboardReading", "contains"]
+- !private ["PSo19NSPasteboardReading", "init"]
+- !private ["PSo19NSPasteboardWriting", "contains"]
+- !private ["PSo19NSPasteboardWriting", "init"]
+- !private ["PSo14NSSecureCoding", "contains"]
+- !private ["PSo14NSSecureCoding", "init"]
+- !private ["CSo8NSString", "contains"]
+- !private ["CSo8NSString", "init"]
+- ["Sq", "deinit"]
+- !private ["Ps22RandomAccessCollection", "Element"]
+- !private ["Ps22RandomAccessCollection", "Iterator"]
+- !private ["Ps22RandomAccessCollection", "String"]
+- !private ["Ps22RandomAccessCollection", "_Element"]
+- !private ["Ps22RandomAccessCollection", "map"]
+- !private ["Ps21RandomAccessIndexable", "Element"]
+- !private ["Ps21RandomAccessIndexable", "Iterator"]
+- !private ["Ps21RandomAccessIndexable", "String"]
+- !private ["Ps21RandomAccessIndexable", "_Element"]
+- !private ["Ps21RandomAccessIndexable", "map"]
+- !private ["Ps26RangeReplaceableCollection", "Element"]
+- !private ["Ps26RangeReplaceableCollection", "Iterator"]
+- !private ["Ps26RangeReplaceableCollection", "String"]
+- !private ["Ps26RangeReplaceableCollection", "_Element"]
+- !private ["Ps26RangeReplaceableCollection", "map"]
+- !private ["Ps25RangeReplaceableIndexable", "Element"]
+- !private ["Ps25RangeReplaceableIndexable", "Iterator"]
+- !private ["Ps25RangeReplaceableIndexable", "String"]
+- !private ["Ps25RangeReplaceableIndexable", "_Element"]
+- !private ["Ps25RangeReplaceableIndexable", "map"]
+- ["V10ObjectiveC8Selector", "deinit"]
+- !private ["Ps8Sequence", "Element"]
+- !private ["Ps8Sequence", "Iterator"]
+- !private ["Ps8Sequence", "String"]
+- !private ["Ps8Sequence", "_Element"]
+- !private ["Ps8Sequence", "map"]
+- ["Vs12StaticString", "deinit"]
+- !private ["Vs12StaticString", "init"]
+- !private ["SS", "contains"]
+- ["SS", "deinit"]
+- !private ["SS", "init"]
+- !private ["Ps16TextOutputStream", "contains"]
+- !private ["Ps16TextOutputStream", "init"]
+- !private ["Ps20TextOutputStreamable", "contains"]
+- !private ["Ps20TextOutputStreamable", "init"]
+- ["Su", "deinit"]
+- !private ["CSo6XCTest", "ArgumentParser"]
+- !private ["CSo6XCTest", "Bool"]
+- !private ["CSo6XCTest", "Moderator"]
+- !private ["CSo6XCTest", "String"]
+- !private ["CSo6XCTest", "XCTAssertEqual"]
+- !private ["CSo6XCTest", "XCTAssertNil"]
+- !private ["CSo6XCTest", "XCTAssertTrue"]
+- !private ["CSo6XCTest", "XCTFail"]
+- ["CSo6XCTest", "init"]
+- ["CSo6XCTest", "testParsingOption"]
+- ["CSo6XCTest", "testParsingOptionWithMissingValueThrows"]
+- ["CSo6XCTest", "testParsingOptionWithValue"]
+- !private ["CSo10XCTestCase", "ArgumentParser"]
+- !private ["CSo10XCTestCase", "Bool"]
+- !private ["CSo10XCTestCase", "Moderator"]
+- !private ["CSo10XCTestCase", "String"]
+- !private ["CSo10XCTestCase", "XCTAssertEqual"]
+- !private ["CSo10XCTestCase", "XCTAssertNil"]
+- !private ["CSo10XCTestCase", "XCTAssertTrue"]
+- !private ["CSo10XCTestCase", "XCTFail"]
+- ["CSo10XCTestCase", "deinit"]
+- ["CSo10XCTestCase", "init"]
+- ["CSo10XCTestCase", "testParsingOption"]
+- ["CSo10XCTestCase", "testParsingOptionWithMissingValueThrows"]
+- ["CSo10XCTestCase", "testParsingOptionWithValue"]
+- ["CSo10XCTestCase", ""]
+- !private ["Ps14_ArrayProtocol", "Element"]
+- !private ["Ps14_ArrayProtocol", "Iterator"]
+- !private ["Ps14_ArrayProtocol", "String"]
+- !private ["Ps14_ArrayProtocol", "_Element"]
+- !private ["Ps14_ArrayProtocol", "map"]
+- !private ["Ps24_DestructorSafeContainer", "Element"]
+- !private ["Ps24_DestructorSafeContainer", "Iterator"]
+- !private ["Ps24_DestructorSafeContainer", "String"]
+- !private ["Ps24_DestructorSafeContainer", "_Element"]
+- !private ["Ps24_DestructorSafeContainer", "map"]
+- !private ["Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral", "contains"]
+- !private ["Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral", "init"]
+- !private ["Ps34_ExpressibleByBuiltinStringLiteral", "contains"]
+- !private ["Ps34_ExpressibleByBuiltinStringLiteral", "init"]
+- !private ["Ps39_ExpressibleByBuiltinUTF16StringLiteral", "contains"]
+- !private ["Ps39_ExpressibleByBuiltinUTF16StringLiteral", "init"]
+- !private ["Ps41_ExpressibleByBuiltinUnicodeScalarLiteral", "contains"]
+- !private ["Ps41_ExpressibleByBuiltinUnicodeScalarLiteral", "init"]
+- !private ["Ps35_HasCustomAnyHashableRepresentation", "contains"]
+- !private ["Ps35_HasCustomAnyHashableRepresentation", "init"]
+- !private ["Ps9_Hashable", "ArgumentParser"]
+- !private ["Ps9_Hashable", "Moderator"]
+- !private ["Ps9_Hashable", "String"]
+- !private ["Ps9_Hashable", "XCTAssertEqual"]
+- !private ["Ps9_Hashable", "XCTAssertNil"]
+- !private ["Ps9_Hashable", "XCTAssertTrue"]
+- !private ["Ps9_Hashable", "XCTFail"]
+- !private ["Ps9_Hashable", "contains"]
+- !private ["Ps9_Hashable", "init"]
+- ["Ps9_Hashable", "testParsingOption"]
+- ["Ps9_Hashable", "testParsingOptionWithMissingValueThrows"]
+- ["Ps9_Hashable", "testParsingOptionWithValue"]
+- ["Ps9_Hashable", ""]
+- !private ["Ps21_ObjectiveCBridgeable", "Element"]
+- !private ["Ps21_ObjectiveCBridgeable", "Iterator"]
+- !private ["Ps21_ObjectiveCBridgeable", "String"]
+- !private ["Ps21_ObjectiveCBridgeable", "_Element"]
+- !private ["Ps21_ObjectiveCBridgeable", "contains"]
+- !private ["Ps21_ObjectiveCBridgeable", "init"]
+- !private ["Ps21_ObjectiveCBridgeable", "map"]
+depends-nominal:
+- "Ps9AnyObject"
+- "V9Moderator14ArgumentParser"
+- "Sa"
+- !private "Ps23BidirectionalCollection"
+- !private "Ps22BidirectionalIndexable"
+- "Sb"
+- "Ps7CVarArg"
+- !private "Ps10Collection"
+- !private "Ps10Comparable"
+- "Ps28CustomDebugStringConvertible"
+- !private "Ps29CustomPlaygroundQuickLookable"
+- !private "Ps17CustomReflectable"
+- "Ps23CustomStringConvertible"
+- "Ps9Equatable"
+- "Ps5Error"
+- !private "Ps25ExpressibleByArrayLiteral"
+- !private "Ps43ExpressibleByExtendedGraphemeClusterLiteral"
+- !private "Ps32ExpressibleByStringInterpolation"
+- !private "Ps26ExpressibleByStringLiteral"
+- !private "Ps33ExpressibleByUnicodeScalarLiteral"
+- "Ps8Hashable"
+- !private "Ps9Indexable"
+- !private "Ps13IndexableBase"
+- !private "Vs16IndexingIterator"
+- !private "Ps16IteratorProtocol"
+- !private "Ps25LosslessStringConvertible"
+- !private "Ps10MirrorPath"
+- "C9Moderator9Moderator"
+- "C14ModeratorTests15Moderator_Tests"
+- "C9Moderator10MutableBox"
+- !private "Ps17MutableCollection"
+- !private "Ps16MutableIndexable"
+- !private "PSo8NSCoding"
+- !private "PSo9NSCopying"
+- !private "PSo16NSMutableCopying"
+- "CSo8NSObject"
+- "PSo16NSObjectProtocol"
+- !private "PSo19NSPasteboardReading"
+- !private "PSo19NSPasteboardWriting"
+- !private "PSo14NSSecureCoding"
+- !private "CSo8NSString"
+- "Sq"
+- !private "Ps22RandomAccessCollection"
+- !private "Ps21RandomAccessIndexable"
+- !private "Ps26RangeReplaceableCollection"
+- !private "Ps25RangeReplaceableIndexable"
+- "V10ObjectiveC8Selector"
+- !private "Ps8Sequence"
+- "Vs12StaticString"
+- "SS"
+- !private "Ps16TextOutputStream"
+- !private "Ps20TextOutputStreamable"
+- "Su"
+- "CSo6XCTest"
+- "CSo10XCTestCase"
+- !private "Ps14_ArrayProtocol"
+- !private "Ps24_DestructorSafeContainer"
+- !private "Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral"
+- !private "Ps34_ExpressibleByBuiltinStringLiteral"
+- !private "Ps39_ExpressibleByBuiltinUTF16StringLiteral"
+- !private "Ps41_ExpressibleByBuiltinUnicodeScalarLiteral"
+- !private "Ps35_HasCustomAnyHashableRepresentation"
+- "Ps9_Hashable"
+- !private "Ps21_ObjectiveCBridgeable"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XCTest.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/IOKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCUIRemote.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCUIKeyboardKeys.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCUIElementQuery.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCUICoordinate.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCUIDevice.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCUIElementTypeQueryProvider.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCUIElementTypes.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCUIElementAttributes.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCUIElement.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCUIApplication.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestSuiteRun.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestSuite.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestProbe.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestObservation.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestObservationCenter.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestObserver.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestLog.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestExpectation.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestRun.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestCaseRun.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestCase+AsynchronousTesting.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestCase.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestAssertionsImpl.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestAssertions.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCAbstractTest.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestErrors.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestDefines.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTest.h"
+- "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/AppKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreData.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/XPC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx/x86_64/CoreImage.swiftmodule"
+- "/Users/karemorstol/Programming/Moderator/Moderator.swift/.build/debug/Moderator.swiftmodule"
+interface-hash: "8d48594f36ab7d6ab0f29d2f1c0f36aa"
