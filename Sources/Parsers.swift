@@ -41,7 +41,6 @@ public struct ArgumentError: Error, CustomStringConvertible {
 }
 
 extension ArgumentParser {
-
 	static func isOption (index: Array<String>.Index, args: [String]) -> Bool {
 		if let i = args.index(of: "--"), i < index { return false }
 		let argument = args[index].characters
@@ -85,9 +84,7 @@ extension ArgumentParser {
 			return try f(result.value, firstchange, result.remainder)
 		}
 	}
-}
 
-extension ArgumentParser {
 	public static func optionWithValue (_ names: String..., description: String? = nil) -> ArgumentParser<String> {
 		return ArgumentParser.option(names: names, description: description)
 			.next { (optionfound, firstchange, args) in
@@ -100,6 +97,14 @@ extension ArgumentParser {
 				}
 				let result = args.remove(at: firstchange)
 				return (result, args)
+		}
+	}
+
+	public static func singleArgument (name: String, description: String? = nil) -> ArgumentParser<String> {
+		return ArgumentParser<String>(usage: description.map { (name, $0) }) { args in
+			guard let arg = args.first else { throw ArgumentError(errormessage: "Expected " + name) }
+			guard !isOption(index: 0, args: args) else { throw ArgumentError(errormessage: "Expected \(name), got option '\(arg)'") }
+			return (arg, Array(args.dropFirst()))
 		}
 	}
 }

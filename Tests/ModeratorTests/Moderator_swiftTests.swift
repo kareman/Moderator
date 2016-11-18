@@ -1,6 +1,5 @@
 //
-// Moderator_swiftTests.swift
-// Moderator.swiftTests
+// Moderator_Tests
 //
 // Created by Kåre Morstøl on 03.11.15.
 // Copyright © 2015 NotTooBad Software. All rights reserved.
@@ -106,6 +105,39 @@ class Moderator_Tests: XCTestCase {
 			XCTFail("Should have thrown error about incorrect value")
 		} catch {
 			XCTAssertNil(parsed.value)
+		}
+	}
+
+	func testSingleArgument () {
+		let m = Moderator()
+		let arguments = ["-a", "argument", "--ignored", "--charlie"]
+		let parsedlong = m.add(ArgumentParser<Bool>.option("c", "charlie", description: "dgsf"))
+		let parsedshort = m.add(ArgumentParser<Bool>.option("a", "alpha"))
+		let single = m.add(ArgumentParser<String>.singleArgument(name: "argumentname"))
+
+		do {
+			try m.parse(arguments)
+			XCTAssertEqual(parsedshort.value, true)
+			XCTAssertEqual(parsedlong.value, true)
+			XCTAssertEqual(single.value, "argument")
+			XCTAssertEqual(m.remaining, ["--ignored"])
+		} catch {
+			XCTFail(String(describing: error))
+		}
+	}
+
+	func testThrowsOnMissingSingleArgument() {
+		let m = Moderator()
+		_ = m.add(ArgumentParser<Bool>.option("c", "charlie", description: "dgsf"))
+		_ = m.add(ArgumentParser<Bool>.option("a", "alpha"))
+		let single = m.add(ArgumentParser<String>.singleArgument(name: "argumentname"))
+
+		do {
+			try m.parse(["-a", "-b"])
+			XCTFail("Should have thrown error")
+		} catch {
+			XCTAssertNil(single.value)
+			XCTAssert(String(describing: error).contains("-b"))
 		}
 	}
 
