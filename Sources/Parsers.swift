@@ -41,6 +41,16 @@ public struct ArgumentError: Error, CustomStringConvertible {
 }
 
 extension ArgumentParser {
+
+	static func isOption (index: Array<String>.Index, args: [String]) -> Bool {
+		if let i = args.index(of: "--"), i < index { return false }
+		let argument = args[index].characters
+		if argument.first == "-", let second = argument.dropFirst().first {
+			if !("0"..."9" ~= second) { return true }
+		}
+		return false
+	}
+
 	static func option(names: [String], description: String? = nil) -> ArgumentParser<Bool> {
 		let names = names.map { $0.characters.count==1 ? "-" + $0 : "--" + $0 }
 		let usage = description.map { (names.joined(separator: ","), $0) }
@@ -85,9 +95,11 @@ extension ArgumentParser {
 				guard optionfound, let firstchange = firstchange else {
 					throw ArgumentError(errormessage: "Missing value after argument '\(names.joined(separator: "|"))'.")
 				}
+				if isOption(index: firstchange, args: args) {
+					throw ArgumentError(errormessage: "Excpected value, got option '\(args[firstchange])'")
+				}
 				let result = args.remove(at: firstchange)
 				return (result, args)
 		}
 	}
 }
-

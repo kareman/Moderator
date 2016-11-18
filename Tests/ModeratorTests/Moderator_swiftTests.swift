@@ -95,66 +95,66 @@ class Moderator_Tests: XCTestCase {
 			XCTFail(String(error))
 		}
 	}
-
-	func testParsingStringArgumentWithFlagValueThrows () {
-		let parser = ArgumentParser()
+*/
+	func testParsingStringArgumentWithOptionValueThrows () {
+		let m = Moderator()
 		let arguments = ["--verbose", "-a", "-b"]
-		let parsed = parser.add(StringArgument("a", "alpha"))
+		let parsed = m.add(ArgumentParser<Bool>.optionWithValue("a", "alpha"))
 
 		do {
-			try parser.parse(arguments)
+			try m.parse(arguments)
 			XCTFail("Should have thrown error about incorrect value")
 		} catch {
 			XCTAssertNil(parsed.value)
-			XCTAssertTrue(String(error).containsString("Illegal value"))
 		}
 	}
 
 	func testStrictParsingThrowsErrorOnUnknownArguments () {
-		let parser = ArgumentParser()
+		let m = Moderator()
 		let arguments = ["--alpha", "-c"]
-		parser.add(BoolArgument("a", "alpha", helptext: "The leader."))
-		parser.add(BoolArgument("b", "bravo", helptext: "Well done!"))
+		_ = m.add(ArgumentParser<Bool>.option("a", "alpha", description: "The leader."))
+		_ = m.add(ArgumentParser<Bool>.option("b", "bravo", description: "Well done!"))
 
 		do {
-			try parser.parse(arguments, strict: true)
+			try m.parse(arguments, strict: true)
 			XCTFail("Should have thrown error about incorrect value")
 		} catch {
-			XCTAssertTrue(String(error).containsString("Unknown arguments"))
-			XCTAssertTrue(String(error).containsString("The leader."), "Error should have contained usage text.")
-			XCTAssertTrue(String(error).containsString("Well done!"), "Error should have contained usage text.")
+			XCTAssertTrue(String(describing: error).contains("Unknown arguments"))
+			XCTAssertTrue(String(describing: error).contains("The leader."), "Error should have contained usage text.")
+			XCTAssertTrue(String(describing: error).contains("Well done!"), "Error should have contained usage text.")
 		}
 	}
 
 	func testStrictParsing () {
-		let parser = ArgumentParser()
+		let m = Moderator()
 		let arguments = ["--alpha", "-b"]
-		parser.add(BoolArgument("a", "alpha"))
-		parser.add(BoolArgument("b", "bravo"))
+		_ = m.add(ArgumentParser<Bool>.option("a", "alpha", description: "The leader."))
+		_ = m.add(ArgumentParser<Bool>.option("b", "bravo", description: "Well done!"))
 
 		do {
-			try parser.parse(arguments, strict: true)
+			try m.parse(arguments, strict: true)
 		} catch {
-			XCTFail("Should not throw error " + String(error))
+			XCTFail("Should not throw error " + String(describing: error))
 		}
 	}
 
 	func testUsageText () {
-		let parser = ArgumentParser()
-		parser.add(BoolArgument("a", "alpha", helptext: "The leader."))
-		parser.add(StringArgument("b", "bravo", helptext: "Well done!"))
-		parser.add(BoolArgument("x", "hasnohelptext"))
+		let m = Moderator()
+		_ = m.add(ArgumentParser<Bool>.option("a", "alpha", description: "The leader."))
+		_ = m.add(ArgumentParser<Bool>.option("b", "bravo", description: "Well done!"))
+		_ = m.add(ArgumentParser<Bool>.option("x", "hasnohelptext"))
 
-		let usagetext = parser.usagetext
-		XCTAssert(usagetext.containsString("alpha"))
-		XCTAssert(usagetext.containsString("The leader"))
-		XCTAssert(usagetext.containsString("bravo"))
-		XCTAssert(usagetext.containsString("Well done"))
+		let usagetext = m.usagetext
+		print(usagetext)
+		XCTAssert(usagetext.contains("alpha"))
+		XCTAssert(usagetext.contains("The leader"))
+		XCTAssert(usagetext.contains("bravo"))
+		XCTAssert(usagetext.contains("Well done"))
 
-		XCTAssertFalse(parser.usagetext.containsString("hasnohelptext"))
+		XCTAssertFalse(m.usagetext.contains("hasnohelptext"))
 	}
 }
-
+/*
 class AnyArgument_Tests: XCTestCase {
 
 	func testLastArgumentParser () {
@@ -189,4 +189,3 @@ class AnyArgument_Tests: XCTestCase {
 		}
 	}
 */
-}
