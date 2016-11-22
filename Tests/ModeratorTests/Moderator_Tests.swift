@@ -14,7 +14,7 @@ extension Array {
 	}
 }
 
-class Moderator_Tests: XCTestCase {
+public class Moderator_Tests: XCTestCase {
 /*
 	func testPreprocessorHandlesEqualSign () {
 		let arguments = ["lskdfj", "--verbose", "--this=that=", "-b"]
@@ -197,4 +197,22 @@ class Moderator_Tests: XCTestCase {
 
 		XCTAssertFalse(m.usagetext.contains("hasnohelptext"))
 	}
+}
+
+extension Moderator_Tests {
+	public static var allTests = [
+		//("testPreprocessorHandlesEqualSign", testPreprocessorHandlesEqualSign),
+		//("testPreprocessorHandlesJoinedFlags", testPreprocessorHandlesJoinedFlags),
+		("testParsingOption", testParsingOption),
+		("testParsingOptionWithValue", testParsingOptionWithValue),
+		("testParsingOptionWithMissingValueThrows", testParsingOptionWithMissingValueThrows),
+		("testParsingMissingOptionWithValue", testParsingMissingOptionWithValue),
+		//("testParsingStringArgumentWithEqualSign", testParsingStringArgumentWithEqualSign),
+		("testParsingStringArgumentWithOptionValueThrows", testParsingStringArgumentWithOptionValueThrows),
+		("testSingleArgument", testSingleArgument),
+		("testThrowsOnMissingSingleArgument", testThrowsOnMissingSingleArgument),
+		("testStrictParsingThrowsErrorOnUnknownArguments", testStrictParsingThrowsErrorOnUnknownArguments),
+		("testStrictParsing", testStrictParsing),
+		("testUsageText", testUsageText),
+		]
 }
