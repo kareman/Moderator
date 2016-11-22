@@ -1,4 +1,3 @@
-//: Playground - noun: a place where people can play
 
 public final class Moderator {
 	fileprivate var parsers: [ArgumentParser<Void>] = []
@@ -6,8 +5,8 @@ public final class Moderator {
 
 	public init () { }
 
-	public func add <Value> (_ p: ArgumentParser<Value>) -> MutableBox<Value> {
-		let b = MutableBox<Value>()
+	public func add <Value> (_ p: ArgumentParser<Value>) -> FutureValue<Value> {
+		let b = FutureValue<Value>()
 		parsers.append(p.map {b.value = $0})
 		return b
 	}
@@ -37,32 +36,37 @@ public final class Moderator {
 	}
 }
 
-// https://github.com/robrix/Box/blob/master/Box/MutableBox.swift
-
+//  https://github.com/robrix/Box/blob/master/Box/MutableBox.swift
 //  Copyright (c) 2014 Rob Rix. All rights reserved.
 
-/// Wraps a type `T` in a mutable reference type.
-///
-/// While this, like `Box<T>` could be used to work around limitations of value types, it is much more useful for sharing a single mutable value such that mutations are shared.
-///
-/// As with all mutable state, this should be used carefully, for example as an optimization, rather than a default design choice. Most of the time, `Box<T>` will suffice where any `BoxType` is needed.
-public final class MutableBox<T>: CustomStringConvertible {
-	/// Initializes a `MutableBox` with the given value.
+/// A value that will be set sometime in the future.
+public final class FutureValue<T>: CustomStringConvertible {
+	/// Initializes a `FutureValue` with the given value.
 	public init(_ value: T) {
 		self.value = value
 	}
 
-	/// Initializes a `MutableBox` with the given value.
-	public init () {
+	/// Initializes an empty `FutureValue`.
+	public init() {
 		self.value = nil
 	}
 
-	/// The (mutable) value wrapped by the receiver.
-	public var value: T!
+	private var _value: T!
 
-	/// Constructs a new MutableBox by transforming `value` by `f`.
-	public func map<U>(_ f: (T) -> U) -> MutableBox<U> {
-		return MutableBox<U>(f(value))
+	/// The (mutable) value.
+	public var value: T! {
+		get {
+			precondition(_value != nil, "Remember to call ArgumentParser.parse() before accessing value of arguments.")
+			return _value
+		}
+		set {
+			_value = newValue
+		}
+	}
+
+	/// Constructs a new FutureValue by transforming `value` by `f`.
+	public func map<U>(_ f: (T) -> U) -> FutureValue<U> {
+		return FutureValue<U>(f(value))
 	}
 
 	// MARK: Printable

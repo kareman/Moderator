@@ -70,13 +70,12 @@ class Moderator_Tests: XCTestCase {
 	func testParsingOptionWithMissingValueThrows () {
 		let m = Moderator()
 		let arguments = ["--verbose", "--alpha"]
-		let parsed = m.add(ArgumentParser<String>.optionWithValue("a", "alpha", default: ""))
+		_ = m.add(ArgumentParser<String>.optionWithValue("a", "alpha", default: ""))
 
 		do {
 			try m.parse(arguments)
 			XCTFail("Should have thrown error about missing value")
 		} catch {
-			XCTAssertNil(parsed.value)
 			XCTAssertTrue(String(describing: error).contains("--alpha"))
 		}
 	}
@@ -111,13 +110,13 @@ class Moderator_Tests: XCTestCase {
 	func testParsingStringArgumentWithOptionValueThrows () {
 		let m = Moderator()
 		let arguments = ["--verbose", "-a", "-b"]
-		let parsed = m.add(ArgumentParser<Bool>.optionWithValue("a", "alpha", default: ""))
+		_ = m.add(ArgumentParser<Bool>.optionWithValue("a", "alpha", default: ""))
 
 		do {
 			try m.parse(arguments)
 			XCTFail("Should have thrown error about incorrect value")
 		} catch {
-			XCTAssertNil(parsed.value)
+			XCTAssert(String(describing: error).contains("-a"))
 		}
 	}
 
@@ -143,13 +142,12 @@ class Moderator_Tests: XCTestCase {
 		let m = Moderator()
 		_ = m.add(ArgumentParser<Bool>.option("c", "charlie", description: "dgsf"))
 		_ = m.add(ArgumentParser<Bool>.option("a", "alpha"))
-		let single = m.add(ArgumentParser<String>.singleArgument(name: "argumentname"))
+		_ = m.add(ArgumentParser<String>.singleArgument(name: "argumentname"))
 
 		do {
 			try m.parse(["-a", "-b"])
 			XCTFail("Should have thrown error")
 		} catch {
-			XCTAssertNil(single.value)
 			XCTAssert(String(describing: error).contains("-b"))
 		}
 	}
