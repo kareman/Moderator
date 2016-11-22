@@ -7,6 +7,7 @@
 
 import XCTest
 import Moderator
+import Foundation
 
 extension Array {
 	var toStrings: [String] {
