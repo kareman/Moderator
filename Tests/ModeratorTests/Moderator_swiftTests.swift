@@ -52,9 +52,9 @@ class Moderator_Tests: XCTestCase {
 	func testParsingOptionWithValue () {
 		let m = Moderator()
 		let arguments = ["--charlie", "sheen", "ignored", "-a", "alphasvalue"]
-		let parsedshort = m.add(ArgumentParser<String>.optionWithValue("a", "alpha"))
+		let parsedshort = m.add(ArgumentParser<String>.optionWithValue("a", "alpha", default: ""))
 		let unparsed = m.add(ArgumentParser<Bool>.option("b", "bravo"))
-		let parsedlong = m.add(ArgumentParser<String>.optionWithValue("c", "charlie"))
+		let parsedlong = m.add(ArgumentParser<String>.optionWithValue("c", "charlie", default: ""))
 
 		do {
 			try m.parse(arguments)
@@ -70,7 +70,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingOptionWithMissingValueThrows () {
 		let m = Moderator()
 		let arguments = ["--verbose", "--alpha"]
-		let parsed = m.add(ArgumentParser<String>.optionWithValue("a", "alpha"))
+		let parsed = m.add(ArgumentParser<String>.optionWithValue("a", "alpha", default: ""))
 
 		do {
 			try m.parse(arguments)
@@ -78,6 +78,19 @@ class Moderator_Tests: XCTestCase {
 		} catch {
 			XCTAssertNil(parsed.value)
 			XCTAssertTrue(String(describing: error).contains("--alpha"))
+		}
+	}
+
+	func testParsingMissingOptionWithValue () {
+		let m = Moderator()
+		let arguments = ["arg1", "arg2", "arg3"]
+		let parsed = m.add(ArgumentParser<String>.optionWithValue("a", "alpha", default: "default"))
+		
+		do {
+			try m.parse(arguments)
+			XCTAssertEqual(parsed.value, "default")
+		} catch {
+			XCTFail("Error should not have been thrown: \(error)")
 		}
 	}
 
@@ -98,7 +111,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingStringArgumentWithOptionValueThrows () {
 		let m = Moderator()
 		let arguments = ["--verbose", "-a", "-b"]
-		let parsed = m.add(ArgumentParser<Bool>.optionWithValue("a", "alpha"))
+		let parsed = m.add(ArgumentParser<Bool>.optionWithValue("a", "alpha", default: ""))
 
 		do {
 			try m.parse(arguments)

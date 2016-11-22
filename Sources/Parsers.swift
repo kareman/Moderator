@@ -77,26 +77,22 @@ extension Array where Element: Equatable {
 }
 
 extension ArgumentParser {
-	public func next <Outvalue> (_ f: @escaping (String, Array<String>.Index?, [String]) throws -> (value: Outvalue, remainder: [String]) ) -> ArgumentParser<Outvalue> {
-		return ArgumentParser<Outvalue>(usage: self.usage) { args in
-			let result = try self.parse(args)
-			let firstchange = result.remainder.indexOfFirstDifference(args)
-			return try f(args[firstchange ?? args.endIndex-1], firstchange, result.remainder)
-		}
-	}
+	public static func optionWithValue (_ names: String..., default: String, description: String? = nil)
+		-> ArgumentParser<String> {
 
-	public static func optionWithValue (_ names: String..., description: String? = nil) -> ArgumentParser<String> {
-		return ArgumentParser.option(names: names, description: description)
-			.next { (option, firstchange, args) in
-				var args = args
-				guard let firstchange = firstchange else {
-					throw ArgumentError(errormessage: "Expected value for argument '\(option)'.")
-				}
-				guard !isOption(index: firstchange, args: args) else {
-					throw ArgumentError(errormessage: "Expected value for '\(option)', got option '\(args[firstchange])'.")
-				}
-				let result = args.remove(at: firstchange)
-				return (result, args)
+		let option = ArgumentParser.option(names: names, description: description)
+		return ArgumentParser<String>(usage: option.usage) { args in
+			var result = try option.parse(args)
+			guard result.value else { return (`default`, args) }
+			guard let firstchange = result.remainder.indexOfFirstDifference(args) else {
+				throw ArgumentError(errormessage: "Expected value for argument '\(args.last!)'.")
+			}
+			guard !isOption(index: firstchange, args: result.remainder) else {
+				throw ArgumentError(errormessage:
+					"Expected value for '\(args[firstchange])', got option '\(result.remainder[firstchange])'.")
+			}
+			let value = result.remainder.remove(at: firstchange)
+			return (value, result.remainder)
 		}
 	}
 
