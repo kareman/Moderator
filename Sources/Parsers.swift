@@ -113,15 +113,44 @@ extension Argument {
 			}
 	}
 
-	public static func singleArgument (name: String, description: String? = nil) -> Argument<String> {
-		return Argument<String>(usage: description.map { (name, $0) }) { args in
-			guard let arg = args.first else {
-				throw ArgumentError(errormessage: "Expected " + name)
+	public static func singleArgument (name: String, description: String? = nil) -> Argument<String?> {
+		return Argument<String?>(usage: description.map { ("<"+name+">", $0) }) { args in
+			if let arg = args.first, !isOption(index: 0, args: args) {
+				return (arg, Array(args.dropFirst()))
+			} else {
+				return (nil, args)
 			}
-			guard !isOption(index: 0, args: args) else {
-				throw ArgumentError(errormessage: "Expected \(name), got option '\(arg)'")
+		}
+	}
+}
+
+
+public protocol OptionalType {
+	associatedtype Wrapped
+	func toOptional() -> Wrapped?
+}
+
+extension Optional: OptionalType {
+	public func toOptional() -> Optional {
+		return self
+	}
+}
+
+extension Argument where Value: OptionalType {
+	public func `default`(_ defaultvalue: Value.Wrapped) -> Argument<Value.Wrapped> {
+		return Argument<Value.Wrapped>(usage: self.usage) { args in
+			let result = try self.parse(args)
+			return (result.value.toOptional() ?? defaultvalue, result.remainder)
+		}
+	}
+
+	public func required() -> Argument<Value.Wrapped> {
+		return Argument<Value.Wrapped>(usage: self.usage) { args in
+			let result = try self.parse(args)
+			guard let value = result.value.toOptional() else {
+				throw ArgumentError(errormessage: "Expected value, got " + (result.remainder.first ?? "nothing"))
 			}
-			return (arg, Array(args.dropFirst()))
+			return (value, result.remainder)
 		}
 	}
 }

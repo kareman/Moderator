@@ -124,9 +124,9 @@ public class Moderator_Tests: XCTestCase {
 	func testSingleArgument () {
 		let m = Moderator()
 		let arguments = ["-a", "argument", "--ignored", "--charlie"]
-		let parsedlong = m.add(Argument<Bool>.option("c", "charlie", description: "dgsf"))
+		let parsedlong = m.add(Argument<Bool>.option("c", "charlie"))
 		let parsedshort = m.add(Argument<Bool>.option("a", "alpha"))
-		let single = m.add(Argument<String>.singleArgument(name: "argumentname"))
+		let single = m.add(Argument<String?>.singleArgument(name: "argumentname"))
 
 		do {
 			try m.parse(arguments)
@@ -139,20 +139,49 @@ public class Moderator_Tests: XCTestCase {
 		}
 	}
 
-	func testThrowsOnMissingSingleArgument() {
+	func testMissingSingleArgument() {
 		let m = Moderator()
-		_ = m.add(Argument<Bool>.option("c", "charlie", description: "dgsf"))
+		_ = m.add(Argument<Bool>.option("c", "charlie"))
 		_ = m.add(Argument<Bool>.option("a", "alpha"))
-		_ = m.add(Argument<String>.singleArgument(name: "argumentname"))
+		let single = m.add(Argument<String?>.singleArgument(name: "argumentname"))
+
+		do {
+			try m.parse(["-a", "-b"])
+			XCTAssertNil(single.value)
+		} catch {
+			XCTFail("Threw error")
+		}
+	}
+
+	func testDefaultValue() {
+		let m = Moderator()
+		_ = m.add(Argument<Bool>.option("c", "charlie"))
+		_ = m.add(Argument<Bool>.option("a", "alpha"))
+		let defaultsingle = m.add(Argument<String?>.singleArgument(name: "argumentname").default("defaultvalue"))
+
+		do {
+			try m.parse(["-a", "-b"])
+			XCTAssertEqual(defaultsingle.value, "defaultvalue")
+		} catch {
+			XCTFail("Threw error")
+		}
+
+	}
+
+	func testMissingRequiredValueThrows() {
+		let m = Moderator()
+		_ = m.add(Argument<Bool>.option("c", "charlie"))
+		_ = m.add(Argument<Bool>.option("a", "alpha"))
+		_ = m.add(Argument<String?>.singleArgument(name: "argumentname").required())
 
 		do {
 			try m.parse(["-a", "-b"])
 			XCTFail("Should have thrown error")
 		} catch {
-			XCTAssert(String(describing: error).contains("-b"))
+			//XCTAssertTrue(String(describing: error).contains("argumentname"))
 		}
 	}
-
+	
 	func testStrictParsingThrowsErrorOnUnknownArguments () {
 		let m = Moderator()
 		let arguments = ["--alpha", "-c"]
@@ -211,7 +240,9 @@ extension Moderator_Tests {
 		//("testParsingStringArgumentWithEqualSign", testParsingStringArgumentWithEqualSign),
 		("testParsingStringArgumentWithOptionValueThrows", testParsingStringArgumentWithOptionValueThrows),
 		("testSingleArgument", testSingleArgument),
-		("testThrowsOnMissingSingleArgument", testThrowsOnMissingSingleArgument),
+		("testMissingSingleArgument", testMissingSingleArgument),
+		("testDefaultValue", testDefaultValue),
+		("testMissingRequiredValueThrows", testMissingRequiredValueThrows),
 		("testStrictParsingThrowsErrorOnUnknownArguments", testStrictParsingThrowsErrorOnUnknownArguments),
 		("testStrictParsing", testStrictParsing),
 		("testUsageText", testUsageText),

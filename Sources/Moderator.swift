@@ -55,16 +55,16 @@ public final class FutureValue<T>: CustomStringConvertible {
 
 	/// Initializes an empty `FutureValue`.
 	public init() {
-		self.value = nil
+		self._value = nil
 	}
 
 	private var _value: T!
 
 	/// The (mutable) value.
-	public var value: T! {
+	public var value: T {
 		get {
 			precondition(_value != nil, "Remember to call Argument.parse() before accessing value of arguments.")
-			return _value
+			return _value!
 		}
 		set {
 			_value = newValue
