@@ -85,7 +85,7 @@ class Moderator_Tests: XCTestCase {
 		let m = Moderator()
 		let arguments = ["arg1", "arg2", "arg3"]
 		let parsed = m.add(ArgumentParser<String>.optionWithValue("a", "alpha", default: "default"))
-		
+
 		do {
 			try m.parse(arguments)
 			XCTAssertEqual(parsed.value, "default")
@@ -186,7 +186,7 @@ class Moderator_Tests: XCTestCase {
 	func testUsageText () {
 		let m = Moderator()
 		_ = m.add(ArgumentParser<Bool>.option("a", "alpha", description: "The leader."))
-		_ = m.add(ArgumentParser<Bool>.option("b", "bravo", description: "Well done!"))
+		_ = m.add(ArgumentParser<Bool>.optionWithValue("b", "bravo", default: "default value", description: "Well done!"))
 		_ = m.add(ArgumentParser<Bool>.option("x", "hasnohelptext"))
 
 		let usagetext = m.usagetext
@@ -195,10 +195,12 @@ class Moderator_Tests: XCTestCase {
 		XCTAssert(usagetext.contains("The leader"))
 		XCTAssert(usagetext.contains("bravo"))
 		XCTAssert(usagetext.contains("Well done"))
+		XCTAssert(usagetext.contains("default value"))
 
 		XCTAssertFalse(m.usagetext.contains("hasnohelptext"))
 	}
 }
+
 /*
 class AnyArgument_Tests: XCTestCase {
 

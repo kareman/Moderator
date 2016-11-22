@@ -77,23 +77,28 @@ extension Array where Element: Equatable {
 }
 
 extension ArgumentParser {
-	public static func optionWithValue (_ names: String..., default: String, description: String? = nil)
+	public static func optionWithValue
+		(_ names: String..., name valuename: String? = nil, default: String, description: String? = nil)
 		-> ArgumentParser<String> {
 
-		let option = ArgumentParser.option(names: names, description: description)
-		return ArgumentParser<String>(usage: option.usage) { args in
-			var result = try option.parse(args)
-			guard result.value else { return (`default`, args) }
-			guard let firstchange = result.remainder.indexOfFirstDifference(args) else {
-				throw ArgumentError(errormessage: "Expected value for argument '\(args.last!)'.")
+			let option = ArgumentParser.option(names: names, description: description)
+			let usage = option.usage.map { usage in
+				return (usage.title + " <\(valuename ?? "arg")>", usage.description + " [default: \(`default`)]")
 			}
-			guard !isOption(index: firstchange, args: result.remainder) else {
-				throw ArgumentError(errormessage:
-					"Expected value for '\(args[firstchange])', got option '\(result.remainder[firstchange])'.")
+
+			return ArgumentParser<String>(usage: usage) { args in
+				var optionresult = try option.parse(args)
+				guard optionresult.value else { return (`default`, args) }
+				guard let firstchange = optionresult.remainder.indexOfFirstDifference(args) else {
+					throw ArgumentError(errormessage: "Expected value for argument '\(args.last!)'.")
+				}
+				guard !isOption(index: firstchange, args: optionresult.remainder) else {
+					throw ArgumentError(errormessage:
+						"Expected value for '\(args[firstchange])', got option '\(optionresult.remainder[firstchange])'.")
+				}
+				let value = optionresult.remainder.remove(at: firstchange)
+				return (value, optionresult.remainder)
 			}
-			let value = result.remainder.remove(at: firstchange)
-			return (value, result.remainder)
-		}
 	}
 
 	public static func singleArgument (name: String, description: String? = nil) -> ArgumentParser<String> {
