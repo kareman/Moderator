@@ -1,5 +1,0 @@
-version: "Apple Swift version 3.0.1 (swiftlang-800.0.58.6 clang-800.0.42.1)"
-options: "0b40b0805d79377cef80d0337017fde9"
-build_time: [532716285, 835797000]
-inputs:
-  "/Users/karemorstol/Programming/Moderator/Moderator.swift/Tests/ModeratorTests/Moderator_swiftTests.swift": [532716058, 0]
