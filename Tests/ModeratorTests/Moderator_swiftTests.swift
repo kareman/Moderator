@@ -77,7 +77,7 @@ class Moderator_Tests: XCTestCase {
 			XCTFail("Should have thrown error about missing value")
 		} catch {
 			XCTAssertNil(parsed.value)
-			XCTAssertTrue(String(describing: error).contains("Missing value"))
+			XCTAssertTrue(String(describing: error).contains("--alpha"))
 		}
 	}
 

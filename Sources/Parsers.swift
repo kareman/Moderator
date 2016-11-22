@@ -55,7 +55,7 @@ extension ArgumentParser {
 		let usage = description.map { (names.joined(separator: ","), $0) }
 		return ArgumentParser<Bool>(usage: usage) { args in
 			var args = args
-			guard let index = args.index(where: names.contains) else { return (false, args) }
+			guard let index = args.index(where: names.contains), isOption(index: index, args: args) else { return (false, args) }
 			args.remove(at: index)
 			return (true, args)
 		}
@@ -77,23 +77,23 @@ extension Array where Element: Equatable {
 }
 
 extension ArgumentParser {
-	public func next <Outvalue> (_ f: @escaping (Value, Array<String>.Index?, [String]) throws -> (value: Outvalue, remainder: [String]) ) -> ArgumentParser<Outvalue> {
+	public func next <Outvalue> (_ f: @escaping (String, Array<String>.Index?, [String]) throws -> (value: Outvalue, remainder: [String]) ) -> ArgumentParser<Outvalue> {
 		return ArgumentParser<Outvalue>(usage: self.usage) { args in
 			let result = try self.parse(args)
 			let firstchange = result.remainder.indexOfFirstDifference(args)
-			return try f(result.value, firstchange, result.remainder)
+			return try f(args[firstchange ?? args.endIndex-1], firstchange, result.remainder)
 		}
 	}
 
 	public static func optionWithValue (_ names: String..., description: String? = nil) -> ArgumentParser<String> {
 		return ArgumentParser.option(names: names, description: description)
-			.next { (optionfound, firstchange, args) in
+			.next { (option, firstchange, args) in
 				var args = args
-				guard optionfound, let firstchange = firstchange else {
-					throw ArgumentError(errormessage: "Missing value after argument '\(names.joined(separator: "|"))'.")
+				guard let firstchange = firstchange else {
+					throw ArgumentError(errormessage: "Expected value for argument '\(option)'.")
 				}
-				if isOption(index: firstchange, args: args) {
-					throw ArgumentError(errormessage: "Excpected value, got option '\(args[firstchange])'")
+				guard !isOption(index: firstchange, args: args) else {
+					throw ArgumentError(errormessage: "Expected value for '\(option)', got option '\(args[firstchange])'.")
 				}
 				let result = args.remove(at: firstchange)
 				return (result, args)
