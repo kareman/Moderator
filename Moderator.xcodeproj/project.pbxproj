@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		OBJ_22 /* Moderator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Moderator.swift */; };
 		OBJ_23 /* Parsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Parsers.swift */; };
-		OBJ_30 /* Moderator_swiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Moderator_swiftTests.swift */; };
+		OBJ_30 /* Moderator_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Moderator_Tests.swift */; };
 		OBJ_32 /* Moderator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Moderator.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,7 +25,7 @@
 
 /* Begin PBXFileReference section */
 		OBJ_10 /* Parsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parsers.swift; sourceTree = "<group>"; };
-		OBJ_13 /* Moderator_swiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Moderator_swiftTests.swift; sourceTree = "<group>"; };
+		OBJ_13 /* Moderator_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Moderator_Tests.swift; sourceTree = "<group>"; };
 		OBJ_15 /* Moderator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Moderator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_16 /* ModeratorTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = ModeratorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 		OBJ_12 /* ModeratorTests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_13 /* Moderator_swiftTests.swift */,
+				OBJ_13 /* Moderator_Tests.swift */,
 			);
 			name = ModeratorTests;
 			path = Tests/ModeratorTests;
@@ -77,7 +77,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -85,7 +85,6 @@
 				OBJ_11 /* Tests */,
 				OBJ_14 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -157,7 +156,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_14 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -182,7 +181,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_30 /* Moderator_swiftTests.swift in Sources */,
+				OBJ_30 /* Moderator_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,3 +1,9 @@
+//
+//  Moderator.swift
+//
+//  Created by Kåre Morstøl.
+//  Copyright (c) 2016 NotTooBad Software. All rights reserved.
+//
 
 public final class Moderator {
 	fileprivate var parsers: [ArgumentParser<Void>] = []
@@ -30,13 +36,14 @@ public final class Moderator {
 	public var usagetext: String {
 		let usagetexts = parsers.flatMap { $0.usage }
 		guard !usagetexts.isEmpty else {return ""}
-		return usagetexts.reduce("Usage: \(CommandLine.arguments.first ?? "")\n") { (acc:String, usagetext:UsageText) -> String in
+		return usagetexts.reduce("Usage: \(CommandLine.arguments.first ?? "")\n") {
+			(acc:String, usagetext:UsageText) -> String in
 			return acc + "  " + usagetext!.title + ":\n      " + usagetext!.description + "\n"
-		} as String
+		}
 	}
 }
 
-//  https://github.com/robrix/Box/blob/master/Box/MutableBox.swift
+//  https://github.com/robrix/Box
 //  Copyright (c) 2014 Rob Rix. All rights reserved.
 
 /// A value that will be set sometime in the future.

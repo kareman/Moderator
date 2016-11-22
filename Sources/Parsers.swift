@@ -1,4 +1,12 @@
-// Should ideally and eventually be compatible with http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html , with the addition of "--longname".
+//
+//  Moderator.swift
+//
+//  Created by Kåre Morstøl.
+//  Copyright (c) 2016 NotTooBad Software. All rights reserved.
+//
+
+// Should ideally and eventually be compatible with http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html ,
+// with the addition of "--longname". For more, see http://blog.nottoobadsoftware.com/uncategorized/cross-platform-command-line-arguments-syntax/ .
 
 public typealias UsageText = (title: String, description: String)?
 
@@ -55,7 +63,9 @@ extension ArgumentParser {
 		let usage = description.map { (names.joined(separator: ","), $0) }
 		return ArgumentParser<Bool>(usage: usage) { args in
 			var args = args
-			guard let index = args.index(where: names.contains), isOption(index: index, args: args) else { return (false, args) }
+			guard let index = args.index(where: names.contains), isOption(index: index, args: args) else {
+				return (false, args)
+			}
 			args.remove(at: index)
 			return (true, args)
 		}
@@ -78,17 +88,19 @@ extension Array where Element: Equatable {
 
 extension ArgumentParser {
 	public static func optionWithValue
-		(_ names: String..., name valuename: String? = nil, default: String, description: String? = nil)
+		(_ names: String..., name valuename: String? = nil, default defaultvalue: String, description: String? = nil)
 		-> ArgumentParser<String> {
 
 			let option = ArgumentParser.option(names: names, description: description)
 			let usage = option.usage.map { usage in
-				return (usage.title + " <\(valuename ?? "arg")>", usage.description + " [default: \(`default`)]")
+				return (usage.title + " <\(valuename ?? "arg")>", usage.description + " [default: \(defaultvalue)]")
 			}
 
 			return ArgumentParser<String>(usage: usage) { args in
 				var optionresult = try option.parse(args)
-				guard optionresult.value else { return (`default`, args) }
+				guard optionresult.value else {
+					return (defaultvalue, args)
+				}
 				guard let firstchange = optionresult.remainder.indexOfFirstDifference(args) else {
 					throw ArgumentError(errormessage: "Expected value for argument '\(args.last!)'.")
 				}
@@ -103,8 +115,12 @@ extension ArgumentParser {
 
 	public static func singleArgument (name: String, description: String? = nil) -> ArgumentParser<String> {
 		return ArgumentParser<String>(usage: description.map { (name, $0) }) { args in
-			guard let arg = args.first else { throw ArgumentError(errormessage: "Expected " + name) }
-			guard !isOption(index: 0, args: args) else { throw ArgumentError(errormessage: "Expected \(name), got option '\(arg)'") }
+			guard let arg = args.first else {
+				throw ArgumentError(errormessage: "Expected " + name)
+			}
+			guard !isOption(index: 0, args: args) else {
+				throw ArgumentError(errormessage: "Expected \(name), got option '\(arg)'")
+			}
 			return (arg, Array(args.dropFirst()))
 		}
 	}

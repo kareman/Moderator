@@ -2,7 +2,7 @@
 // Moderator_Tests
 //
 // Created by Kåre Morstøl on 03.11.15.
-// Copyright © 2015 NotTooBad Software. All rights reserved.
+// Copyright 2015 NotTooBad Software. All rights reserved.
 //
 
 import XCTest
@@ -34,7 +34,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingOption () {
 		let m = Moderator()
 		let arguments = ["--ignored", "-a", "b", "bravo", "--charlie"]
-		let parsedlong = m.add(ArgumentParser<Bool>.option("c", "charlie", description: "dgsf"))
+		let parsedlong = m.add(ArgumentParser<Bool>.option("c", "charlie"))
 		let parsedshort = m.add(ArgumentParser<Bool>.option("a", "alpha"))
 		let unparsed = m.add(ArgumentParser<Bool>.option("b", "bravo"))
 
@@ -198,39 +198,3 @@ class Moderator_Tests: XCTestCase {
 		XCTAssertFalse(m.usagetext.contains("hasnohelptext"))
 	}
 }
-
-/*
-class AnyArgument_Tests: XCTestCase {
-
-	func testLastArgumentParser () {
-		let parser = ArgumentParser()
-		let lastOption = parser.add { (var args) -> (String, [String.CharacterView]) in
-			guard let last = args.popLast() else { throw ArgumentError(errormessage: "No argument was found") }
-			return (String(last), args)
-		}
-
-		do {
-			try parser.parse(["first","last"])
-			XCTAssertEqual(lastOption.value, "last")
-			XCTAssertEqual(parser.remaining, ["first"])
-		} catch {
-			XCTFail("Should not throw error " + String(error))
-		}
-	}
-
-	func testLastArgumentParserThrows () {
-		let parser = ArgumentParser()
-		let lastOption = parser.add { (var args) -> (String, [String.CharacterView]) in
-			guard let last = args.popLast() else { throw ArgumentError(errormessage: "No argument was found") }
-			return (String(last), args)
-		}
-
-		do {
-			try parser.parse([])
-			XCTFail("Should have thrown error about no argument")
-		} catch {
-			XCTAssertNil(lastOption.value)
-			XCTAssertTrue(parser.remaining.isEmpty)
-		}
-	}
-*/
