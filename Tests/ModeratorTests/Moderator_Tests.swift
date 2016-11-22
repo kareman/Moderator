@@ -19,14 +19,14 @@ class Moderator_Tests: XCTestCase {
 	func testPreprocessorHandlesEqualSign () {
 		let arguments = ["lskdfj", "--verbose", "--this=that=", "-b"]
 
-		let result = ArgumentParser().preprocess(arguments)
+		let result = Argument().preprocess(arguments)
 		XCTAssertEqual(result.toStrings, ["lskdfj", "--verbose", "--this", "that=", "-b"])
 	}
 
 	func testPreprocessorHandlesJoinedFlags () {
 		let arguments = ["-abc", "delta", "--echo", "-f"]
 
-		let result = ArgumentParser().preprocess(arguments)
+		let result = Argument().preprocess(arguments)
 		XCTAssertEqual(result.toStrings, ["-a", "-b", "-c", "delta", "--echo", "-f"])
 	}
 */
@@ -34,9 +34,9 @@ class Moderator_Tests: XCTestCase {
 	func testParsingOption () {
 		let m = Moderator()
 		let arguments = ["--ignored", "-a", "b", "bravo", "--charlie"]
-		let parsedlong = m.add(ArgumentParser<Bool>.option("c", "charlie"))
-		let parsedshort = m.add(ArgumentParser<Bool>.option("a", "alpha"))
-		let unparsed = m.add(ArgumentParser<Bool>.option("b", "bravo"))
+		let parsedlong = m.add(Argument<Bool>.option("c", "charlie"))
+		let parsedshort = m.add(Argument<Bool>.option("a", "alpha"))
+		let unparsed = m.add(Argument<Bool>.option("b", "bravo"))
 
 		do {
 			try m.parse(arguments)
@@ -52,9 +52,9 @@ class Moderator_Tests: XCTestCase {
 	func testParsingOptionWithValue () {
 		let m = Moderator()
 		let arguments = ["--charlie", "sheen", "ignored", "-a", "alphasvalue"]
-		let parsedshort = m.add(ArgumentParser<String>.optionWithValue("a", "alpha", default: ""))
-		let unparsed = m.add(ArgumentParser<Bool>.option("b", "bravo"))
-		let parsedlong = m.add(ArgumentParser<String>.optionWithValue("c", "charlie", default: ""))
+		let parsedshort = m.add(Argument<String>.optionWithValue("a", "alpha", default: ""))
+		let unparsed = m.add(Argument<Bool>.option("b", "bravo"))
+		let parsedlong = m.add(Argument<String>.optionWithValue("c", "charlie", default: ""))
 
 		do {
 			try m.parse(arguments)
@@ -70,7 +70,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingOptionWithMissingValueThrows () {
 		let m = Moderator()
 		let arguments = ["--verbose", "--alpha"]
-		_ = m.add(ArgumentParser<String>.optionWithValue("a", "alpha", default: ""))
+		_ = m.add(Argument<String>.optionWithValue("a", "alpha", default: ""))
 
 		do {
 			try m.parse(arguments)
@@ -83,7 +83,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingMissingOptionWithValue () {
 		let m = Moderator()
 		let arguments = ["arg1", "arg2", "arg3"]
-		let parsed = m.add(ArgumentParser<String>.optionWithValue("a", "alpha", default: "default"))
+		let parsed = m.add(Argument<String>.optionWithValue("a", "alpha", default: "default"))
 
 		do {
 			try m.parse(arguments)
@@ -95,7 +95,7 @@ class Moderator_Tests: XCTestCase {
 
 /*
 	func testParsingStringArgumentWithEqualSign () {
-		let parser = ArgumentParser()
+		let parser = Argument()
 		let arguments = ["--verbose", "--alpha=alphasvalue", "string"]
 		let parsed = parser.add(StringArgument("a", "alpha"))
 
@@ -110,7 +110,7 @@ class Moderator_Tests: XCTestCase {
 	func testParsingStringArgumentWithOptionValueThrows () {
 		let m = Moderator()
 		let arguments = ["--verbose", "-a", "-b"]
-		_ = m.add(ArgumentParser<Bool>.optionWithValue("a", "alpha", default: ""))
+		_ = m.add(Argument<Bool>.optionWithValue("a", "alpha", default: ""))
 
 		do {
 			try m.parse(arguments)
@@ -123,9 +123,9 @@ class Moderator_Tests: XCTestCase {
 	func testSingleArgument () {
 		let m = Moderator()
 		let arguments = ["-a", "argument", "--ignored", "--charlie"]
-		let parsedlong = m.add(ArgumentParser<Bool>.option("c", "charlie", description: "dgsf"))
-		let parsedshort = m.add(ArgumentParser<Bool>.option("a", "alpha"))
-		let single = m.add(ArgumentParser<String>.singleArgument(name: "argumentname"))
+		let parsedlong = m.add(Argument<Bool>.option("c", "charlie", description: "dgsf"))
+		let parsedshort = m.add(Argument<Bool>.option("a", "alpha"))
+		let single = m.add(Argument<String>.singleArgument(name: "argumentname"))
 
 		do {
 			try m.parse(arguments)
@@ -140,9 +140,9 @@ class Moderator_Tests: XCTestCase {
 
 	func testThrowsOnMissingSingleArgument() {
 		let m = Moderator()
-		_ = m.add(ArgumentParser<Bool>.option("c", "charlie", description: "dgsf"))
-		_ = m.add(ArgumentParser<Bool>.option("a", "alpha"))
-		_ = m.add(ArgumentParser<String>.singleArgument(name: "argumentname"))
+		_ = m.add(Argument<Bool>.option("c", "charlie", description: "dgsf"))
+		_ = m.add(Argument<Bool>.option("a", "alpha"))
+		_ = m.add(Argument<String>.singleArgument(name: "argumentname"))
 
 		do {
 			try m.parse(["-a", "-b"])
@@ -155,8 +155,8 @@ class Moderator_Tests: XCTestCase {
 	func testStrictParsingThrowsErrorOnUnknownArguments () {
 		let m = Moderator()
 		let arguments = ["--alpha", "-c"]
-		_ = m.add(ArgumentParser<Bool>.option("a", "alpha", description: "The leader."))
-		_ = m.add(ArgumentParser<Bool>.option("b", "bravo", description: "Well done!"))
+		_ = m.add(Argument<Bool>.option("a", "alpha", description: "The leader."))
+		_ = m.add(Argument<Bool>.option("b", "bravo", description: "Well done!"))
 
 		do {
 			try m.parse(arguments, strict: true)
@@ -171,8 +171,8 @@ class Moderator_Tests: XCTestCase {
 	func testStrictParsing () {
 		let m = Moderator()
 		let arguments = ["--alpha", "-b"]
-		_ = m.add(ArgumentParser<Bool>.option("a", "alpha", description: "The leader."))
-		_ = m.add(ArgumentParser<Bool>.option("b", "bravo", description: "Well done!"))
+		_ = m.add(Argument<Bool>.option("a", "alpha", description: "The leader."))
+		_ = m.add(Argument<Bool>.option("b", "bravo", description: "Well done!"))
 
 		do {
 			try m.parse(arguments, strict: true)
@@ -183,9 +183,9 @@ class Moderator_Tests: XCTestCase {
 
 	func testUsageText () {
 		let m = Moderator()
-		_ = m.add(ArgumentParser<Bool>.option("a", "alpha", description: "The leader."))
-		_ = m.add(ArgumentParser<Bool>.optionWithValue("b", "bravo", default: "default value", description: "Well done!"))
-		_ = m.add(ArgumentParser<Bool>.option("x", "hasnohelptext"))
+		_ = m.add(Argument<Bool>.option("a", "alpha", description: "The leader."))
+		_ = m.add(Argument<Bool>.optionWithValue("b", "bravo", default: "default value", description: "Well done!"))
+		_ = m.add(Argument<Bool>.option("x", "hasnohelptext"))
 
 		let usagetext = m.usagetext
 		print(usagetext)

@@ -10,7 +10,7 @@
 
 public typealias UsageText = (title: String, description: String)?
 
-public struct ArgumentParser <Value> {
+public struct Argument <Value> {
 	public let usage: UsageText
 	public let parse: ([String]) throws -> (value: Value, remainder: [String])
 
@@ -27,9 +27,9 @@ public struct ArgumentParser <Value> {
 	}
 }
 
-extension ArgumentParser {
-	public func map <Outvalue> (_ f: @escaping (Value) throws -> Outvalue) -> ArgumentParser<Outvalue> {
-		return ArgumentParser<Outvalue>(usage: self.usage) { args in
+extension Argument {
+	public func map <Outvalue> (_ f: @escaping (Value) throws -> Outvalue) -> Argument<Outvalue> {
+		return Argument<Outvalue>(usage: self.usage) { args in
 			let result = try self.parse(args)
 			return (value: try f(result.value), remainder: result.remainder)
 		}
@@ -48,7 +48,7 @@ public struct ArgumentError: Error, CustomStringConvertible {
 	public var description: String { return errormessage + (usagetext.map { "\n" + $0 } ?? "") }
 }
 
-extension ArgumentParser {
+extension Argument {
 	static func isOption (index: Array<String>.Index, args: [String]) -> Bool {
 		if let i = args.index(of: "--"), i < index { return false }
 		let argument = args[index].characters
@@ -58,10 +58,10 @@ extension ArgumentParser {
 		return false
 	}
 
-	static func option(names: [String], description: String? = nil) -> ArgumentParser<Bool> {
+	static func option(names: [String], description: String? = nil) -> Argument<Bool> {
 		let names = names.map { $0.characters.count==1 ? "-" + $0 : "--" + $0 }
 		let usage = description.map { (names.joined(separator: ","), $0) }
-		return ArgumentParser<Bool>(usage: usage) { args in
+		return Argument<Bool>(usage: usage) { args in
 			var args = args
 			guard let index = args.index(where: names.contains), isOption(index: index, args: args) else {
 				return (false, args)
@@ -71,7 +71,7 @@ extension ArgumentParser {
 		}
 	}
 
-	public static func option(_ names: String..., description: String? = nil) -> ArgumentParser<Bool> {
+	public static func option(_ names: String..., description: String? = nil) -> Argument<Bool> {
 		return option(names: names, description: description)
 	}
 }
@@ -86,17 +86,17 @@ extension Array where Element: Equatable {
 	}
 }
 
-extension ArgumentParser {
+extension Argument {
 	public static func optionWithValue
 		(_ names: String..., name valuename: String? = nil, default defaultvalue: String, description: String? = nil)
-		-> ArgumentParser<String> {
+		-> Argument<String> {
 
-			let option = ArgumentParser.option(names: names, description: description)
+			let option = Argument.option(names: names, description: description)
 			let usage = option.usage.map { usage in
 				return (usage.title + " <\(valuename ?? "arg")>", usage.description + " [default: \(defaultvalue)]")
 			}
 
-			return ArgumentParser<String>(usage: usage) { args in
+			return Argument<String>(usage: usage) { args in
 				var optionresult = try option.parse(args)
 				guard optionresult.value else {
 					return (defaultvalue, args)
@@ -113,8 +113,8 @@ extension ArgumentParser {
 			}
 	}
 
-	public static func singleArgument (name: String, description: String? = nil) -> ArgumentParser<String> {
-		return ArgumentParser<String>(usage: description.map { (name, $0) }) { args in
+	public static func singleArgument (name: String, description: String? = nil) -> Argument<String> {
+		return Argument<String>(usage: description.map { (name, $0) }) { args in
 			guard let arg = args.first else {
 				throw ArgumentError(errormessage: "Expected " + name)
 			}

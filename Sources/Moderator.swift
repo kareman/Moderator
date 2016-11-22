@@ -6,12 +6,12 @@
 //
 
 public final class Moderator {
-	fileprivate var parsers: [ArgumentParser<Void>] = []
+	fileprivate var parsers: [Argument<Void>] = []
 	public fileprivate(set) var remaining: [String] = []
 
 	public init () { }
 
-	public func add <Value> (_ p: ArgumentParser<Value>) -> FutureValue<Value> {
+	public func add <Value> (_ p: Argument<Value>) -> FutureValue<Value> {
 		let b = FutureValue<Value>()
 		parsers.append(p.map {b.value = $0})
 		return b
@@ -63,7 +63,7 @@ public final class FutureValue<T>: CustomStringConvertible {
 	/// The (mutable) value.
 	public var value: T! {
 		get {
-			precondition(_value != nil, "Remember to call ArgumentParser.parse() before accessing value of arguments.")
+			precondition(_value != nil, "Remember to call Argument.parse() before accessing value of arguments.")
 			return _value
 		}
 		set {
