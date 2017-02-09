@@ -117,9 +117,8 @@ extension Argument {
 		return Argument<String?>(usage: description.map { ("<"+name+">", $0) }) { args in
 			if let arg = args.first, !isOption(index: 0, args: args) {
 				return (arg, Array(args.dropFirst()))
-			} else {
-				return (nil, args)
 			}
+			return (nil, args)
 		}
 	}
 }

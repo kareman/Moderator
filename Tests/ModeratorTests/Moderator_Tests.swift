@@ -16,7 +16,8 @@ extension Array {
 }
 
 public class Moderator_Tests: XCTestCase {
-/*
+
+	/*
 	func testPreprocessorHandlesEqualSign () {
 		let arguments = ["lskdfj", "--verbose", "--this=that=", "-b"]
 
@@ -30,7 +31,7 @@ public class Moderator_Tests: XCTestCase {
 		let result = Argument().preprocess(arguments)
 		XCTAssertEqual(result.toStrings, ["-a", "-b", "-c", "delta", "--echo", "-f"])
 	}
-*/
+	*/
 
 	func testParsingOption () {
 		let m = Moderator()
@@ -73,10 +74,7 @@ public class Moderator_Tests: XCTestCase {
 		let arguments = ["--verbose", "--alpha"]
 		_ = m.add(Argument<String>.optionWithValue("a", "alpha", default: ""))
 
-		do {
-			try m.parse(arguments)
-			XCTFail("Should have thrown error about missing value")
-		} catch {
+		XCTAssertThrowsError( try m.parse(arguments) ) { error in
 			XCTAssertTrue(String(describing: error).contains("--alpha"))
 		}
 	}
@@ -90,10 +88,9 @@ public class Moderator_Tests: XCTestCase {
 			try m.parse(arguments)
 			XCTAssertEqual(parsed.value, "default")
 		} catch {
-			XCTFail("Error should not have been thrown: \(error)")
+			XCTFail(String(describing: error))
 		}
 	}
-
 /*
 	func testParsingStringArgumentWithEqualSign () {
 		let parser = Argument()
@@ -113,10 +110,7 @@ public class Moderator_Tests: XCTestCase {
 		let arguments = ["--verbose", "-a", "-b"]
 		_ = m.add(Argument<Bool>.optionWithValue("a", "alpha", default: ""))
 
-		do {
-			try m.parse(arguments)
-			XCTFail("Should have thrown error about incorrect value")
-		} catch {
+		XCTAssertThrowsError( try m.parse(arguments) ) { error in
 			XCTAssert(String(describing: error).contains("-a"))
 		}
 	}
@@ -149,7 +143,7 @@ public class Moderator_Tests: XCTestCase {
 			try m.parse(["-a", "-b"])
 			XCTAssertNil(single.value)
 		} catch {
-			XCTFail("Threw error")
+			XCTFail(String(describing: error))
 		}
 	}
 
@@ -163,9 +157,8 @@ public class Moderator_Tests: XCTestCase {
 			try m.parse(["-a", "-b"])
 			XCTAssertEqual(defaultsingle.value, "defaultvalue")
 		} catch {
-			XCTFail("Threw error")
+			XCTFail(String(describing: error))
 		}
-
 	}
 
 	func testMissingRequiredValueThrows() {
@@ -174,12 +167,7 @@ public class Moderator_Tests: XCTestCase {
 		_ = m.add(Argument<Bool>.option("a", "alpha"))
 		_ = m.add(Argument<String?>.singleArgument(name: "argumentname").required())
 
-		do {
-			try m.parse(["-a", "-b"])
-			XCTFail("Should have thrown error")
-		} catch {
-			//XCTAssertTrue(String(describing: error).contains("argumentname"))
-		}
+		XCTAssertThrowsError( try m.parse(["-a", "-b"]) )
 	}
 	
 	func testStrictParsingThrowsErrorOnUnknownArguments () {
@@ -188,10 +176,7 @@ public class Moderator_Tests: XCTestCase {
 		_ = m.add(Argument<Bool>.option("a", "alpha", description: "The leader."))
 		_ = m.add(Argument<Bool>.option("b", "bravo", description: "Well done!"))
 
-		do {
-			try m.parse(arguments, strict: true)
-			XCTFail("Should have thrown error about incorrect value")
-		} catch {
+		XCTAssertThrowsError( try m.parse(arguments, strict: true) ) { error in
 			XCTAssertTrue(String(describing: error).contains("Unknown arguments"))
 			XCTAssertTrue(String(describing: error).contains("The leader."), "Error should have contained usage text.")
 			XCTAssertTrue(String(describing: error).contains("Well done!"), "Error should have contained usage text.")
@@ -207,7 +192,7 @@ public class Moderator_Tests: XCTestCase {
 		do {
 			try m.parse(arguments, strict: true)
 		} catch {
-			XCTFail("Should not throw error " + String(describing: error))
+			XCTFail(String(describing: error))
 		}
 	}
 
