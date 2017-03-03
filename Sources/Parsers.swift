@@ -57,6 +57,10 @@ extension Argument {
 	}
 
 	static func option(names: [String], description: String? = nil) -> Argument<Bool> {
+		for illegalcharacter in [" ","-","="] {
+			precondition(!names.contains(where: {$0.contains(illegalcharacter)}), "Option names cannot contain '\(illegalcharacter)'")
+		}
+		precondition(!names.contains("W"), "Option '-W' is reserved for system use.")
 		let names = names.map { $0.characters.count==1 ? "-" + $0 : "--" + $0 }
 		let usage = description.map { (names.joined(separator: ","), $0) }
 		return Argument<Bool>(usage: usage) { args in
