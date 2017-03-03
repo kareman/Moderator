@@ -88,18 +88,18 @@ extension Array where Element: Equatable {
 
 extension Argument {
 	public static func optionWithValue
-		(_ names: String..., name valuename: String? = nil, default defaultvalue: String, description: String? = nil)
-		-> Argument<String> {
+		(_ names: String..., name valuename: String? = nil, description: String? = nil)
+		-> Argument<String?> {
 
 			let option = Argument.option(names: names, description: description)
 			let usage = option.usage.map { usage in
-				return (usage.title + " <\(valuename ?? "arg")>", usage.description + " [default: \(defaultvalue)]")
+				return (usage.title + " <\(valuename ?? "arg")>", usage.description)
 			}
 
-			return Argument<String>(usage: usage) { args in
+			return Argument<String?>(usage: usage) { args in
 				var optionresult = try option.parse(args)
 				guard optionresult.value else {
-					return (defaultvalue, args)
+					return (nil, args)
 				}
 				guard let firstchange = optionresult.remainder.indexOfFirstDifference(args) else {
 					throw ArgumentError(errormessage: "Expected value for argument '\(args.last!)'.")
@@ -137,7 +137,8 @@ extension Optional: OptionalType {
 
 extension Argument where Value: OptionalType {
 	public func `default`(_ defaultvalue: Value.Wrapped) -> Argument<Value.Wrapped> {
-		return Argument<Value.Wrapped>(usage: self.usage) { args in
+		let newusage = self.usage.map { ($0.title, $0.description + " Default = '\(defaultvalue)'.") }
+		return Argument<Value.Wrapped>(usage: newusage) { args in
 			let result = try self.parse(args)
 			return (result.value.toOptional() ?? defaultvalue, result.remainder)
 		}

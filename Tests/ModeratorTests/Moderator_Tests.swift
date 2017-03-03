@@ -54,9 +54,9 @@ public class Moderator_Tests: XCTestCase {
 	func testParsingOptionWithValue () {
 		let m = Moderator()
 		let arguments = ["--charlie", "sheen", "ignored", "-a", "alphasvalue"]
-		let parsedshort = m.add(Argument<String>.optionWithValue("a", "alpha", default: ""))
+		let parsedshort = m.add(Argument<String?>.optionWithValue("a", "alpha"))
 		let unparsed = m.add(Argument<Bool>.option("b", "bravo"))
-		let parsedlong = m.add(Argument<String>.optionWithValue("c", "charlie", default: ""))
+		let parsedlong = m.add(Argument<String?>.optionWithValue("c", "charlie"))
 
 		do {
 			try m.parse(arguments)
@@ -72,7 +72,7 @@ public class Moderator_Tests: XCTestCase {
 	func testParsingOptionWithMissingValueThrows () {
 		let m = Moderator()
 		let arguments = ["--verbose", "--alpha"]
-		_ = m.add(Argument<String>.optionWithValue("a", "alpha", default: ""))
+		_ = m.add(Argument<String>.optionWithValue("a", "alpha"))
 
 		XCTAssertThrowsError( try m.parse(arguments) ) { error in
 			XCTAssertTrue(String(describing: error).contains("--alpha"))
@@ -82,7 +82,7 @@ public class Moderator_Tests: XCTestCase {
 	func testParsingMissingOptionWithValue () {
 		let m = Moderator()
 		let arguments = ["arg1", "arg2", "arg3"]
-		let parsed = m.add(Argument<String>.optionWithValue("a", "alpha", default: "default"))
+		let parsed = m.add(Argument<String?>.optionWithValue("a", "alpha").default("default"))
 
 		do {
 			try m.parse(arguments)
@@ -108,7 +108,7 @@ public class Moderator_Tests: XCTestCase {
 	func testParsingStringArgumentWithOptionValueThrows () {
 		let m = Moderator()
 		let arguments = ["--verbose", "-a", "-b"]
-		_ = m.add(Argument<Bool>.optionWithValue("a", "alpha", default: ""))
+		_ = m.add(Argument<Bool>.optionWithValue("a", "alpha"))
 
 		XCTAssertThrowsError( try m.parse(arguments) ) { error in
 			XCTAssert(String(describing: error).contains("-a"))
@@ -198,8 +198,8 @@ public class Moderator_Tests: XCTestCase {
 
 	func testUsageText () {
 		let m = Moderator()
-		_ = m.add(Argument<Bool>.option("a", "alpha", description: "The leader."))
-		_ = m.add(Argument<Bool>.optionWithValue("b", "bravo", default: "default value", description: "Well done!"))
+		_ = m.add(.option("a", "alpha", description: "The leader."))
+		_ = m.add(Argument<Bool>.optionWithValue("b", "bravo", description: "Well done!").default("default value"))
 		_ = m.add(Argument<Bool>.option("x", "hasnohelptext"))
 
 		let usagetext = m.usagetext
