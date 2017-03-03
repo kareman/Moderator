@@ -20,9 +20,7 @@ public struct Argument <Value> {
 	}
 
 	public init (usage: UsageText = nil, value: Value) {
-		self.parse = { args in
-			 return (value, args)
-		}
+		self.parse = { args in (value, args) }
 		self.usage = usage
 	}
 }
@@ -115,7 +113,7 @@ extension Argument {
 
 	public static func singleArgument (name: String, description: String? = nil) -> Argument<String?> {
 		return Argument<String?>(usage: description.map { ("<"+name+">", $0) }) { args in
-			if let arg = args.first, !isOption(index: 0, args: args) {
+			if let arg = args.first, !isOption(index: args.startIndex, args: args) {
 				return (arg, Array(args.dropFirst()))
 			}
 			return (nil, args)
