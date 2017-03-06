@@ -22,7 +22,7 @@ public class Moderator_Tests: XCTestCase {
 		let arguments = ["lskdfj", "--verbose", "--this=that=", "-b", "--", "--c=1"]
 
 		do {
-			try m.parse(arguments)
+			try m.parse(arguments, strict: false)
 			XCTAssertEqual(m.remaining, ["lskdfj", "--verbose", "--this", "that=", "-b", "--", "--c=1"])
 		} catch {
 			XCTFail(String(describing: error))
@@ -46,7 +46,7 @@ public class Moderator_Tests: XCTestCase {
 		let unparsed = m.add(Argument<Bool>.option("b", "bravo"))
 
 		do {
-			try m.parse(arguments)
+			try m.parse(arguments, strict: false)
 		 	XCTAssertEqual(parsedshort.value, true)
 			XCTAssertEqual(unparsed.value, false)
 			XCTAssertEqual(parsedlong.value, true)
@@ -64,7 +64,7 @@ public class Moderator_Tests: XCTestCase {
 		let parsedlong = m.add(Argument<String?>.optionWithValue("c", "charlie"))
 
 		do {
-			try m.parse(arguments)
+			try m.parse(arguments, strict: false)
 			XCTAssertEqual(parsedshort.value, "alphasvalue")
 			XCTAssertEqual(parsedlong.value, "sheen")
 			XCTAssertEqual(unparsed.value, false)
@@ -90,7 +90,7 @@ public class Moderator_Tests: XCTestCase {
 		let parsed = m.add(Argument<String?>.optionWithValue("a", "alpha").default("default"))
 
 		do {
-			try m.parse(arguments)
+			try m.parse(arguments, strict: false)
 			XCTAssertEqual(parsed.value, "default")
 		} catch {
 			XCTFail(String(describing: error))
@@ -115,7 +115,7 @@ public class Moderator_Tests: XCTestCase {
 		let single = m.add(Argument<String?>.singleArgument(name: "argumentname"))
 
 		do {
-			try m.parse(arguments)
+			try m.parse(arguments, strict: false)
 			XCTAssertEqual(parsedshort.value, true)
 			XCTAssertEqual(parsedlong.value, true)
 			XCTAssertEqual(single.value, "argument")
@@ -132,7 +132,7 @@ public class Moderator_Tests: XCTestCase {
 		let single = m.add(Argument<String?>.singleArgument(name: "argumentname"))
 
 		do {
-			try m.parse(["-a", "-b"])
+			try m.parse(["-a", "-b"], strict: false)
 			XCTAssertNil(single.value)
 		} catch {
 			XCTFail(String(describing: error))
@@ -146,8 +146,10 @@ public class Moderator_Tests: XCTestCase {
 		let defaultsingle = m.add(Argument<String?>.singleArgument(name: "argumentname").default("defaultvalue"))
 
 		do {
-			try m.parse(["-a", "-b"])
+			try m.parse(["-a", "-b"], strict: false)
 			XCTAssertEqual(defaultsingle.value, "defaultvalue")
+			try m.parse(["-a", "notdefaultvalue"], strict: false)
+			XCTAssertEqual(defaultsingle.value, "notdefaultvalue")
 		} catch {
 			XCTFail(String(describing: error))
 		}

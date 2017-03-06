@@ -80,7 +80,7 @@ extension Argument {
 	/// Parses arguments like '--opt=value' into '--opt value'.
 	internal static func joinedOptionAndArgumentParser() -> Argument<Void> {
 		return Argument<Void>() { args in
-			return ((), args.enumerated().flatMap { (index: Int, arg: String) -> [String] in
+			return ((), args.enumerated().flatMap { (index, arg) in
 				isOption(index: index, args: args) ?
 					arg.characters.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: true).map(String.init) :
 					[arg]

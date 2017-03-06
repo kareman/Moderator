@@ -21,7 +21,7 @@ public final class Moderator {
 		return b
 	}
 
-	public func parse (_ args: [String], strict: Bool = false) throws {
+	public func parse (_ args: [String], strict: Bool = true) throws {
 		do {
 			remaining = try parsers.reduce(args) { (args, parser) in try parser.parse(args).remainder }
 			if strict && !remaining.isEmpty {
@@ -33,7 +33,7 @@ public final class Moderator {
 		}
 	}
 
-	public func parse (strict: Bool = false) throws {
+	public func parse (strict: Bool = true) throws {
 		try parse(Array(CommandLine.arguments.dropFirst()), strict: strict)
 	}
 
