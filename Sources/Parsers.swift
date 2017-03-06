@@ -76,6 +76,17 @@ extension Argument {
 	public static func option(_ names: String..., description: String? = nil) -> Argument<Bool> {
 		return option(names: names, description: description)
 	}
+
+	/// Parses arguments like '--opt=value' into '--opt value'.
+	internal static func joinedOptionAndArgumentParser() -> Argument<Void> {
+		return Argument<Void>() { args in
+			return ((), args.enumerated().flatMap { (index: Int, arg: String) -> [String] in
+				isOption(index: index, args: args) ?
+					arg.characters.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: true).map(String.init) :
+					[arg]
+			})
+		}
+	}
 }
 
 

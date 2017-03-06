@@ -11,7 +11,9 @@ public final class Moderator {
 	fileprivate var parsers: [Argument<Void>] = []
 	public fileprivate(set) var remaining: [String] = []
 
-	public init () { }
+	public init () {
+		_ = add(.joinedOptionAndArgumentParser())
+	}
 
 	public func add <Value> (_ p: Argument<Value>) -> FutureValue<Value> {
 		let b = FutureValue<Value>()
@@ -35,14 +37,14 @@ public final class Moderator {
 		try parse(Array(CommandLine.arguments.dropFirst()), strict: strict)
 	}
 
-	func commandName() -> String {
+	static func commandName() -> String {
 		return URL(fileURLWithPath: CommandLine.arguments.first ?? "").lastPathComponent
 	}
 
 	public var usagetext: String {
 		let usagetexts = parsers.flatMap { $0.usage }
 		guard !usagetexts.isEmpty else {return ""}
-		return usagetexts.reduce("Usage: \(commandName())\n") {
+		return usagetexts.reduce("Usage: \(Moderator.commandName())\n") {
 			(acc:String, usagetext:UsageText) -> String in
 			return acc + "  " + usagetext!.title + ":\n      " + usagetext!.description + "\n"
 		}

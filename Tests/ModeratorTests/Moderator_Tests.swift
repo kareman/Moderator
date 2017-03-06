@@ -17,14 +17,19 @@ extension Array {
 
 public class Moderator_Tests: XCTestCase {
 
-	/*
-	func testPreprocessorHandlesEqualSign () {
-		let arguments = ["lskdfj", "--verbose", "--this=that=", "-b"]
+	func testOptionAndArgumentJoinedWithEqualSign () {
+		let m = Moderator()
+		let arguments = ["lskdfj", "--verbose", "--this=that=", "-b", "--", "--c=1"]
 
-		let result = Argument().preprocess(arguments)
-		XCTAssertEqual(result.toStrings, ["lskdfj", "--verbose", "--this", "that=", "-b"])
+		do {
+			try m.parse(arguments)
+			XCTAssertEqual(m.remaining, ["lskdfj", "--verbose", "--this", "that=", "-b", "--", "--c=1"])
+		} catch {
+			XCTFail(String(describing: error))
+		}
 	}
 
+	/*
 	func testPreprocessorHandlesJoinedFlags () {
 		let arguments = ["-abc", "delta", "--echo", "-f"]
 
@@ -91,20 +96,7 @@ public class Moderator_Tests: XCTestCase {
 			XCTFail(String(describing: error))
 		}
 	}
-/*
-	func testParsingStringArgumentWithEqualSign () {
-		let parser = Argument()
-		let arguments = ["--verbose", "--alpha=alphasvalue", "string"]
-		let parsed = parser.add(StringArgument("a", "alpha"))
 
-		do {
-			try parser.parse(arguments)
-			XCTAssertEqual(parsed.value, "alphasvalue")
-		} catch {
-			XCTFail(String(error))
-		}
-	}
-*/
 	func testParsingStringArgumentWithOptionValueThrows () {
 		let m = Moderator()
 		let arguments = ["--verbose", "-a", "-b"]
@@ -216,13 +208,12 @@ public class Moderator_Tests: XCTestCase {
 
 extension Moderator_Tests {
 	public static var allTests = [
-		//("testPreprocessorHandlesEqualSign", testPreprocessorHandlesEqualSign),
+		("testOptionAndArgumentJoinedWithEqualSign", testOptionAndArgumentJoinedWithEqualSign),
 		//("testPreprocessorHandlesJoinedFlags", testPreprocessorHandlesJoinedFlags),
 		("testParsingOption", testParsingOption),
 		("testParsingOptionWithValue", testParsingOptionWithValue),
 		("testParsingOptionWithMissingValueThrows", testParsingOptionWithMissingValueThrows),
 		("testParsingMissingOptionWithValue", testParsingMissingOptionWithValue),
-		//("testParsingStringArgumentWithEqualSign", testParsingStringArgumentWithEqualSign),
 		("testParsingStringArgumentWithOptionValueThrows", testParsingStringArgumentWithOptionValueThrows),
 		("testSingleArgument", testSingleArgument),
 		("testMissingSingleArgument", testMissingSingleArgument),
