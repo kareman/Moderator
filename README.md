@@ -2,37 +2,68 @@
 
 # Moderator
 
-Moderator is a Swift library for parsing commandline arguments.
+Moderator is a simple Swift library for parsing commandline arguments.
 
 ## Features
 
-- [x] 
+- [x] Modular, easy to extend.
+- [x] Handles arguments of the type '--option=value'.
+- [x] Optional strict parsing, where an error is thrown if there are any unrecognised arguments.
+- [x] Any arguments after an "\--" argument are taken literally, they are not parsed as options and any '=' are left untouched.
 
 ## Example
 
 ```swift
-let arguments = Moderator()
-let overwrite = arguments.add(.option("o","overwrite", description: "Replace Tests/LinuxMain.swift if it already exists."))
+let arguments = Moderator(description: "Automatically add code to Swift Package Manager projects to run unit tests on Linux.")
+let overwrite = arguments.add(.option("o","overwrite", description: "Replace <test directory>/LinuxMain.swift if it already exists."))
+let testdirarg = arguments.add(Argument<String>
+	.optionWithValue("testdir", name: "test directory", description: "The path to the directory with the unit tests.")
+	.default("Tests"))
 _ = arguments.add(Argument<String?>
-	.singleArgument(name: "directory", description: "The project root directory")
+	.singleArgument(name: "directory", description: "The project root directory.")
 	.default("./")
-	.map { (projectpath:String) in
+	.map { (projectpath: String) in
 		let projectdir = try Directory(open: projectpath)
 		try projectdir.verifyContains("Package.swift")
-		if !overwrite.value && projectdir.contains("Tests/LinuxMain.swift") {
-			throw ArgumentError(errormessage: (projectpath == "./" ? "" : projectdir.path.string + "/")
-				+ "Tests/LinuxMain.swift already exists. Use -o/--overwrite to replace it.")
-		}
 		Directory.current = projectdir
 	})
 
 do {
 	try arguments.parse()
-	
-} catch {
 
+	let testdir = try Directory(open: testdirarg.value)
+	if !overwrite.value && testdir.contains("LinuxMain.swift") {
+		throw ArgumentError(errormessage: "\(testdir.path)/LinuxMain.swift already exists. Use -o/--overwrite to replace it.")
+	}
+	...
+} catch {
+	WritableFile.stderror.print(error)
+	exit(Int32(error._code))
 }
 ```
+
+Automatically generated help text: 
+
+```text
+Automatically add code to Swift Package Manager projects to run unit tests on Linux.
+
+Usage: linuxmain-generator
+  -o,--overwrite:
+      Replace <test directory>/LinuxMain.swift if it already exists.
+  --testdir <test directory>:
+      The path to the directory with the unit tests. Default = 'Tests'.
+  <directory>:
+      The project root directory. Default = './'.
+```
+
+
+## Built-in parsers
+
+To do
+
+## Add new parsers 
+
+To do
 
 ## Installation
 
