@@ -10,8 +10,13 @@ import Foundation
 public final class Moderator {
 	fileprivate var parsers: [Argument<Void>] = []
 	public fileprivate(set) var remaining: [String] = []
+	let description: String
 
-	public init () {
+	/// Creates a Moderator object
+	///
+	/// - Parameter description: The description of this executable, printed at the beginning of the help text. Empty by default.
+	public init (description: String = "") {
+		self.description = description.isEmpty ? description : description + "\n\n"
 		_ = add(.joinedOptionAndArgumentParser())
 	}
 
@@ -44,7 +49,7 @@ public final class Moderator {
 	public var usagetext: String {
 		let usagetexts = parsers.flatMap { $0.usage }
 		guard !usagetexts.isEmpty else {return ""}
-		return usagetexts.reduce("Usage: \(Moderator.commandName())\n") {
+		return usagetexts.reduce(description + "Usage: \(Moderator.commandName())\n") {
 			(acc:String, usagetext:UsageText) -> String in
 			return acc + "  " + usagetext!.title + ":\n      " + usagetext!.description + "\n"
 		}

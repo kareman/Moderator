@@ -203,7 +203,7 @@ public class Moderator_Tests: XCTestCase {
 	}
 
 	func testUsageText () {
-		let m = Moderator()
+		let m = Moderator(description: "A very thorough and informative description.")
 		_ = m.add(.option("a", "alpha", description: "The leader."))
 		_ = m.add(Argument<Bool>.optionWithValue("b", "bravo", description: "Well done!").default("default value"))
 		_ = m.add(Argument<Bool>.option("x", "hasnohelptext"))
