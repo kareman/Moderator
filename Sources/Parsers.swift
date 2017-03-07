@@ -126,12 +126,18 @@ extension Argument {
 			}
 	}
 
+	/// Parses the next argument, if it is not an option.
+	///
+	/// - Parameters:
+	///   - name: The placeholder in the help text.
+	///   - description: The description of this argument.
+	/// - Returns: The next argument, or nil if there are no more arguments or the next argument is an option or "\--".
 	public static func singleArgument (name: String, description: String? = nil) -> Argument<String?> {
 		return Argument<String?>(usage: description.map { ("<"+name+">", $0) }) { args in
-			if let arg = args.first, !isOption(index: args.startIndex, args: args) {
-				return (arg, Array(args.dropFirst()))
-			}
-			return (nil, args)
+			let index = args.first == "--" ? args.index(after: args.startIndex) : args.startIndex
+			guard index != args.endIndex, !isOption(index: index, args: args) else { return (nil, args) }
+			var args = args
+			return (args.remove(at: index), args)
 		}
 	}
 }

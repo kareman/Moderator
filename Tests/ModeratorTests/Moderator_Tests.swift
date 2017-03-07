@@ -120,6 +120,18 @@ public class Moderator_Tests: XCTestCase {
 			XCTAssertEqual(parsedlong.value, true)
 			XCTAssertEqual(single.value, "argument")
 			XCTAssertEqual(m.remaining, ["--ignored"])
+
+			try m.parse(["-a", "--charlie", "argument2", "--ignored"], strict: false)
+			XCTAssertEqual(single.value, "argument2")
+
+			try m.parse(["-a", "--charlie", "--", "--argument3", "--ignored"], strict: false)
+			XCTAssertEqual(single.value, "--argument3")
+
+			try m.parse(["-a", "--charlie", "--"], strict: false)
+			XCTAssertEqual(single.value, nil)
+
+			try m.parse(["-a", "--charlie"], strict: false)
+			XCTAssertEqual(single.value, nil)
 		} catch {
 			XCTFail(String(describing: error))
 		}
