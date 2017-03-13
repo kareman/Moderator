@@ -131,7 +131,7 @@ extension Argument {
 	/// - Parameters:
 	///   - name: The placeholder in the help text.
 	///   - description: The description of this argument.
-	/// - Returns: The next argument, or nil if there are no more arguments or the next argument is an option or "\--".
+	/// - Returns: The next argument, or nil if there are no more arguments or the next argument is an option.
 	public static func singleArgument (name: String, description: String? = nil) -> Argument<String?> {
 		return Argument<String?>(usage: description.map { ("<"+name+">", $0) }) { args in
 			let index = args.first == "--" ? args.index(after: args.startIndex) : args.startIndex

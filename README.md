@@ -7,16 +7,20 @@ Moderator is a simple Swift library for parsing commandline arguments.
 ## Features
 
 - [x] Modular, easy to extend.
+- [x] Generates help text automatically.
 - [x] Handles arguments of the type '--option=value'.
 - [x] Optional strict parsing, where an error is thrown if there are any unrecognised arguments.
 - [x] Any arguments after an "\--" argument are taken literally, they are not parsed as options and any '=' are left untouched.
 
 ## Example
 
-```swift
+```Swift
+import Moderator
+import FileSmith
+
 let arguments = Moderator(description: "Automatically add code to Swift Package Manager projects to run unit tests on Linux.")
 let overwrite = arguments.add(.option("o","overwrite", description: "Replace <test directory>/LinuxMain.swift if it already exists."))
-let testdirarg = arguments.add(Argument<String>
+let testdirarg = arguments.add(Argument<String?>
 	.optionWithValue("testdir", name: "test directory", description: "The path to the directory with the unit tests.")
 	.default("Tests"))
 _ = arguments.add(Argument<String?>
@@ -56,14 +60,71 @@ Usage: linuxmain-generator
       The project root directory. Default = './'.
 ```
 
+## Introduction
+
+Moderator works by having a single Moderator object which you add individual argument parsers to. When you start parsing it goes through each argument parser _in the order they were added_. Each parser takes the array of string arguments from the command line, finds the arguments it is responsible for, processes them and throws any errors if anything is wrong, _removes the arguments from the array_, returns its output (which for some parsers may be nil if the argument was not found) and passes the modified array to the next parser.
+
+This keeps the code simple and each parser only has to take care of its own arguments. The built-in parsers can easily be customised, and you can create your own parsers from scratch.
 
 ## Built-in parsers
 
-To do
+### Option
+
+```swift
+func option(_ names: String..., description: String? = nil) -> Argument<Bool>
+```
+
+Handles option arguments like `-h` and `--help`. Returns true if the argument is present and false otherwise.
+
+### Option with value
+
+```swift
+func optionWithValue(_ names: String..., name valuename: String? = nil, description: String? = nil)
+-> Argument<String?>
+```
+
+Handles option arguments with a following value, like `--help <topic>`. It returns the value as a String, or nil if the option is not present.
+
+### Single argument
+
+```swift
+func singleArgument (name: String, description: String? = nil) -> Argument<String?>
+```
+
+Returns the next argument, or nil if there are no more arguments or the next argument is an option. Must be added after any option parsers.
+
+## Customise
+
+### `default`
+
+Can be used on parsers returning optionals, to replace nil with a default value.
+
+### `required`
+
+Can be used on parsers returning optionals, to throw an error on nil.
+
+### `map`
+
+Takes the output of any argument parser and converts it to something else.
 
 ## Add new parsers 
 
-To do
+If the built in parsers and customisations are not enough, you can easily create your own parsers. As an example here is the implementation of the singleArgument parser:
+
+```swift
+extension Argument {
+	public static func singleArgument (name: String, description: String? = nil) -> Argument<String?> {
+		return Argument<String?>(usage: description.map { ("<"+name+">", $0) }) { args in
+			let index = args.first == "--" ? args.index(after: args.startIndex) : args.startIndex
+			guard index != args.endIndex, !isOption(index: index, args: args) else { return (nil, args) }
+			var args = args
+			return (args.remove(at: index), args)
+		}
+	}
+}
+```
+
+In the Argument initialiser you return a tuple with the output of the parser and the arguments array without the processed argument(s).
 
 ## Installation
 
@@ -94,7 +155,7 @@ Add `github "kareman/Moderator"` to your Cartfile, then run `carthage update` an
 
 Add `Moderator` to your `Podfile`.
 
-```Ruby
+```ruby
 pod "Moderator", git: "https://github.com/kareman/Moderator.git"
 ```
 
