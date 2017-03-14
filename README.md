@@ -88,7 +88,7 @@ Handles option arguments with a following value, like `--help <topic>`. It retur
 ### Single argument
 
 ```swift
-func singleArgument (name: String, description: String? = nil) -> Argument<String?>
+func singleArgument(name: String, description: String? = nil) -> Argument<String?>
 ```
 
 Returns the next argument, or nil if there are no more arguments or the next argument is an option. Must be added after any option parsers.
@@ -130,7 +130,7 @@ In the Argument initialiser you return a tuple with the output of the parser and
 
 ### [Swift Package Manager](https://github.com/apple/swift-package-manager)
 
-Add `.Package(url: "https://github.com/kareman/Moderator", "0.4.0-beta")` to your Package.swift:
+Add `.Package(url: "https://github.com/kareman/Moderator", "0.4.0")` to your Package.swift:
 
 ```swift
 import PackageDescription
@@ -138,7 +138,7 @@ import PackageDescription
 let package = Package(
 	name: "somename",
 	dependencies: [
-		.Package(url: "https://github.com/kareman/Moderator", "0.4.0-beta")
+		.Package(url: "https://github.com/kareman/Moderator", "0.4.0")
 		 ]
 	)
 ```
