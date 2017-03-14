@@ -14,6 +14,8 @@ Moderator is a simple Swift library for parsing commandline arguments.
 
 ## Example
 
+from [linuxmain-generator](https://github.com/kareman/linuxmain-generator):
+
 ```Swift
 import Moderator
 import FileSmith
