@@ -29,6 +29,9 @@ public final class Moderator {
 	public func parse (_ args: [String], strict: Bool = true) throws {
 		do {
 			remaining = try parsers.reduce(args) { (args, parser) in try parser.parse(args).remainder }
+			if remaining.count == 1 && remaining.first == "--" {
+				remaining = []
+			}
 			if strict && !remaining.isEmpty {
 				throw ArgumentError(errormessage: "Unknown arguments: " + self.remaining.joined(separator: " "))
 			}

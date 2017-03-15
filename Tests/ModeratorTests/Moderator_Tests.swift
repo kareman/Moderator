@@ -202,6 +202,19 @@ public class Moderator_Tests: XCTestCase {
 		}
 	}
 
+	func testRemoveDoubleDashIfAlone () {
+		let m = Moderator()
+		let arguments = ["--"]
+
+		do {
+			try m.parse(arguments, strict: true)
+			try m.parse(arguments, strict: false)
+			XCTAssert(m.remaining.isEmpty)
+		} catch {
+			XCTFail(String(describing: error))
+		}
+	}
+
 	func testUsageText () {
 		let m = Moderator(description: "A very thorough and informative description.")
 		_ = m.add(.option("a", "alpha", description: "The leader."))
