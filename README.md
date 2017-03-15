@@ -1,3 +1,7 @@
+[Run shell commands](https://github.com/kareman/SwiftShell)    |    Parse command line arguments | [Handle files and directories](https://github.com/kareman/FileSmith)
+
+---
+
 [![Build Status](https://travis-ci.org/kareman/Moderator.svg?branch=master)](https://travis-ci.org/kareman/Moderator) ![Platforms](https://img.shields.io/badge/platforms-macOS%20%7C%20Linux-lightgrey.svg) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 # Moderator
