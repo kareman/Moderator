@@ -11,10 +11,13 @@ Moderator is a simple Swift library for parsing commandline arguments.
 ## Features
 
 - [x] Modular, easy to extend.
+- [x] Supports a [cross platform syntax](http://blog.nottoobadsoftware.com/uncategorized/cross-platform-command-line-arguments-syntax/).
 - [x] Generates help text automatically.
 - [x] Handles arguments of the type '--option=value'.
 - [x] Optional strict parsing, where an error is thrown if there are any unrecognised arguments.
 - [x] Any arguments after an "\--" argument are taken literally, they are not parsed as options and any '=' are left untouched.
+
+See also [why Moderator was created](http://blog.nottoobadsoftware.com/swift/moderator-parsing-commandline-arguments-in-swift/).
 
 ## Example
 
