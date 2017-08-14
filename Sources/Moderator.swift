@@ -36,7 +36,7 @@ public final class Moderator {
 				throw ArgumentError(errormessage: "Unknown arguments: " + self.remaining.joined(separator: " "))
 			}
 		} catch var error as ArgumentError {
-			error.usagetext = self.usagetext
+			error.usagetext = error.usagetext ?? self.usagetext
 			throw error
 		}
 	}
@@ -54,9 +54,14 @@ public final class Moderator {
 		guard !usagetexts.isEmpty else {return ""}
 		return usagetexts.reduce(description + "Usage: \(Moderator.commandName())\n") {
 			(acc:String, usagetext:UsageText) -> String in
-			return acc + "  " + usagetext!.title + ":\n      " + usagetext!.description + "\n"
+			return acc + format(usagetext: usagetext) + "\n"
 		}
 	}
+}
+
+func format(usagetext: UsageText) -> String {
+	guard let usagetext = usagetext else { return "" }
+	return "  " + usagetext.title + ":\n      " + usagetext.description
 }
 
 // https://github.com/robrix/Box

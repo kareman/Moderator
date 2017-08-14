@@ -118,11 +118,13 @@ extension Argument {
 					return (nil, args)
 				}
 				guard let firstchange = optionresult.remainder.indexOfFirstDifference(args) else {
-					throw ArgumentError(errormessage: "Expected value for argument '\(args.last!)'.")
+					throw ArgumentError(errormessage: "Expected value for '\(args.last!)'.",
+						usagetext: format(usagetext: usage))
 				}
 				guard !isOption(index: firstchange, args: optionresult.remainder) else {
-					throw ArgumentError(errormessage:
-						"Expected value for '\(args[firstchange])', got option '\(optionresult.remainder[firstchange])'.")
+					throw ArgumentError(
+						errormessage: "Expected value for '\(args[firstchange])', got option '\(optionresult.remainder[firstchange])'.",
+						usagetext: format(usagetext: usage))
 				}
 				let value = optionresult.remainder.remove(at: firstchange)
 				return (value, optionresult.remainder)
@@ -166,11 +168,18 @@ extension Argument where Value: OptionalType {
 		}
 	}
 
-	public func required() -> Argument<Value.Wrapped> {
+	/// Makes this optional argument required. An error is thrown during argument parsing if it is missing.
+	///
+	/// - Parameter errormessage: The error message to display if the argument is missing.
+	///   If no error message is provided one will be automatically generated.
+	/// - Returns: A new argument parser with a non-optional value.
+	public func required(errormessage: String? = nil) -> Argument<Value.Wrapped> {
 		return Argument<Value.Wrapped>(usage: self.usage) { args in
 			let result = try self.parse(args)
 			guard let value = result.value.toOptional() else {
-				throw ArgumentError(errormessage: "Expected value, got " + (result.remainder.first ?? "nothing"))
+				let errormessage = errormessage ??
+					"Missing argument" + (self.usage == nil ? "." : ":")
+				throw ArgumentError(errormessage: errormessage, usagetext: format(usagetext: self.usage))
 			}
 			return (value, result.remainder)
 		}

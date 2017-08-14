@@ -170,10 +170,15 @@ public class Moderator_Tests: XCTestCase {
 	func testMissingRequiredValueThrows() {
 		let m = Moderator()
 		_ = m.add(Argument<Bool>.option("c", "charlie"))
-		_ = m.add(Argument<Bool>.option("a", "alpha"))
-		_ = m.add(Argument<String?>.singleArgument(name: "argumentname").required())
+		_ = m.add(Argument<String?>.optionWithValue("v", name: "optionv", description: "the value for v.").required())
+		_ = m.add(Argument<String?>.singleArgument(name: "Argumentname", description: "Argumentname's description").required(errormessage: "Argumentname is required."))
 
 		XCTAssertThrowsError( try m.parse(["-a", "-b"]) )
+
+		do { try m.parse(["-v", "-b"]) } catch { print(error) }
+		do { try m.parse(["-a", "-b"]) } catch { print(error) }
+		do { try m.parse(["-a", "-v"]) } catch { print(error) }
+		do { try m.parse(["-a", "-v", "vvvv"]) } catch { print(error) }
 	}
 	
 	func testStrictParsingThrowsErrorOnUnknownArguments () {
