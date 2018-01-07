@@ -180,7 +180,26 @@ public class Moderator_Tests: XCTestCase {
 		do { try m.parse(["-a", "-v"]) } catch { print(error) }
 		do { try m.parse(["-a", "-v", "vvvv"]) } catch { print(error) }
 	}
-	
+
+	func testRepeat () {
+		let m = Moderator()
+		let options = m.add(Argument<String?>.optionWithValue("b").repeat())
+		let multiple = m.add(Argument<String?>.singleArgument(name: "multiple").repeat())
+
+		do {
+			try m.parse(["-b", "b1", "-b", "b2", "notb", "-b", "b3"], strict: false)
+			XCTAssertEqual(options.value, ["b1", "b2", "b3"])
+			try m.parse(["one", "two", "three"], strict: true)
+			XCTAssertEqual(multiple.value, ["one", "two", "three"])
+			try m.parse(["one", "-a", "two", "three"], strict: false)
+			XCTAssertEqual(multiple.value, ["one"])
+			try m.parse([], strict: true)
+			XCTAssertEqual(multiple.value, [])
+		} catch {
+			XCTFail(String(describing: error))
+		}
+	}
+
 	func testStrictParsingThrowsErrorOnUnknownArguments () {
 		let m = Moderator()
 		let arguments = ["--alpha", "-c"]
@@ -251,6 +270,7 @@ extension Moderator_Tests {
 		("testMissingSingleArgument", testMissingSingleArgument),
 		("testDefaultValue", testDefaultValue),
 		("testMissingRequiredValueThrows", testMissingRequiredValueThrows),
+		("testRepeat", testRepeat),
 		("testStrictParsingThrowsErrorOnUnknownArguments", testStrictParsingThrowsErrorOnUnknownArguments),
 		("testStrictParsing", testStrictParsing),
 		("testUsageText", testUsageText),

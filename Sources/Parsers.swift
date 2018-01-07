@@ -179,11 +179,29 @@ extension Argument where Value: OptionalType {
 		return Argument<Value.Wrapped>(usage: self.usage) { args in
 			let result = try self.parse(args)
 			guard let value = result.value.toOptional() else {
-				let errormessage = errormessage ??
-					"Missing argument" + (self.usage == nil ? "." : ":")
+				let errormessage = errormessage ?? "Missing argument" + (self.usage == nil ? "." : ":")
 				throw ArgumentError(errormessage: errormessage, usagetext: format(usagetext: self.usage))
 			}
 			return (value, result.remainder)
+		}
+	}
+
+	/// Looks for multiple occurrences of an argument,
+	/// by repeating an optional parser until it returns nil.
+	///
+	/// - Returns: An array of the values the parser returned.
+	public func `repeat`() -> Argument<[Value.Wrapped]> {
+		return Argument<[Value.Wrapped]>(usage: self.usage) { args in
+			var args = args
+			var values = [Value.Wrapped]()
+			while true {
+				let result = try self.parse(args)
+				guard let value = result.value.toOptional() else {
+					return (values, result.remainder)
+				}
+				values.append(value)
+				args = result.remainder
+ 			}
 		}
 	}
 }
