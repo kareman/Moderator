@@ -193,7 +193,7 @@ extension Argument where Value: OptionalType {
 	public func `repeat`() -> Argument<[Value.Wrapped]> {
 		return Argument<[Value.Wrapped]>(usage: self.usage) { args in
 			var args = args
-			var values = [Value.Wrapped]()
+			var values = Array<Value.Wrapped>()
 			while true {
 				let result = try self.parse(args)
 				guard let value = result.value.toOptional() else {
