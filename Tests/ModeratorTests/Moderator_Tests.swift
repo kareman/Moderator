@@ -209,6 +209,8 @@ public class Moderator_Tests: XCTestCase {
 			XCTAssertEqual(option.value, 3)
 			try m.parse(["one", "two", "three"], strict: false)
 			XCTAssertEqual(option.value, 0)
+			try m.parse(["-b", "-b"], strict: true)
+			XCTAssertEqual(option.value, 2)
 			try m.parse(["one", "-b", "two", "three"], strict: false)
 			XCTAssertEqual(option.value, 1)
 			try m.parse([], strict: true)
