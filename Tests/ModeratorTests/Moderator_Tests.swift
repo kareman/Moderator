@@ -200,6 +200,24 @@ public class Moderator_Tests: XCTestCase {
 		}
 	}
 
+	func testCount() {
+		let m = Moderator()
+		let option = m.add(Argument<Bool>.option("b").count())
+
+		do {
+			try m.parse(["-b", "-b", "b2", "notb", "-b", "b3"], strict: false)
+			XCTAssertEqual(option.value, 3)
+			try m.parse(["one", "two", "three"], strict: false)
+			XCTAssertEqual(option.value, 0)
+			try m.parse(["one", "-b", "two", "three"], strict: false)
+			XCTAssertEqual(option.value, 1)
+			try m.parse([], strict: true)
+			XCTAssertEqual(option.value, 0)
+		} catch {
+			XCTFail(String(describing: error))
+		}
+	}
+
 	func testStrictParsingThrowsErrorOnUnknownArguments () {
 		let m = Moderator()
 		let arguments = ["--alpha", "-c"]
@@ -271,8 +289,10 @@ extension Moderator_Tests {
 		("testDefaultValue", testDefaultValue),
 		("testMissingRequiredValueThrows", testMissingRequiredValueThrows),
 		("testRepeat", testRepeat),
+		("testCount", testCount),
 		("testStrictParsingThrowsErrorOnUnknownArguments", testStrictParsingThrowsErrorOnUnknownArguments),
 		("testStrictParsing", testStrictParsing),
+		("testRemoveDoubleDashIfAlone", testRemoveDoubleDashIfAlone),
 		("testUsageText", testUsageText),
 		]
 }
