@@ -49,9 +49,10 @@ public struct ArgumentError: Error, CustomStringConvertible {
 extension Argument {
 	static func isOption (index: Array<String>.Index, args: [String]) -> Bool {
 		if let i = args.index(of: "--"), i < index { return false }
-		let argument = args[index].characters
-		if argument.first == "-", let second = argument.dropFirst().first {
-			if !("0"..."9" ~= second) { return true }
+		let argument = args[index]
+		if argument.first == "-",
+			let second = argument.dropFirst().first, !("0"..."9").contains(second) {
+			return true
 		}
 		return false
 	}
@@ -64,7 +65,8 @@ extension Argument {
 			precondition(!names.contains(where: {$0.hasPrefix(String(digit))}), "Option names cannot begin with a number.")
 		}
 		precondition(!names.contains("W"), "Option '-W' is reserved for system use.")
-		let names = names.map { $0.characters.count==1 ? "-" + $0 : "--" + $0 }
+
+		let names = names.map { ($0.count==1 ? "-" : "--") + $0 }
 		let usage = description.map { (names.joined(separator: ","), $0) }
 		return Argument<Bool>(usage: usage) { args in
 			var args = args
@@ -85,7 +87,7 @@ extension Argument {
 		return Argument<Void>() { args in
 			return ((), args.enumerated().flatMap { (index, arg) in
 				isOption(index: index, args: args) ?
-					arg.characters.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: true).map(String.init) :
+					arg.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: true).map(String.init) :
 					[arg]
 			})
 		}
@@ -177,11 +179,39 @@ extension Argument where Value: OptionalType {
 		return Argument<Value.Wrapped>(usage: self.usage) { args in
 			let result = try self.parse(args)
 			guard let value = result.value.toOptional() else {
-				let errormessage = errormessage ??
-					"Missing argument" + (self.usage == nil ? "." : ":")
+				let errormessage = errormessage ?? "Missing argument" + (self.usage == nil ? "." : ":")
 				throw ArgumentError(errormessage: errormessage, usagetext: format(usagetext: self.usage))
 			}
 			return (value, result.remainder)
+		}
+	}
+
+	/// Looks for multiple occurrences of an argument,
+	/// by repeating an optional parser until it returns nil.
+	///
+	/// - Returns: An array of the values the parser returned.
+	public func `repeat`() -> Argument<[Value.Wrapped]> {
+		return Argument<[Value.Wrapped]>(usage: self.usage) { args in
+			var args = args
+			var values = Array<Value.Wrapped>()
+			while true {
+				let result = try self.parse(args)
+				guard let value = result.value.toOptional() else {
+					return (values, result.remainder)
+				}
+				values.append(value)
+				args = result.remainder
+ 			}
+		}
+	}
+}
+
+extension Argument where Value == Bool {
+	/// Counts the number of times an option argument occurs.
+	public func count() -> Argument<Int> {
+		return Argument<Int>(usage: self.usage) { args in
+			let result = try self.map { $0 ? () : nil }.repeat().parse(args)
+			return (result.value.count, result.remainder)
 		}
 	}
 }

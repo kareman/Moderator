@@ -180,7 +180,46 @@ public class Moderator_Tests: XCTestCase {
 		do { try m.parse(["-a", "-v"]) } catch { print(error) }
 		do { try m.parse(["-a", "-v", "vvvv"]) } catch { print(error) }
 	}
-	
+
+	func testRepeat () {
+		let m = Moderator()
+		let options = m.add(Argument<String?>.optionWithValue("b").repeat())
+		let multiple = m.add(Argument<String?>.singleArgument(name: "multiple").repeat())
+
+		do {
+			try m.parse(["-b", "b1", "-b", "b2", "notb", "-b", "b3"], strict: false)
+			XCTAssertEqual(options.value, ["b1", "b2", "b3"])
+			try m.parse(["one", "two", "three"], strict: true)
+			XCTAssertEqual(multiple.value, ["one", "two", "three"])
+			try m.parse(["one", "-a", "two", "three"], strict: false)
+			XCTAssertEqual(multiple.value, ["one"])
+			try m.parse([], strict: true)
+			XCTAssertEqual(multiple.value, [])
+		} catch {
+			XCTFail(String(describing: error))
+		}
+	}
+
+	func testCount() {
+		let m = Moderator()
+		let option = m.add(Argument<Bool>.option("b").count())
+
+		do {
+			try m.parse(["-b", "-b", "b2", "notb", "-b", "b3"], strict: false)
+			XCTAssertEqual(option.value, 3)
+			try m.parse(["one", "two", "three"], strict: false)
+			XCTAssertEqual(option.value, 0)
+			try m.parse(["-b", "-b"], strict: true)
+			XCTAssertEqual(option.value, 2)
+			try m.parse(["one", "-b", "two", "three"], strict: false)
+			XCTAssertEqual(option.value, 1)
+			try m.parse([], strict: true)
+			XCTAssertEqual(option.value, 0)
+		} catch {
+			XCTFail(String(describing: error))
+		}
+	}
+
 	func testStrictParsingThrowsErrorOnUnknownArguments () {
 		let m = Moderator()
 		let arguments = ["--alpha", "-c"]
@@ -251,8 +290,11 @@ extension Moderator_Tests {
 		("testMissingSingleArgument", testMissingSingleArgument),
 		("testDefaultValue", testDefaultValue),
 		("testMissingRequiredValueThrows", testMissingRequiredValueThrows),
+		("testRepeat", testRepeat),
+		("testCount", testCount),
 		("testStrictParsingThrowsErrorOnUnknownArguments", testStrictParsingThrowsErrorOnUnknownArguments),
 		("testStrictParsing", testStrictParsing),
+		("testRemoveDoubleDashIfAlone", testRemoveDoubleDashIfAlone),
 		("testUsageText", testUsageText),
 		]
 }
