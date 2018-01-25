@@ -1,4 +1,4 @@
-[Run shell commands](https://github.com/kareman/SwiftShell)    |    Parse command line arguments | [Handle files and directories](https://github.com/kareman/FileSmith)
+ [Run shell commands](https://github.com/kareman/SwiftShell)    |    Parse command line arguments | [Handle files and directories](https://github.com/kareman/FileSmith)
 
 ---
 
@@ -116,6 +116,34 @@ Can be used on parsers returning optionals, to throw an error on nil.
 
 Takes the output of any argument parser and converts it to something else.
 
+### `repeat`
+
+Looks for multiple occurrences of an argument, by repeating an optional parser until it returns nil.
+
+```swift
+let m = Moderator()
+let options = m.add(Argument<String?>.optionWithValue("b").repeat())
+let multiple = m.add(Argument<String?>.singleArgument(name: "multiple").repeat())
+
+try m.parse(["-b", "b1", "-b", "b2", "-b", "b3", "one", "two", "three"])
+```
+
+`options.value` is now `["b1", "b2", "b3"]` and `multiple.value` is `["one", "two", "three"]`. 
+
+### `count`
+
+Counts the number of times an option argument occurs.
+
+```swift
+
+let m = Moderator()
+let option = m.add(Argument<Bool>.option("b").count())
+
+try m.parse(["-b", "-b", "some", "other", "-b", "arguments"])
+```
+
+`option.value` returns `3`
+ 
 ## Add new parsers 
 
 If the built in parsers and customisations are not enough, you can easily create your own parsers. As an example here is the implementation of the singleArgument parser:
@@ -139,7 +167,7 @@ In the Argument initialiser you return a tuple with the output of the parser and
 
 ### [Swift Package Manager](https://github.com/apple/swift-package-manager)
 
-Add `.Package(url: "https://github.com/kareman/Moderator", "0.4.0")` to your Package.swift:
+Add `.Package(url: "https://github.com/kareman/Moderator", "0.4.3")` to your Package.swift:
 
 ```swift
 import PackageDescription
@@ -147,7 +175,7 @@ import PackageDescription
 let package = Package(
 	name: "somename",
 	dependencies: [
-		.Package(url: "https://github.com/kareman/Moderator", "0.4.0")
+		.Package(url: "https://github.com/kareman/Moderator", "0.4.3")
 		 ]
 	)
 ```
@@ -175,4 +203,3 @@ Then run `pod install` to install it.
 Released under the MIT License (MIT), http://opensource.org/licenses/MIT
 
 Kåre Morstøl, [NotTooBad Software](http://nottoobadsoftware.com)
-
