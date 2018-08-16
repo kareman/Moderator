@@ -210,7 +210,7 @@ extension Argument where Value == Bool {
 	/// Counts the number of times an option argument occurs.
 	public func count() -> Argument<Int> {
 		return Argument<Int>(usage: self.usage) { args in
-			let result = try self.map { $0 ? () : nil }.repeat().parse(args)
+			let result = try self.map { $0 ? true : nil }.repeat().parse(args)
 			return (result.value.count, result.remainder)
 		}
 	}

@@ -1,12 +1,39 @@
-os:
-- osx
-- linux
-language: generic
-sudo: required
-dist: trusty
-osx_image: xcode9
-install:
-  - eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
+matrix:
+  include:
+    - name: "Linux Swift 3.1.1"
+      os: linux
+      language: generic
+      dist: trusty
+      sudo: required
+      env:
+        - SWIFT_BRANCH=swift-3.1.1-release
+        - SWIFT_VERSION=swift-3.1.1-RELEASE
+      install:
+        - mkdir swift
+        - curl https://swift.org/builds/$SWIFT_BRANCH/ubuntu1404/$SWIFT_VERSION/$SWIFT_VERSION-ubuntu14.04.tar.gz -s | tar -xz -C swift
+        - export PATH="$(pwd)/swift/$SWIFT_VERSION-ubuntu14.04/usr/bin:$PATH"
+
+    - name: "Linux Swift 4.1.2"
+      os: linux
+      language: generic
+      dist: trusty
+      sudo: required
+      env:
+        - SWIFT_BRANCH=swift-4.1.2-release
+        - SWIFT_VERSION=swift-4.1.2-RELEASE
+      install:
+        - mkdir swift
+        - curl https://swift.org/builds/$SWIFT_BRANCH/ubuntu1404/$SWIFT_VERSION/$SWIFT_VERSION-ubuntu14.04.tar.gz -s | tar -xz -C swift
+        - export PATH="$(pwd)/swift/$SWIFT_VERSION-ubuntu14.04/usr/bin:$PATH"
+
+    - name: "Mac Xcode 9"
+      os: osx
+      osx_image: xcode9.4
+      language: generic
+      sudo: required
+
+
 script:
-- swift build
-- swift test
+  - swift package reset
+  - swift build
+  - swift test

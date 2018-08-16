@@ -1,5 +1,6 @@
 import PackageDescription
 
 let package = Package(
-    name: "Moderator"
+    name: "Moderator",
+    swiftLanguageVersions: [3, 4]
 )
