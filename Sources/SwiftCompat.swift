@@ -16,4 +16,11 @@ extension String {
 		return self.characters.split(separator: separator, maxSplits: maxSplits, omittingEmptySubsequences: omittingEmptySubsequences) 
 	}
 }
+
+extension Sequence {
+	func compactMap<ElementOfResult>(_ transform: (Iterator.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult] {
+		return try flatMap(transform)
+	}
+}
 #endif
+

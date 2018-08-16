@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA002F8121261C2C00ECA66A /* SwiftCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA002F8021261C2C00ECA66A /* SwiftCompat.swift */; };
 		OBJ_22 /* Moderator.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Moderator.swift */; };
 		OBJ_23 /* Parsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Parsers.swift */; };
 		OBJ_30 /* Moderator_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Moderator_Tests.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA002F8021261C2C00ECA66A /* SwiftCompat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftCompat.swift; sourceTree = "<group>"; };
 		OBJ_10 /* Parsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parsers.swift; sourceTree = "<group>"; };
 		OBJ_13 /* Moderator_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Moderator_Tests.swift; sourceTree = "<group>"; };
 		OBJ_15 /* Moderator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Moderator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +100,7 @@
 		OBJ_8 /* Moderator */ = {
 			isa = PBXGroup;
 			children = (
+				BA002F8021261C2C00ECA66A /* SwiftCompat.swift */,
 				OBJ_9 /* Moderator.swift */,
 				OBJ_10 /* Parsers.swift */,
 			);
@@ -182,6 +185,7 @@
 			files = (
 				OBJ_22 /* Moderator.swift in Sources */,
 				OBJ_23 /* Parsers.swift in Sources */,
+				BA002F8121261C2C00ECA66A /* SwiftCompat.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +293,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = "";
 				USE_HEADERMAP = NO;
 			};
 			name = Debug;
@@ -307,7 +311,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = "";
 				USE_HEADERMAP = NO;
 			};
 			name = Release;

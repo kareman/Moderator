@@ -50,7 +50,7 @@ public final class Moderator {
 	}
 
 	public var usagetext: String {
-		let usagetexts = parsers.flatMap { $0.usage }
+		let usagetexts = parsers.compactMap { $0.usage }
 		guard !usagetexts.isEmpty else {return ""}
 		return usagetexts.reduce(description + "Usage: \(Moderator.commandName())\n") {
 			(acc:String, usagetext:UsageText) -> String in
