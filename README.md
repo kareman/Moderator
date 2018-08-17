@@ -167,7 +167,7 @@ In the Argument initialiser you return a tuple with the output of the parser and
 
 ### [Swift Package Manager](https://github.com/apple/swift-package-manager)
 
-Add `.Package(url: "https://github.com/kareman/Moderator", "0.4.3")` to your Package.swift:
+Add `.Package(url: "https://github.com/kareman/Moderator", "0.5")` to your Package.swift:
 
 ```swift
 import PackageDescription
@@ -175,7 +175,7 @@ import PackageDescription
 let package = Package(
 	name: "somename",
 	dependencies: [
-		.Package(url: "https://github.com/kareman/Moderator", "0.4.3")
+		.Package(url: "https://github.com/kareman/Moderator", "0.5")
 		 ]
 	)
 ```
