@@ -16,6 +16,12 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "Moderator",
-            path: "Sources")
+            path: "Sources"),
+
+        // Test Targets
+        .testTarget(
+            name: "ModeratorTests",
+            dependencies: ["Moderator"]
+        )
     ]
 )
