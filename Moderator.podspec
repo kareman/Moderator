@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'Moderator'
-  s.version      = '0.5.0'
+  s.version      = '0.5.1'
   s.summary      = 'A simple, modular command line argument parser in Swift.'
   s.description  = 'Moderator is a simple Swift library for parsing commandline arguments.'
   s.homepage     = 'https://github.com/kareman/Moderator'
